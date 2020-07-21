@@ -14,3 +14,20 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/home', 'HomeController@index')->name('home');
+
+//Backend Route
+Route::group(['before' => 'auth','prefix' => 'admin'], function(){
+    Route::get('login', 'Admin\UserController@loginView')->name('loginView');
+    Route::post('login', 'Admin\UserController@login')->name('adminLogin');
+    Route::get('dashboard', 'Admin\DashboardController@index')->name('adminDashboard');
+    Route::get('logout','Admin\UserController@logout')->name('adminLogout');
+    
+    //User Management
+    Route::match(['get','post'],'user', 'Admin\UserController@userListing')->name('userListing');
+    Route::delete('/user/delete','Admin\UserController@deleteUser')->name('deleteUser');
+    Route::get('/user/edit/{id}','Admin\UserController@editUser');
+    Route::post('/user/update/{id}','Admin\UserController@updateUser')->name('updateUser');
+});
+Auth::routes();
+
