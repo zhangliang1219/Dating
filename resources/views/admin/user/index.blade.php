@@ -9,6 +9,14 @@
 $user_status = config('constant.user_status');
 @endphp
 @section('content')
+<?php 
+ $search_class = "";
+ ?>
+ @if(Request::get('search_submit'))
+    <?php 
+        $search_class = "show";
+    ?>
+@endif
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -19,6 +27,45 @@ $user_status = config('constant.user_status');
         </div>
     </div>
     <div class="container-fluid">
+         <div id="accordion">
+             <div class="card">
+                    <div class="card-header bg-dark collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
+                        <h3 class="card-title">User Search</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse in collapse <?php echo $search_class;?>" style="">
+                        <form class="form-horizontal" method="get" action="{{url('admin/user')}}" name="search_filter" id="search_filter">
+                            <div class="card-body">
+                                <div class="row">
+                                   <div class="form-group col-lg col-md-3 col-sm-3">
+                                        <label class="">User</label>
+                                          <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_user" id="search_by_user">
+                                            <option value="">All</option>
+                                            @foreach($userName as $key => $val)
+                                            <option value="{{$key}}" {{($request->search_by_user == $key)?'selected':''}}>{{$val}}</option>
+                                            @endforeach
+                                            
+                                        </select>  
+                                    </div>
+                                    <div class="form-group col-lg col-md-3 col-sm-3"></div>
+                                    <div class="form-group col-lg col-md-3 col-sm-3"></div>
+                                </div>
+                            </div>
+                            <input type="hidden" value="{{(isset($request->page_range))?$request->page_range:''}}" name="page_range" id="page_range">
+                            <div class="card-footer">
+                               <button name="search_submit" type="submit" class="btn btn-primary btn-dark" value="1">
+                                   Search
+                               </button>
+                               <button name="search_reset" type="button" class="btn btn-info btn-secondary" onclick="location.href='{{url('admin/user')}}'">
+                                   Reset
+                               </button>
+                           </div>
+                        </form>
+                   </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 @if (Session::has('success'))
@@ -48,6 +95,8 @@ $user_status = config('constant.user_status');
                                         <th>@sortablelink('name','Name')</th>
                                         <th>@sortablelink('email','Email')</th>
                                         <th>@sortablelink('phone','Phone')</th>
+                                        <th>@sortablelink('age','Age')</th>
+                                        <th>@sortablelink('gender','Gender')</th>
                                         <th>@sortablelink('email_verify','Email Verification')</th>
                                         <th>@sortablelink('phone_verify','Phone Verification')</th>
                                         <th>@sortablelink('id_verify','ID Verification')</th>
@@ -65,6 +114,8 @@ $user_status = config('constant.user_status');
                                         <td>{{$val->name}}</td>
                                         <td>{{$val->email}}</td>
                                         <td>{{$val->phone}}</td>
+                                        <td>{{$val->age}}</td>
+                                        <td>{{($val->gender == 1)?'Male':'Female'}}</td>
                                         <td>{{($val->email_verify == 0)?'Unverified':'Verified'}}</td>
                                         <td>{{($val->phone_verify == 0)?'Unverified':'Verified'}}</td>
                                         <td>{{($val->id_verify == 0)?'Unverified':'Verified'}}</td>
