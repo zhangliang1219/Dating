@@ -7,6 +7,8 @@
 @endsection
 @php
 $user_status = config('constant.user_status');
+$verify_status = config('constant.verify_status');
+$gender = config('constant.gender');
 @endphp
 @section('content')
 <?php 
@@ -49,7 +51,61 @@ $user_status = config('constant.user_status');
                                             
                                         </select>  
                                     </div>
-                                    <div class="form-group col-lg col-md-3 col-sm-3"></div>
+                                    <div class="form-group col-lg col-md-3 col-sm-3">
+                                        <label>Email</label>
+                                        <input type="text" name='search_by_email' class="search_by_email form-control" placeholder="Enter Email" 
+                                         value="{{isset($request->search_by_email) && $request->search_by_email != ''?$request->search_by_email:''}}">
+                                    </div>
+                                    <div class="form-group col-lg col-md-3 col-sm-3">
+                                        <label class="">Status</label>
+                                          <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_status" id="search_by_status">
+                                            <option value="">All</option>
+                                            @foreach($user_status as $key => $val)
+                                            <option value="{{$key}}" {{($request->search_by_status == $key)?'selected':''}}>{{$val}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg col-md-3 col-sm-3">
+                                        <label class="">Gender</label>
+                                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_gender" id="search_by_gender">
+                                            <option value="">All</option>
+                                            @foreach($gender as $key => $val)
+                                            <option value="{{$key}}" {{($request->search_by_gender == $key)?'selected':''}}>{{$val}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg col-md-3 col-sm-3">
+                                        <label class="">Email Verification</label>
+                                          <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_email_verify" id="search_by_email_verify">
+                                            <option value="">All</option>
+                                            @foreach($verify_status as $key => $val)
+                                            <option value="{{$key}}" {{($request->search_by_email_verify == $key)?'selected':''}}>{{$val}}</option>
+                                            @endforeach
+                                            
+                                        </select>  
+                                    </div>
+                                    <div class="form-group col-lg col-md-3 col-sm-3">
+                                        <label class="">Phone Verification</label>
+                                          <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_phone_verify" id="search_by_phone_verify">
+                                            <option value="">All</option>
+                                            @foreach($verify_status as $key => $val)
+                                            <option value="{{$key}}" {{($request->search_by_phone_verify == $key)?'selected':''}}>{{$val}}</option>
+                                            @endforeach
+                                            
+                                        </select>  
+                                    </div>
+                                    <div class="form-group col-lg col-md-3 col-sm-3">
+                                        <label class="">ID Verification</label>
+                                          <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_id_verify" id="search_by_id_verify">
+                                            <option value="">All</option>
+                                            @foreach($verify_status as $key => $val)
+                                            <option value="{{$key}}" {{($request->search_by_id_verify == $key)?'selected':''}}>{{$val}}</option>
+                                            @endforeach
+                                            
+                                        </select>  
+                                    </div>
                                     <div class="form-group col-lg col-md-3 col-sm-3"></div>
                                 </div>
                             </div>
@@ -85,7 +141,9 @@ $user_status = config('constant.user_status');
                 @endif 
                 <div class="card">
                     <div class="card-body">
-                        <p class="mt-1">Showing {{ $userList->firstItem() }} to {{ $userList->lastItem() }} of total {{$userList->total()}} entries</p>
+                        @if(count($userList)>0)
+                            <p class="mt-1">Showing {{ $userList->firstItem() }} to {{ $userList->lastItem() }} of total {{$userList->total()}} entries</p>
+                        @endif
                         <div class="table-responsive-md">
                             @if(count($userList)>0)
                             <table id="user_listing" class="table table-striped table-bordered">
@@ -115,10 +173,10 @@ $user_status = config('constant.user_status');
                                         <td>{{$val->email}}</td>
                                         <td>{{$val->phone}}</td>
                                         <td>{{$val->age}}</td>
-                                        <td>{{($val->gender == 1)?'Male':'Female'}}</td>
-                                        <td>{{($val->email_verify == 0)?'Unverified':'Verified'}}</td>
-                                        <td>{{($val->phone_verify == 0)?'Unverified':'Verified'}}</td>
-                                        <td>{{($val->id_verify == 0)?'Unverified':'Verified'}}</td>
+                                        <td>{{$gender[$val->gender]}}</td>
+                                        <td>{{$verify_status[$val->email_verify]}}</td>
+                                        <td>{{$verify_status[$val->phone_verify]}}</td>
+                                        <td>{{$verify_status[$val->id_verify]}}</td>
                                         <td>{{$user_status[$val->status]}}</td>
                                         <td>
                                             <a href="{{url('admin/user/edit/'.$val->id)}}" title='Edit User' data-id='{{$val->id}}' class='edit_user'><i class="fa fa-edit"></i></a>

@@ -18,6 +18,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Backend Route
 Route::group(['before' => 'auth','prefix' => 'admin'], function(){
+    Route::get('/', 'Admin\UserController@loginView')->name('loginView');
     Route::get('login', 'Admin\UserController@loginView')->name('loginView');
     Route::post('login', 'Admin\UserController@login')->name('adminLogin');
     Route::get('dashboard', 'Admin\DashboardController@index')->name('adminDashboard');

@@ -103,21 +103,21 @@ $user_status = config('constant.user_status');
                                 <div class="form-group col-4">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="email_verification" 
-                                               name='email_verification'  {{(old('email_verify') == 1 ?'checked':($user->email_verify == 1?'selected':''))}}>
+                                               name='email_verification'  {{(old('email_verify') == 1 ?'checked':($user->email_verify == 1?'checked':''))}}>
                                         <label class="custom-control-label" for="email_verification">Email Verification</label>
                                     </div>
                                 </div>
                                 <div class="form-group col-4">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="phone_verification" 
-                                               name='phone_verification' {{(old('phone_verification') == 1 ?'checked':($user->phone_verify == 1?'selected':''))}}>
+                                               name='phone_verification' {{(old('phone_verification') == 1 ?'checked':($user->phone_verify == 1?'checked':''))}}>
                                         <label class="custom-control-label" for="phone_verification">Phone Verification</label>
                                     </div>
                                 </div>
                                 <div class="form-group col-4">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="id_verification" 
-                                               name='id_verification' {{(old('id_verification') == 1 ?'checked':($user->id_verify == 1?'selected':''))}}>
+                                               name='id_verification' {{(old('id_verification') == 1 ?'checked':($user->id_verify == 1?'checked':''))}}>
                                         <label class="custom-control-label" for="id_verification">ID Verification</label>
                                     </div>
                                 </div>

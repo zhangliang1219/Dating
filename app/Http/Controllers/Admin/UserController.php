@@ -43,7 +43,7 @@ class UserController  extends Controller
         if ($user->is_admin == 0) {
             return back()->withErrors(['message'=>'Incorrect login credentials.'])
                         ->withInput();
-        }elseif($user->status == 0){
+        }elseif($user->status == 2){
             return back()->withErrors(['message'=>'You must be active to login!'])
                         ->withInput();
         }else{
@@ -68,8 +68,27 @@ class UserController  extends Controller
         
         if ($request->has('search_submit') && $request->search_submit != '') {
             if ($request->has('search_by_user') && $request->search_by_user != '') {
-                $dataQuery->where('id',  '=', $request->search_by_user);
+                $dataQuery->where('id', $request->search_by_user);
             }
+            if ($request->has('search_by_email') && $request->search_by_email != '') {
+                $dataQuery->where('email',$request->search_by_email);
+            }
+            if ($request->has('search_by_status') && $request->search_by_status != '') {
+                $dataQuery->where('status', $request->search_by_status);
+            }
+            if ($request->has('search_by_gender') && $request->search_by_gender != '') {
+                $dataQuery->where('gender', $request->search_by_gender);
+            }
+            if ($request->has('search_by_email_verify') && $request->search_by_email_verify != '') {
+                $dataQuery->where('email_verify', $request->search_by_email_verify);
+            }
+            if ($request->has('search_by_phone_verify') && $request->search_by_phone_verify != '') {
+                $dataQuery->where('phone_verify', $request->search_by_phone_verify);
+            }
+            if ($request->has('search_by_id_verify') && $request->search_by_id_verify != '') {
+                $dataQuery->where('id_verify', $request->search_by_id_verify);
+            }
+            
         }
         if ($request->has('sort') && $request->input('sort') != '') {
             $userList = $dataQuery->sortable()->orderBy($request->input('sort'), $request->input('direction'))->paginate($page_limit);
@@ -130,9 +149,9 @@ class UserController  extends Controller
             if($request->file('profile_photo') !=  ''){
                 $user->photo = $profile_name;
             }
-            $user->email_verify	 = ($request->email_verification == 'on')?1:0;
-            $user->phone_verify = ($request->phone_verification == 'on')?1:0;
-            $user->id_verify = ($request->id_verification == 'on')?1:0;
+            $user->email_verify	 = ($request->email_verification == 'on')?1:2;
+            $user->phone_verify = ($request->phone_verification == 'on')?1:2;
+            $user->id_verify = ($request->id_verification == 'on')?1:2;
             $user->save();
             
             Session::flash('success', 'User updated successfully.');
