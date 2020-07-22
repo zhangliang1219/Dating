@@ -16,14 +16,30 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item">
-            <a href="{{route('userListing')}}" class="nav-link">
-              <i class="nav-icon far fa-user"></i>
-              <p>
-                User Management
-              </p>
-            </a>
-          </li>
+            <li class="nav-item">
+                <a href="{{route('adminDashboard')}}" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                    Dashboard
+                  </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('userListing')}}" class="nav-link">
+                  <i class="nav-icon far fa-user"></i>
+                  <p>
+                    User Management
+                  </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('advertiseListing')}}" class="nav-link">
+                  <i class="fa fa-bullhorn" aria-hidden="true"></i>
+                  <p>
+                    Advertise Management
+                  </p>
+                </a>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

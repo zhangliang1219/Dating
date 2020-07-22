@@ -29,6 +29,11 @@ Route::group(['before' => 'auth','prefix' => 'admin'], function(){
     Route::delete('/user/delete','Admin\UserController@deleteUser')->name('deleteUser');
     Route::get('/user/edit/{id}','Admin\UserController@editUser');
     Route::post('/user/update/{id}','Admin\UserController@updateUser')->name('updateUser');
+    
+    //Advertise Management
+    Route::match(['get','post'],'advertise', 'Admin\AdvertiseController@advertiseListing')->name('advertiseListing');
+    Route::get('advertise/add', 'Admin\AdvertiseController@addAdvertise')->name('addAdvertise');
+    Route::post('advertise/store', 'Admin\AdvertiseController@storeAdvertise')->name('storeAdvertise');
 });
 Auth::routes();
 

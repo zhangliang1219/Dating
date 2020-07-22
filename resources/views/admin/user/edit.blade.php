@@ -6,7 +6,7 @@
     Edit User
 @endsection
 @php
-$user_status = config('constant.user_status');
+    $user_status = config('constant.user_status');
 @endphp
 @section('content')
 <section class="content-header">
@@ -28,7 +28,7 @@ $user_status = config('constant.user_status');
                 </div>
                 {{Session::forget('error')}}
                 @endif 
-                <div class="card card-primary">
+                <div class="card card-info">
                     <div class="card-header">
                       <h3 class="card-title">Edit User</h3>
                     </div>

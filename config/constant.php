@@ -17,4 +17,8 @@ return [
         '1' => 'Verified',
         '2' => 'Unverified',
     ],
+    'language' => [
+        '1' => 'English',
+        '2' => 'French',
+    ],
 ];
