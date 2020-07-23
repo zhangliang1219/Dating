@@ -43,7 +43,7 @@ class UserController  extends Controller
         if ($user->is_admin == 0) {
             return back()->withErrors(['message'=>'Incorrect login credentials.'])
                         ->withInput();
-        }elseif($user->status == 2){
+        }elseif($user->status != 2){
             return back()->withErrors(['message'=>'You must be active to login!'])
                         ->withInput();
         }else{
@@ -157,7 +157,7 @@ class UserController  extends Controller
             Session::flash('success', 'User updated successfully.');
             return redirect(url('/admin/user' ));
         }catch(Exception $e){
-            Session::flash('error', 'You do not have permission to perform this action!');
+            Session::flash('error', 'Something is wrong.Please try again!');
             return Redirect::to('');
         }
     }

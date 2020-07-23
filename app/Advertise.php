@@ -13,5 +13,6 @@ class Advertise extends Model
 {
     use SoftDeletes;    
     use Sortable;
-    
+    protected $table = 'advertise';
+
 }

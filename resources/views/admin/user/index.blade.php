@@ -58,12 +58,12 @@ $gender = config('constant.gender');
                                     </div>
                                     <div class="form-group col-lg col-md-3 col-sm-3">
                                         <label class="">Status</label>
-                                          <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_status" id="search_by_status">
-                                            <option value="">All</option>
-                                            @foreach($user_status as $key => $val)
-                                            <option value="{{$key}}" {{($request->search_by_status == $key)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                        </select>
+                                            <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_status" id="search_by_status">
+                                                <option value="">All</option>
+                                                @foreach($user_status as $key => $val)
+                                                <option value="{{$key}}" {{($request->search_by_status == $key)?'selected':''}}>{{$val}}</option>
+                                                @endforeach
+                                            </select>
                                     </div>
                                     <div class="form-group col-lg col-md-3 col-sm-3">
                                         <label class="">Gender</label>
@@ -144,7 +144,7 @@ $gender = config('constant.gender');
                         @if(count($userList)>0)
                             <p class="mt-1">Showing {{ $userList->firstItem() }} to {{ $userList->lastItem() }} of total {{$userList->total()}} entries</p>
                         @endif
-                        <div class="table-responsive-md">
+                        <div class="table-responsive-md table-responsive">
                             @if(count($userList)>0)
                             <table id="user_listing" class="table table-striped table-bordered">
                                 <thead>
@@ -195,8 +195,6 @@ $gender = config('constant.gender');
                             </div>
                             @endif
                         </div>
-                        
-                            <?php // echo "<pre>";print_R($userList);exit;?>
                         @if($userList && !empty($userList))
                             <div class="pt-4">{!! $userList->appends(\Request::except('page'))->render() !!}</div>
                         @endif

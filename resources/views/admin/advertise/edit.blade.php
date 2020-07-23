@@ -1,9 +1,9 @@
 @extends('admin.layout.final')
 @section('title')
-    Add Advertise
+    Edit Advertise
 @endsection
 @section('pageTitle')
-    Add Advertise
+    Edit Advertise
 @endsection
 @php
     $language = config('constant.language');
@@ -23,7 +23,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Add Advertise</h3>
+            <h3>Edit Advertise</h3>
           </div>
             <div class="col-sm-6"></div>
         </div>
@@ -48,16 +48,18 @@
                 @endif 
                 <div class="card card-info">
                     <div class="card-header">
-                      <h3 class="card-title">Add Advertise</h3>
+                      <h3 class="card-title">Edit Advertise</h3>
                     </div>
-                    <form class="form-horizontal" method="post" action="{{route('storeAdvertise')}}" name="add_ads" id="add_ads" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="post" action="{{route('updateAdvertise',$getAds[0]->id)}}" name="edit_ads" id="edit_ads" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" class="totalLanguage" id="totalLanguage" value="{{count($language)}}">
                         <div class="card-body">
-                            @include('admin.advertise.add_form_html')
+                            @include('admin.advertise.edit_form_html')
+                            @if(count($language) !=  count($getAds))
                             <button type="button" class="btn btn-success float-left add_in_another_lang">
                                 <i class="fas fa-plus"></i> Add In Another language
                             </button><br>
+                            @endif
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>

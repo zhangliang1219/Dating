@@ -21,4 +21,14 @@ return [
         '1' => 'English',
         '2' => 'French',
     ],
+    'ad_type' => [
+      '1' => 'type 1',  
+      '2' => 'type 2',  
+      '3' => 'type 3',  
+      '4' => 'type 4',  
+    ],
+    'ad_status' =>[
+        '1' => 'Active',
+        '2' => 'Inactive',
+    ],
 ];

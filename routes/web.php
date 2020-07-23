@@ -26,14 +26,18 @@ Route::group(['before' => 'auth','prefix' => 'admin'], function(){
     
     //User Management
     Route::match(['get','post'],'user', 'Admin\UserController@userListing')->name('userListing');
-    Route::delete('/user/delete','Admin\UserController@deleteUser')->name('deleteUser');
-    Route::get('/user/edit/{id}','Admin\UserController@editUser');
-    Route::post('/user/update/{id}','Admin\UserController@updateUser')->name('updateUser');
+    Route::delete('user/delete','Admin\UserController@deleteUser')->name('deleteUser');
+    Route::get('user/edit/{id}','Admin\UserController@editUser');
+    Route::post('user/update/{id}','Admin\UserController@updateUser')->name('updateUser');
     
     //Advertise Management
     Route::match(['get','post'],'advertise', 'Admin\AdvertiseController@advertiseListing')->name('advertiseListing');
     Route::get('advertise/add', 'Admin\AdvertiseController@addAdvertise')->name('addAdvertise');
+    Route::get('advertise/add/form/{ads_form_last_id}', 'Admin\AdvertiseController@addAdvertiseForm')->name('addAdvertiseForm');
     Route::post('advertise/store', 'Admin\AdvertiseController@storeAdvertise')->name('storeAdvertise');
+    Route::get('advertise/edit/{id}', 'Admin\AdvertiseController@editAdvertise')->name('editAdvertise');
+    Route::post('advertise/update/{id}', 'Admin\AdvertiseController@updateAdvertise')->name('updateAdvertise');
+    Route::delete('advertise/delete','Admin\AdvertiseController@deleteAdvertise')->name('deleteAdvertise');
 });
 Auth::routes();
 
