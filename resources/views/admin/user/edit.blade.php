@@ -64,12 +64,12 @@
                                     <label for="gender">Gender</label><br>
                                     <div class="gender_opt">
                                        <div class="custom-control custom-radio custom-radio1">
-                                           <input class="custom-control-input" type="radio" id="male"  name='gender' value="1"  {{(old('gender') == 1 ?'checked':($user->gender == 1?'checked':''))}}>
-                                         <label for="male" class="custom-control-label">Male</label>
+                                           <input class="custom-control-input" type="radio" id="man"  name='gender' value="1"  {{(old('gender') == 1 ?'checked':($user->gender == 1?'checked':''))}}>
+                                         <label for="man" class="custom-control-label">Man</label>
                                        </div>
                                        <div class="custom-control custom-radio custom-radio2">
-                                         <input class="custom-control-input" type="radio" id="female" name='gender' value='2' {{(old('gender') == 2 ?'checked':($user->gender == 2?'checked':''))}}>
-                                         <label for="female" class="custom-control-label">Female</label>
+                                         <input class="custom-control-input" type="radio" id="woman" name='gender' value='2' {{(old('gender') == 2 ?'checked':($user->gender == 2?'checked':''))}}>
+                                         <label for="woman" class="custom-control-label">Woman</label>
                                        </div>
                                     </div>
                                     @if ($errors->has('gender'))

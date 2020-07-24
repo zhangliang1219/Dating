@@ -10,8 +10,8 @@ return [
         '3' => 'Blacklisted',
     ],
     'gender' =>[
-        '1' => 'Male',
-        '2' => 'Female',
+        '1' => 'Man',
+        '2' => 'Woman',
     ],
     'verify_status' =>[
         '1' => 'Verified',
@@ -30,5 +30,23 @@ return [
     'ad_status' =>[
         '1' => 'Active',
         '2' => 'Inactive',
+    ],
+    'status' =>[
+        '1' => 'Enable',
+        '2' => 'Disable',
+    ],
+    'recurring_payment_opt' =>[
+        '1' => 'Allow Recurring Payment',
+        '2' => 'Offer Recurring Payment by Default',
+        '3' => 'Force Recurring Payment by Default',
+    ],
+    'subscription_feature' =>[
+        '1' => 'Number of users they can swipe through (Like or Dislike)',
+        '2' => 'Number of photo user can upload',
+        '3' => 'Send Mail to other Members',
+        '4' => 'Instant Messaging Capability',
+        '5' => 'Live Video Cha',
+        '6' => 'Coaching',
+        '7' => 'Who viewed Me?',
     ],
 ];

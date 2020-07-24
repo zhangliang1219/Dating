@@ -38,6 +38,15 @@ Route::group(['before' => 'auth','prefix' => 'admin'], function(){
     Route::get('advertise/edit/{id}', 'Admin\AdvertiseController@editAdvertise')->name('editAdvertise');
     Route::post('advertise/update/{id}', 'Admin\AdvertiseController@updateAdvertise')->name('updateAdvertise');
     Route::delete('advertise/delete','Admin\AdvertiseController@deleteAdvertise')->name('deleteAdvertise');
+    
+    //Subscription Management
+    Route::match(['get','post'],'subscription', 'Admin\SubscriptionController@subscriptionListing')->name('subscriptionListing');
+    Route::get('subscription/add', 'Admin\SubscriptionController@addSubscriptionPlan')->name('addSubscription');
+    Route::post('subscription/store', 'Admin\SubscriptionController@storeSubscriptionPlan')->name('storeSubscription');
+    Route::get('subscription/edit/{id}', 'Admin\SubscriptionController@editSubscriptionPlan')->name('editSubscriptionPlan');
+    Route::get('subscription/price_html/{rowNumber}', 'Admin\SubscriptionController@subscriptionPriceHtml')->name('subscriptionPriceHtml');
+    Route::get('subscription/add_lang_text_html/{langRowNumber}', 'Admin\SubscriptionController@subscriptionAddLangTextHtml')->name('subscriptionAddLangTextHtml');
+    Route::delete('subscription/delete','Admin\SubscriptionController@subscriptionDelete')->name('subscriptionDelete');
 });
 Auth::routes();
 

@@ -15,8 +15,8 @@
         <div class="form-group col-6">
             <label for="title">Title</label>
             <input type="text" name="title_name[]" id="{{'title_name_'.(isset($id)?$id:1)}}"  class="form-control" placeholder="Enter Ad Title">
-            @if ($errors->has('title'))
-                <div class="error">{{ $errors->first('title') }}</div>
+            @if ($errors->has('title[]'))
+                <div class="error">{{ $errors->first('title[]') }}</div>
             @endif
         </div>
     </div>
@@ -29,8 +29,8 @@
                 <option value="{{$key}}">{{$val}}</option>
                 @endforeach
             </select>
-            @if ($errors->has('ad_type'))
-                <div class="error">{{ $errors->first('ad_type') }}</div>
+            @if ($errors->has('ad_type[]'))
+                <div class="error">{{ $errors->first('ad_type[]') }}</div>
             @endif
         </div>
         <div class="form-group col-6">

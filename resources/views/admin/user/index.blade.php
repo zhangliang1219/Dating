@@ -47,8 +47,7 @@ $gender = config('constant.gender');
                                             <option value="">All</option>
                                             @foreach($userName as $key => $val)
                                             <option value="{{$key}}" {{($request->search_by_user == $key)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                            
+                                            @endforeach 
                                         </select>  
                                     </div>
                                     <div class="form-group col-lg col-md-3 col-sm-3">
@@ -61,7 +60,7 @@ $gender = config('constant.gender');
                                             <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_status" id="search_by_status">
                                                 <option value="">All</option>
                                                 @foreach($user_status as $key => $val)
-                                                <option value="{{$key}}" {{($request->search_by_status == $key)?'selected':''}}>{{$val}}</option>
+                                                    <option value="{{$key}}" {{($request->search_by_status == $key)?'selected':''}}>{{$val}}</option>
                                                 @endforeach
                                             </select>
                                     </div>
@@ -70,7 +69,7 @@ $gender = config('constant.gender');
                                         <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_gender" id="search_by_gender">
                                             <option value="">All</option>
                                             @foreach($gender as $key => $val)
-                                            <option value="{{$key}}" {{($request->search_by_gender == $key)?'selected':''}}>{{$val}}</option>
+                                                <option value="{{$key}}" {{($request->search_by_gender == $key)?'selected':''}}>{{$val}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -81,7 +80,7 @@ $gender = config('constant.gender');
                                           <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_email_verify" id="search_by_email_verify">
                                             <option value="">All</option>
                                             @foreach($verify_status as $key => $val)
-                                            <option value="{{$key}}" {{($request->search_by_email_verify == $key)?'selected':''}}>{{$val}}</option>
+                                                <option value="{{$key}}" {{($request->search_by_email_verify == $key)?'selected':''}}>{{$val}}</option>
                                             @endforeach
                                             
                                         </select>  
@@ -92,8 +91,7 @@ $gender = config('constant.gender');
                                             <option value="">All</option>
                                             @foreach($verify_status as $key => $val)
                                             <option value="{{$key}}" {{($request->search_by_phone_verify == $key)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                            
+                                            @endforeach 
                                         </select>  
                                     </div>
                                     <div class="form-group col-lg col-md-3 col-sm-3">
@@ -103,7 +101,6 @@ $gender = config('constant.gender');
                                             @foreach($verify_status as $key => $val)
                                             <option value="{{$key}}" {{($request->search_by_id_verify == $key)?'selected':''}}>{{$val}}</option>
                                             @endforeach
-                                            
                                         </select>  
                                     </div>
                                     <div class="form-group col-lg col-md-3 col-sm-3"></div>

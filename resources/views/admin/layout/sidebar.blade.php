@@ -40,6 +40,14 @@
                   </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{route('subscriptionListing')}}" class="nav-link">
+                  <i class="nav-icon fas fa-edit" aria-hidden="true"></i>
+                  <p>
+                    Subscription Management
+                  </p>
+                </a>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

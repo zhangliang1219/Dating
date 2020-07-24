@@ -1,4 +1,4 @@
-#user_listing th a,#user_listing th ,#advertise_listing th a,#advertise_listing th{color: #000;font-size: 14px;}
+#user_listing th a,#user_listing th ,#advertise_listing th a,#advertise_listing th,#subscription_listing th a,#subscription_listing th{color: #000;font-size: 14px;}
 .error{color:#f80e0e}
 .gender_opt{display: -webkit-box;border: 1px solid #ccc;padding: 6px;border-radius: .25rem;}
 .gender_group .custom-radio2{padding-left:150px}
@@ -9,3 +9,6 @@
 .seperate_div hr{margin-top: 2rem;margin-bottom: 1.5rem;}
 #edit_ads img{width: 100px;height: 100px;padding-left: 7.5px;}
 .table-responsive th{white-space: nowrap;}
+.add_subscription_price{margin-top: 42px; color: #007bff;cursor: pointer;}
+.remove_subscription_price{margin-top: 42px; color: #ff001a; cursor: pointer;}
+.subscription_price_html  {display:inline-flex; }

@@ -30,7 +30,6 @@ class AdvertiseController  extends Controller
                 $dataQuery->where('ad_status',$request->search_by_ad_status);
             }
         }
-            
         if ($request->has('sort') && $request->input('sort') != '') {
             $getAdvertise = $dataQuery->sortable()->orderBy($request->input('sort'), $request->input('direction'))->paginate($page_limit);
         } else {
@@ -46,16 +45,6 @@ class AdvertiseController  extends Controller
     public function storeAdvertise(Request $request) {
         try{
             
-            $validator = Validator::make($request->all(), [
-                'title_name.*' => 'required',
-                'ad_type.*' => 'required',
-                'ads_file.*' => 'required|mimes:mp4,mov,ogg,gif,ief,jpeg,png,avi',
-            ]);
-            if($validator->fails()){
-                return redirect('admin/advertise/add')
-                            ->withErrors($validator)
-                            ->withInput();
-            }
             $ads_file_name = $file_type = $parent_id = '';
             if(count($request->file('ads_file'))>0){
                 foreach($request->file('ads_file') as $key => $val){
@@ -106,17 +95,6 @@ class AdvertiseController  extends Controller
     public function updateAdvertise(Request $request,$id) {
         try{
             
-            $validator = Validator::make($request->all(), [
-                'title_name.*' => 'required',
-                'ad_type.*' => 'required',
-                'ads_file.*' => 'mimes:mp4,mov,ogg,gif,ief,jpeg,png,avi',
-            ]);
-            if($validator->fails()){
-                return redirect('admin/advertise/edit/'.$id)
-                            ->withErrors($validator)
-                            ->withInput();
-            }
-
             if(count($request->language) > 0){
                 foreach($request->language as $key => $val){
                     if(isset($request->ads_file) && array_key_exists($key,$request->ads_file)){

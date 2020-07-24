@@ -88,7 +88,6 @@ class UserController  extends Controller
             if ($request->has('search_by_id_verify') && $request->search_by_id_verify != '') {
                 $dataQuery->where('id_verify', $request->search_by_id_verify);
             }
-            
         }
         if ($request->has('sort') && $request->input('sort') != '') {
             $userList = $dataQuery->sortable()->orderBy($request->input('sort'), $request->input('direction'))->paginate($page_limit);
@@ -130,7 +129,6 @@ class UserController  extends Controller
                             ->withErrors($validator)
                             ->withInput();
             }
-            
             $profile_name = '';
             if($request->file('profile_photo') !=  ''){
                 $profile_photo = $request->file('profile_photo');
