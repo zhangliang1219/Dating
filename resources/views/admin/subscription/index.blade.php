@@ -10,6 +10,9 @@
     $gender = config('constant.gender');
     $recurring_payment_opt = config('constant.recurring_payment_opt');
     $subscription_feature = config('constant.subscription_feature');
+    $subscription_currency = config('constant.subscription_currency');
+    $subscription_period_1 = config('constant.subscription_period_1');
+    $subscription_period_2 = config('constant.subscription_period_2');
 @endphp
 @section('content')
 <?php 
@@ -144,7 +147,13 @@
                                                 @if(count($val->subscriptionPrice)>0)
                                                     @foreach($val->subscriptionPrice as $k => $v)
                                                         @php
-                                                            $price[] = $v->currency.''.$v->price.'('.$v->period.')';
+                                                            $period = ' ';
+                                                            if($v->currency == 1 || $v->currency == 3){
+                                                                $period = $subscription_period_1[$v->period];
+                                                            }elseif($v->currency == 2 || $v->currency == 4){
+                                                                $period = $subscription_period_2[$v->period];
+                                                            }
+                                                            $price[] = $subscription_currency[$v->currency].' '.$v->price.'('.$period .')';
                                                         @endphp
                                                     @endforeach
                                                 @endif

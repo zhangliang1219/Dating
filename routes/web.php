@@ -47,6 +47,9 @@ Route::group(['before' => 'auth','prefix' => 'admin'], function(){
     Route::get('subscription/price_html/{rowNumber}', 'Admin\SubscriptionController@subscriptionPriceHtml')->name('subscriptionPriceHtml');
     Route::get('subscription/add_lang_text_html/{langRowNumber}', 'Admin\SubscriptionController@subscriptionAddLangTextHtml')->name('subscriptionAddLangTextHtml');
     Route::delete('subscription/delete','Admin\SubscriptionController@subscriptionDelete')->name('subscriptionDelete');
+    Route::get('subscription/period/{rowNum}/{currency_id}','Admin\SubscriptionController@subscriptionPeriod')->name('subscriptionPeriod');
+    Route::post('subscription/update/{id}','Admin\SubscriptionController@updateSubscription')->name('updateSubscription');
+    Route::delete('subscription/price/delete','Admin\SubscriptionController@deleteSubscriptionPrice')->name('deleteSubscriptionPrice');
 });
 Auth::routes();
 

@@ -6,7 +6,7 @@
     Advertise Listing
 @endsection
 @php
-    $ad_type = config('constant.ad_type');
+    $ad_category = config('constant.ad_category');
     $ad_status = config('constant.ad_status');
 @endphp
 @section('content')
@@ -51,11 +51,11 @@
                                 </div>
                                 <div class="form-group col-lg col-md-3 col-sm-3">
                                     <div class="form-group col-lg col-md-3 col-sm-3">
-                                        <label class="">Ad Type</label>
-                                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_ad_type" id="search_by_ad_type">
+                                        <label class="">Ad Category</label>
+                                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_ad_category" id="search_by_ad_category">
                                             <option value="">All</option>
-                                            @foreach($ad_type as $key => $val)
-                                            <option value="{{$key}}" {{($request->search_by_ad_type == $key)?'selected':''}}>{{$val}}</option>
+                                            @foreach($ad_category as $key => $val)
+                                            <option value="{{$key}}" {{($request->search_by_ad_category == $key)?'selected':''}}>{{$val}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -116,7 +116,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>@sortablelink('title','Title')</th>
-                                        <th>@sortablelink('ad_type','Ad Type')</th>
+                                        <th>@sortablelink('ad_category','Ad Category')</th>
                                         <th>@sortablelink('ad_status','Ad Status')</th>
                                         <th>Action</th>
                                     </tr>
@@ -129,7 +129,7 @@
                                     <tr id="{{$val->id}}">
                                         <td>{{$j}}</td>
                                         <td>{{$val->title}}</td>
-                                        <td>{{$ad_type[$val->ad_type]}}</td>
+                                        <td>{{$ad_category[$val->ad_category]}}</td>
                                         <td>{{$ad_status[$val->ad_status]}}</td>
                                         <td>
                                             <a href="{{url('admin/advertise/edit/'.$val->id)}}" title='Edit Advertise' data-id='{{$val->id}}' class='edit_advertise'><i class="fa fa-edit"></i></a>

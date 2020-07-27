@@ -12,3 +12,5 @@
 .add_subscription_price{margin-top: 42px; color: #007bff;cursor: pointer;}
 .remove_subscription_price{margin-top: 42px; color: #ff001a; cursor: pointer;}
 .subscription_price_html  {display:inline-flex; }
+#ad_start_date-error,#ad_expiration_date-error{display: inline;}
+.who_viewed_me_wrap ,.photo_upload_wrap{display: inline-flex;}

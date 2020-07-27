@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubscriptionPricesTable extends Migration
+class CreateSubscriptionFeaturesQuantityTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateSubscriptionPricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscription_prices', function (Blueprint $table) {
+        Schema::create('subscription_features_quantity', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('subscription_id');
-            $table->float('price', 8, 2);
-            $table->integer('period');
-            $table->integer('currency');
+            $table->integer('subscription_id')->nullable();
+            $table->integer('subscription_feature')->nullable();
+            $table->bigInteger('quantity')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +30,6 @@ class CreateSubscriptionPricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscription_price');
+        Schema::dropIfExists('subscription_features_quantity');
     }
 }

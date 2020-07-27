@@ -4,8 +4,16 @@
     var ads_form_last_id = 1;
     var totalLanguage = $('#totalLanguage').val();
     $('#add_ads #add_ads_form_1 .language option[value=1]').attr('selected','selected');
-    $('#add_ads #add_ads_form_1 .language').attr('readonly','readonly');
+    $('#add_ads #add_ads_form_1 .language').attr('disabled','disabled');
 
+    $('.ad_start_date,.ad_expiration_date').datepicker({
+        format: 'yyyy/mm/dd',
+    });
+   
+   $('.hiddenLanguage').val(1);
+   $('.defaultLang').change(function(){
+       $('.hiddenLanguage').val($(this).val());
+   });
     $('#add_ads .add_in_another_lang').click(function(){
         $.ajax({
             type: 'GET',
@@ -28,21 +36,24 @@
     $("#add_ads").validate({
         rules: {
                 'title_name[]': {required:true},            
-                'ad_type[]': {required:true},            
+                'ad_category': {required:true},            
                 'language[]': {required:true},            
-                'ad_status[]': {required:true},            
+                'ad_start_date':  {required:true},       
+                'ad_expiration_date':{required:true},       
                 'ads_file[]': {required:true,accept: "image/*, video/*"},            
         },
         submitHandler: function (form) {
             form.submit();
         }
     });
+    
     $("#edit_ads").validate({
         rules: {
                 'title_name[]': {required:true},            
-                'ad_type[]': {required:true},            
+                'ad_category': {required:true},            
                 'language[]': {required:true},            
-                'ad_status[]': {required:true},            
+                'ad_start_date': {required:true,lessThanEqual:'#ad_expiration_date'},         
+                'ad_expiration_date':{required:true,greaterThanEqual:'#ad_start_date'},               
                 'ads_file[]': {accept: "image/*, video/*"},            
         },
         submitHandler: function (form) {

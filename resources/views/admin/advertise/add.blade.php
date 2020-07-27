@@ -7,7 +7,7 @@
 @endsection
 @php
     $language = config('constant.language');
-    $ad_type = config('constant.ad_type');
+    $ad_category = config('constant.ad_category');
     $ad_status = config('constant.ad_status');
 @endphp
 @section('content')
@@ -55,6 +55,7 @@
                         <input type="hidden" class="totalLanguage" id="totalLanguage" value="{{count($language)}}">
                         <div class="card-body">
                             @include('admin.advertise.add_form_html')
+                            
                             <button type="button" class="btn btn-success float-left add_in_another_lang">
                                 <i class="fas fa-plus"></i> Add In Another language
                             </button><br>

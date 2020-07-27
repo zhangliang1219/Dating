@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model; 
 
 class SubscriptionPlans extends Model
 {
@@ -17,5 +17,10 @@ class SubscriptionPlans extends Model
     public function subscriptionPrice()
     {
         return $this->hasMany('App\SubscriptionPrices','subscription_id');
+    }
+    
+    public function subscriptionFeatureQty()
+    {
+        return $this->hasMany('App\SubscriptionFeaturesQuantity','subscription_id');
     }
 }

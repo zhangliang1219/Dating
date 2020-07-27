@@ -21,11 +21,17 @@ return [
         '1' => 'English',
         '2' => 'French',
     ],
-    'ad_type' => [
-      '1' => 'type 1',  
-      '2' => 'type 2',  
-      '3' => 'type 3',  
-      '4' => 'type 4',  
+    'ad_category' => [
+      '1' => 'Retail',  
+      '2' => 'Automotive',  
+      '3' => 'Telecom',  
+      '4' => 'Financial services',  
+      '5' => 'Insurance',  
+      '6' => 'Travel & tourism',  
+      '7' => 'Restaurants',  
+      '8' => 'Pharmaceuticals',  
+      '9' => 'Media',  
+      '10' => 'E-commerce',  
     ],
     'ad_status' =>[
         '1' => 'Active',
@@ -49,4 +55,21 @@ return [
         '6' => 'Coaching',
         '7' => 'Who viewed Me?',
     ],
+    'subscription_period_1' =>[
+        '1' => 'Month',
+        '2' => 'Quarter',
+        '3' => 'Year',
+    ],
+    'subscription_period_2' =>[
+        '1' => 'Mois',
+        '2' => 'Trimestre',
+        '3' => 'An',
+    ],
+    'subscription_currency' =>[
+        '1' => 'USD',
+        '2' => 'EUR',
+        '3' => 'CAD',
+        '4' => 'CFA',
+    ],
+     
 ];

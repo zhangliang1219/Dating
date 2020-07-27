@@ -23,8 +23,8 @@ class AdvertiseController  extends Controller
             if ($request->has('search_by_title') && $request->search_by_title != '') {
                 $dataQuery->where('title','LIKE','%'.$request->search_by_title.'%');
             }
-            if ($request->has('search_by_ad_type') && $request->search_by_ad_type != '') {
-                $dataQuery->where('ad_type',$request->search_by_ad_type);
+            if ($request->has('search_by_ad_category') && $request->search_by_ad_category != '') {
+                $dataQuery->where('ad_category',$request->search_by_ad_category);
             }
             if ($request->has('search_by_ad_status') && $request->search_by_ad_status != '') {
                 $dataQuery->where('ad_status',$request->search_by_ad_status);
@@ -44,7 +44,6 @@ class AdvertiseController  extends Controller
     
     public function storeAdvertise(Request $request) {
         try{
-            
             $ads_file_name = $file_type = $parent_id = '';
             if(count($request->file('ads_file'))>0){
                 foreach($request->file('ads_file') as $key => $val){
@@ -58,9 +57,11 @@ class AdvertiseController  extends Controller
                     $ads = new Advertise();
                     $ads->title          = $request->title_name[$key];
                     $ads->parent_id      = ($key == 0)?NULL:$parent_id;
-                    $ads->ad_type        = $request->ad_type[$key];
-                    $ads->ad_status      = $request->ad_status[$key];
-                    $ads->language_id    = $request->language[$key];
+                    $ads->ad_category      = $request->ad_category;
+                    $ads->language_id       = $request->language[$key];
+                    $ads->start_date          = $request->ad_start_date;
+                    $ads->expiration_date    = $request->ad_expiration_date;
+                    $ads->ad_status    = isset($request->ad_status)?1:2;
                     $ads->file_type      = $file_type;
                     $ads->file_name	 = $ads_file_name;
                     $ads->created_by     =  Auth::user()->id;
@@ -81,10 +82,10 @@ class AdvertiseController  extends Controller
     
     public function addAdvertiseForm($ads_form_last_id) {
         $language = config('constant.language');
-        $ad_type = config('constant.ad_type');
+        $ad_category = config('constant.ad_category');
         $ad_status = config('constant.ad_status');
         $id = $ads_form_last_id + 1;
-        return view('admin.advertise.add_form_html',compact('language','ad_type','id','ad_status'));
+        return view('admin.advertise.add_form_html',compact('language','ad_category','id','ad_status'));
     }
     
     public function editAdvertise(Request $request,$id) {
@@ -94,7 +95,6 @@ class AdvertiseController  extends Controller
     
     public function updateAdvertise(Request $request,$id) {
         try{
-            
             if(count($request->language) > 0){
                 foreach($request->language as $key => $val){
                     if(isset($request->ads_file) && array_key_exists($key,$request->ads_file)){
@@ -107,15 +107,17 @@ class AdvertiseController  extends Controller
                     }
                     
                     if(isset($request->adsId) && array_key_exists($key,$request->adsId)){
-                        $ads   = Advertise::find($val);
+                        $ads   = Advertise::find($request->adsId[$key]);
                     }else{
                         $ads   = new Advertise();
                         $ads->parent_id  = $request->adsId[0];
                     }
-                    $ads->title          = $request->title_name[$key];
-                    $ads->ad_type        = $request->ad_type[$key];
-                    $ads->ad_status      = $request->ad_status[$key];
-                    $ads->language_id    = $val;
+                    $ads->title             = $request->title_name[$key];
+                    $ads->ad_category       = $request->ad_category;
+                    $ads->start_date        = $request->ad_start_date;
+                    $ads->expiration_date   = $request->ad_expiration_date;
+                    $ads->ad_status         = isset($request->ad_status)?1:2;
+                    $ads->language_id       = $val;
                     if(isset($request->ads_file) && array_key_exists($key,$request->ads_file)){
                         $ads->file_type      = $file_type;
                         $ads->file_name      = $ads_file_name;
@@ -123,7 +125,7 @@ class AdvertiseController  extends Controller
                     $ads->save();
                 }
             }
-             Session::flash('success', 'Advertise updated successfully.');
+            Session::flash('success', 'Advertise updated successfully.');
             return redirect(url('/admin/advertise' ));
         }catch(Exception $e){
             Session::flash('error',  'Something is wrong.Please try again!');

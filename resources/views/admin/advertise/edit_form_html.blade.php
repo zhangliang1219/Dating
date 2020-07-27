@@ -10,12 +10,13 @@
     <div class='row'>
         <div class="form-group col-6">
             <label for="lang">Language</label>
-            <select  class="form-control language" name="language[]"  id="{{'language_'.(isset($id)?$id:1)}}"  >
+            <select  class="form-control language" name="language[]"  id="{{'language_'.(isset($id)?$id:1)}}"  disabled='disabled'>
                 <option value="">Select Language</option>
                 @foreach($language as $key => $val)
                 <option value="{{$key}}" {{$adVal->language_id == $key ?'selected':''}}>{{$val}}</option>
                 @endforeach
             </select>
+            <input type="hidden" name="language[]"  value="{{$adVal->language_id}}">
             @if ($errors->has('language'))
                 <div class="error">{{ $errors->first('language') }}</div>
             @endif
@@ -31,25 +32,22 @@
     </div>
     <div class='row'>
         <div class="form-group col-6">
-            <label for="ad_type">Ad Type</label>
-            <select   class="form-control ad_type" name="ad_type[]"   id="{{'ad_type_'.(isset($id)?$id:1)}}"  >
-                <option value="">Select Ad Type</option>
-                @foreach($ad_type as $key => $val)
-                <option value="{{$key}}"  {{$adVal->ad_type == $key ?'selected':''}}>{{$val}}</option>
+            <label for="ad_category">Ad Category</label>
+            <select   class="form-control ad_category" name="ad_category"   id="ad_category" >
+                <option value="">Select Ad Category</option>
+                @foreach($ad_category as $key => $val)
+                <option value="{{$key}}" {{($adVal->ad_category == $key)?'selected':''}}>{{$val}}</option>
                 @endforeach
             </select>
-            @if ($errors->has('ad_type'))
-                <div class="error">{{ $errors->first('ad_type') }}</div>
+            @if ($errors->has('ad_category'))
+                <div class="error">{{ $errors->first('ad_category') }}</div>
             @endif
         </div>
-        <div class="form-group col-6">
-            <label for="ad_status">Ad Status</label>
-            <select   class="form-control ad_status" name="ad_status[]"   id="{{'ad_status_'.(isset($id)?$id:1)}}"  >
-                <option value="">Select Ad Status</option>
-                @foreach($ad_status as $key => $val)
-                <option value="{{$key}}"  {{$adVal->ad_status == $key ?'selected':''}}>{{$val}}</option>
-                @endforeach
-            </select>
+        <div class="form-group col-6" style="padding-top: 35px;">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="ad_status" name="ad_status" value="1" {{($adVal->ad_status == 1)?'checked':''}}>
+                <label class="custom-control-label" for="ad_status">Ad Status</label>
+            </div>
             @if ($errors->has('ad_status'))
                 <div class="error">{{ $errors->first('ad_status') }}</div>
             @endif

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\SubscriptionPlans;
+use App\SubscriptionFeaturesQuantity;
 use App\SubscriptionPrices;
 
 
@@ -48,7 +49,21 @@ class SubscriptionController  extends Controller
     }
     
     public function subscriptionPriceHtml($rowNumber) { 
-        return view('admin.subscription.subscription_price_html',compact('rowNumber'));
+        $subscription_currency = config('constant.subscription_currency'); 
+        return view('admin.subscription.subscription_price_html',compact('rowNumber','subscription_currency'));
+    }
+    
+    public function subscriptionPeriod($rowNum ,$currency_id) { 
+        $rowNumber = $rowNum;
+        $subscription_period = array();
+        $subscription_period_1 = config('constant.subscription_period_1');
+        $subscription_period_2 = config('constant.subscription_period_2');
+        if($currency_id == 1 || $currency_id == 3){
+            $subscription_period = $subscription_period_1;
+        }elseif($currency_id  == 2 || $currency_id == 4){
+            $subscription_period = $subscription_period_2;
+        }
+        return $subscription_period;
     }
     
     public function subscriptionAddLangTextHtml($langRowNumber) {
@@ -89,6 +104,27 @@ class SubscriptionController  extends Controller
                             $subscriptionPrices->save();
                         }
                     }
+                    if(isset($request->like_dislike_qty) && $request->like_dislike_qty != ''){
+                        $subscriptionFeatureQty  = new SubscriptionFeaturesQuantity();
+                        $subscriptionFeatureQty->subscription_id         = $subscriptionPlans->id;
+                        $subscriptionFeatureQty->subscription_feature  = 1;
+                        $subscriptionFeatureQty->quantity             = $request->like_dislike_qty;
+                        $subscriptionFeatureQty->save();
+                    }
+                    if(isset($request->who_viewed_me_qty) && $request->who_viewed_me_qty != ''){
+                        $subscriptionFeatureQty  = new SubscriptionFeaturesQuantity();
+                        $subscriptionFeatureQty->subscription_id         = $subscriptionPlans->id;
+                        $subscriptionFeatureQty->subscription_feature  = 7;
+                        $subscriptionFeatureQty->quantity             = $request->who_viewed_me_qty;
+                        $subscriptionFeatureQty->save();
+                    }
+                    if(isset($request->photo_upload_qty) && $request->photo_upload_qty != ''){
+                        $subscriptionFeatureQty  = new SubscriptionFeaturesQuantity();
+                        $subscriptionFeatureQty->subscription_id         = $subscriptionPlans->id;
+                        $subscriptionFeatureQty->subscription_feature  = 2;
+                        $subscriptionFeatureQty->quantity             = $request->photo_upload_qty;
+                        $subscriptionFeatureQty->save();
+                    }
                     if($key == 0 ){
                         $parent_id = $subscriptionPlans->id;
                     }
@@ -126,8 +162,110 @@ class SubscriptionController  extends Controller
     }
     
     public function editSubscriptionPlan(Request $request,$id) {
-        $getSubscription = SubscriptionPlans::with('subscriptionPrice')->where('subscription_plans.id',$id)->get();
+        $getSubscription = SubscriptionPlans::with(['subscriptionPrice','subscriptionFeatureQty'])
+                        ->where('subscription_plans.id',$id)->orWhere('subscription_plans.parent_id',$id)->get();
         return view('admin.subscription.edit',compact('getSubscription'));
+    }
+    
+    public function updateSubscription(Request $request,$id) {
+        try{
+            $parent_id = NULL;
+            if(count($request->language)>0){
+                foreach($request->language as $key => $val){
+                    $subscriptionPlans = SubscriptionPlans::find($request->subscriptionId[$key]);
+                    $subscriptionPlans->title = $request->title[$key];
+                    $subscriptionPlans->description = $request->short_desc[$key];
+                    $subscriptionPlans->language_id = $val;
+                    $subscriptionPlans->free_gender = (isset($request->free_for_gender)?json_encode($request->free_for_gender):'');
+                    $subscriptionPlans->recurring_payment = $request->recurring_payment;
+                    $subscriptionPlans->status = (isset($request->status)?1:0);
+                    $subscriptionPlans->subscribe_by_default = (isset($request->subscribe_by_default)?1:0);
+                    $subscriptionPlans->swipe_with_like_dislike = (isset($request->feature)?(in_array (1,$request->feature)?1:0):0);
+                    $subscriptionPlans->photo_upload = (isset($request->feature)?(in_array (2,$request->feature)?1:0):0);
+                    $subscriptionPlans->send_mail = (isset($request->feature)?(in_array (3,$request->feature)?1:0):0);
+                    $subscriptionPlans->instant_message =(isset($request->feature)?(in_array (4,$request->feature)?1:0):0);
+                    $subscriptionPlans->live_video_chat = (isset($request->feature)?(in_array (5,$request->feature)?1:0):0);
+                    $subscriptionPlans->coaching = (isset($request->feature)?(in_array (6,$request->feature)?1:0):0);
+                    $subscriptionPlans->who_viewed_me = (isset($request->feature)?(in_array (7,$request->feature)?1:0):0);
+                    $subscriptionPlans->save();
+
+                    if(count($request->price)>0){
+                        SubscriptionPrices::where('subscription_id',$request->subscriptionId[$key])->delete();
+                        foreach($request->price as $priceKey => $priceVal){
+                            $subscriptionPrices  =  new SubscriptionPrices();
+                            $subscriptionPrices->subscription_id  = $request->subscriptionId[$key];
+                            $subscriptionPrices->price  = $request->price[$priceKey];
+                            $subscriptionPrices->period  = $request->period[$priceKey];
+                            $subscriptionPrices->currency  = $request->currency[$priceKey];
+                            $subscriptionPrices->save();
+                        }
+                    }
+                    if(isset($request->like_dislike_qty) && $request->like_dislike_qty != ''){
+                        $subscriptionFeatureQty  = SubscriptionFeaturesQuantity::where('subscription_id',$request->subscriptionId[$key])
+                                                                               ->where('subscription_feature',1)->first();
+                        if(!$subscriptionFeatureQty){
+                            $subscriptionFeatureQty = new SubscriptionFeaturesQuantity();
+                            $subscriptionFeatureQty->subscription_id       = $request->subscriptionId[$key];
+                            $subscriptionFeatureQty->subscription_feature  = 1;
+                        }
+                        $subscriptionFeatureQty->quantity             = $request->like_dislike_qty;
+                        $subscriptionFeatureQty->save();
+                    }else{
+                        SubscriptionFeaturesQuantity::where('subscription_id',$request->subscriptionId[$key])
+                                                                               ->where('subscription_feature',1)->delete();
+                    }
+                    
+                    if(isset($request->who_viewed_me_qty) && $request->who_viewed_me_qty != ''){
+                        $subscriptionFeatureQty  = SubscriptionFeaturesQuantity::where('subscription_id',$request->subscriptionId[$key])
+                                                                               ->where('subscription_feature',7)->first();
+                        if(!$subscriptionFeatureQty){
+                            $subscriptionFeatureQty = new SubscriptionFeaturesQuantity();
+                            $subscriptionFeatureQty->subscription_id       = $request->subscriptionId[$key];
+                            $subscriptionFeatureQty->subscription_feature  = 7;
+                        }
+                        $subscriptionFeatureQty->quantity             = $request->who_viewed_me_qty;
+                        $subscriptionFeatureQty->save();
+                    }else{
+                        SubscriptionFeaturesQuantity::where('subscription_id',$request->subscriptionId[$key])
+                                                                               ->where('subscription_feature',7)->delete();
+                    }
+                    
+                    if(isset($request->photo_upload_qty) && $request->photo_upload_qty != ''){
+                        $subscriptionFeatureQty  = SubscriptionFeaturesQuantity::where('subscription_id',$request->subscriptionId[$key])
+                                                                               ->where('subscription_feature',2)->first();
+                        if(!$subscriptionFeatureQty){
+                            $subscriptionFeatureQty = new SubscriptionFeaturesQuantity();
+                            $subscriptionFeatureQty->subscription_id       = $request->subscriptionId[$key];
+                            $subscriptionFeatureQty->subscription_feature  = 2;
+                        }
+                        $subscriptionFeatureQty->quantity             = $request->photo_upload_qty;
+                        $subscriptionFeatureQty->save();
+                    }else{
+                        SubscriptionFeaturesQuantity::where('subscription_id',$request->subscriptionId[$key])
+                                                                               ->where('subscription_feature',2)->delete();
+                    }
+                    
+                }
+            }
+            Session::flash('success', 'Subscription Plan updated successfully.');
+            return redirect(url('/admin/subscription' ));
+        }catch(Exception $e){
+            Session::flash('error',  'Something is wrong.Please try again!');
+            return Redirect::to('');;
+        }
+    }
+    
+    
+    public function deleteSubscriptionPrice(Request $request) {
+        try{
+            $subscriptionPlanPrice = SubscriptionPrices::find($request->data_subscr_price_id);
+            if($subscriptionPlanPrice){
+                $subscriptionPlanPrice->delete();
+            }
+            return Response::json(array('message'=>'Subscription Plan Price Deleted Successfully','status'=>'success'));
+        }catch(Exception $e){
+            return Response::json(array('message'=>'Something is wrong.Please try again!','status'=>'error'));
+        }
     }
     
 }

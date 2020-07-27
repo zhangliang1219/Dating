@@ -18,8 +18,10 @@
     <link href="{{ asset('css/tempusdominus-bootstrap-4.css?'.time()) }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css?'.time()) }}" rel="stylesheet">
     <link href="{{ asset('css/adminlte.min.css?'.time()) }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datepicker.min.css?'.time()) }}" rel="stylesheet">
     <link href="{{ asset('css/custome.css?'.time()) }}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Assistant">
+    
     @yield('style')
     <script>
         var backendUrl ='{{url(config('constant.backend'))}}';

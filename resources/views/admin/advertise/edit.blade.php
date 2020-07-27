@@ -7,7 +7,7 @@
 @endsection
 @php
     $language = config('constant.language');
-    $ad_type = config('constant.ad_type');
+    $ad_category = config('constant.ad_category');
     $ad_status = config('constant.ad_status');
 @endphp
 @section('content')

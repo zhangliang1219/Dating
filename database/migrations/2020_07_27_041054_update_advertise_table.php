@@ -13,17 +13,17 @@ class UpdateAdvertiseTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('advertise', 'description'))
+        if (Schema::hasColumn('advertise', 'ad_type'))
         {
             Schema::table('advertise', function($table) {
-                $table->dropColumn('description');
+                $table->dropColumn('ad_type');
             });
-        }
-        Schema::table('advertise', function($table) {
-                $table->integer('parent_id')->after('title')->nullable();
-                $table->integer('ad_type')->after('parent_id')->nullable();
-                $table->integer('ad_status')->after('ad_type')->nullable();
+            Schema::table('advertise', function($table) {
+                $table->integer('ad_category')->after('parent_id')->nullable();
+                $table->date('start_date')->after('ad_category')->nullable();
+                $table->date('expiration_date')->after('start_date')->nullable();
         });
+        }
     }
 
     /**
