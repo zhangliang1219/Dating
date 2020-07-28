@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.final')
 
 @section('content')
 <div class="container">
@@ -6,16 +6,24 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Dashboard</div>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
 
-                    You are logged in!
-                </div>
+                        You are logged in!
+                    </div>
             </div>
         </div>
     </div>

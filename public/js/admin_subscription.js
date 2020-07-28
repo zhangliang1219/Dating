@@ -55,28 +55,13 @@
                 'recurring_payment': {required:true},            
                 'free_for_gender[]': {required:true}, 
                 'like_dislike_qty':{
-                    required: {       
-                        depends: function(element) {
-                          return $("#swipe_with_like_dislike:checked")
-                        }
-                    },
-                    number: true
+                    required: "#swipe_with_like_dislike:checked",number: true,
                 },
                 'who_viewed_me_qty':{
-                    required: {       
-                        depends: function(element) {
-                          return $("#who_viewed_me:checked")
-                        }
-                    },
-                    number: true
+                    required:  "#who_viewed_me:checked",number: true,
                 },
                 'photo_upload_qty':{
-                    required: {       
-                        depends: function(element) {
-                          return $("#photo_upload:checked")
-                        }
-                    },
-                    number: true
+                    required: "#photo_upload:checked",number: true,
                 },
                 'feature[]': {required:true,minlength: 1 },        
                 
@@ -111,28 +96,34 @@
     
     $('#swipe_with_like_dislike').change(function() {
         if(this.checked) {
-            $('#like_dislike_qty').remove(); 
-            $('.swipe_with_like_dislike_wrap').append('<input type="text" class="form-control col-3" placeholder="Quantity" name="like_dislike_qty" id="like_dislike_qty">');
+            $('.swipe_with_like_dislike_wrap').html(''); 
+            $('.swipe_with_like_dislike_wrap').append('<label for="rec">Quantity</label>\n\
+                                                        <input type="text" class="form-control" placeholder="Quantity" \n\
+                                                    name="like_dislike_qty" id="like_dislike_qty">');
         }else{
-           $('#like_dislike_qty').remove(); 
+           $('.swipe_with_like_dislike_wrap').html(''); 
         }
     });
     
      $('#who_viewed_me').change(function() {
         if(this.checked) {
-            $('#who_viewed_me_qty').remove();
-            $('.who_viewed_me_wrap').append('<input type="text" class="form-control col-3 ml-5" placeholder="Quantity" name="who_viewed_me_qty" id="who_viewed_me_qty">');
+            $('.who_viewed_me_wrap').html('');
+            $('.who_viewed_me_wrap').append('<label for="rec">Quantity</label>\n\
+                                                <input type="text" class="form-control" placeholder="Quantity" name="who_viewed_me_qty" \n\
+                                            id="who_viewed_me_qty">');
         }else{
-           $('#who_viewed_me_qty').remove(); 
+           $('.who_viewed_me_wrap').html('');
         }
     });
     
      $('#photo_upload').change(function() {
         if(this.checked) {
-            $('#photo_upload_qty').remove();
-            $('.photo_upload_wrap').append('<input type="text" class="form-control col-3 ml-5" placeholder="Quantity" name="photo_upload_qty" id="photo_upload_qty">');
+            $('.photo_upload_wrap').html('');
+            $('.photo_upload_wrap').append('<label for="rec">Quantity</label>\n\
+                                            <input type="text" class="form-control " placeholder="Quantity" name="photo_upload_qty" \n\
+                                            id="photo_upload_qty">');
         }else{
-           $('#photo_upload_qty').remove(); 
+           $('.photo_upload_wrap').html(''); 
         }
     });
     

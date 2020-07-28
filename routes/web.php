@@ -11,10 +11,23 @@
 |
 */
 
+//Frontend Route
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
+});
+Route::get('/login', function () {
+    return view('auth.login');
 });
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('user-register', 'UserController@register')->name('front-register');
+Route::get('/confirm-account/{userId}', 'UserController@confirmAccount')->name('confirm-account');
+Route::get('/login/{provider}', 'UserController@redirectToProvider')->name('redirectToProvider');
+Route::get('/login/{provider}/callback','UserController@handleProviderCallback');
+
+
+
+
 
 //Backend Route
 Route::group(['before' => 'auth','prefix' => 'admin'], function(){

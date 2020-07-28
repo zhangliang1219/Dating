@@ -1,9 +1,9 @@
 @extends('admin.layout.final')
 @section('title')
-    Advertise Listing
+    Ad Listing
 @endsection
 @section('pageTitle')
-    Advertise Listing
+    Ad Listing
 @endsection
 @php
     $ad_category = config('constant.ad_category');
@@ -22,11 +22,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Advertise Management</h3>
+            <h3>Ad Management</h3>
           </div>
             <div class="col-sm-6">
                 <a href="{{route('addAdvertise')}}" title="add_advertise">
-                    <button type="button" class="btn btn-primary add_ads_button">Add Advertise</button>
+                    <button type="button" class="btn btn-primary add_ads_button">Add Ad</button>
                 </a>
             </div>
         </div>
@@ -35,7 +35,7 @@
         <div id="accordion">
              <div class="card">
                 <div class="card-header bg-dark collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
-                    <h3 class="card-title">Advertise Search</h3>
+                    <h3 class="card-title">Ad Search</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-chevron-down"></i></button>
                     </div>

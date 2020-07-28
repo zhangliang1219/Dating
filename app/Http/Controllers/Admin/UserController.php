@@ -119,7 +119,7 @@ class UserController  extends Controller
             $validator = Validator::make($request->all(), [
                 'name'  => 'required',
                 'email' => 'required|email|unique:users,email,'.$id,
-                'phone' => 'required',
+                'phone' => 'required|numeric',
                 'status'=> 'required',
                 'age'   => 'required|integer',
                 'gender'=> 'required|in:1,2'

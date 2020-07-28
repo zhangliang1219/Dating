@@ -36,7 +36,7 @@
                 <a href="{{route('advertiseListing')}}" class="nav-link">
                   <i class="fa fa-bullhorn" aria-hidden="true"></i>
                   <p>
-                    Advertise Management
+                    Ad Management
                   </p>
                 </a>
             </li>

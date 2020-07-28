@@ -62,6 +62,7 @@
                                             <option value="{{$gKey}}">{{$gVal}}</option>
                                         @endforeach
                                     </select>
+                                    <label id="free_for_gender[]-error" class="error" for="free_for_gender[]"></label>
                                     @if ($errors->has('free_for_gender'))
                                         <div class="error">{{ $errors->first('free_for_gender') }}</div>
                                     @endif
@@ -100,70 +101,118 @@
                                 </div>
                             </div><br>
                             <h3><span>Feature List</span></h3>
-                            <div class="row pt-3">
-                                <div class="row swipe_with_like_dislike_wrap pl-2">
-                                    <div class="form-group col-lg col-md-6 col-sm-6">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="swipe_with_like_dislike"  name='feature[]' value="1">
-                                            <label class="custom-control-label swipe_with_like_dislike_label" for="swipe_with_like_dislike" >Number of users they can swipe through (Like or Dislike)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row pt-3">
-                                <div class="form-group col-lg col-md-6 col-sm-6 ">
-                                    <span class="who_viewed_me_wrap">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="who_viewed_me"  name='feature[]' value="7">
-                                            <label class="custom-control-label" for="who_viewed_me" >Who viewed Me?</label>
-                                        </div>
-                                    </span>
-                                    <label id="who_viewed_me_qty-error" class="error" for="who_viewed_me_qty"></label>
-                                </div>
-                                <div class="form-group col-lg col-md-6 col-sm-6 ">
-                                    <span class="photo_upload_wrap">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="photo_upload"  name='feature[]' value="2">
-                                            <label class="custom-control-label" for="photo_upload" >Number of photo user can upload</label>
-                                        </div>
-                                    </span>
-                                    <label id="photo_upload_qty-error" class="error" for="photo_upload_qty"></label>
-                                </div>
-                            </div>
-                            <div class='row pt-3'>
-                                <div class="form-group col-lg col-md-6 col-sm-6">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="send_mail"  name='feature[]'   value="3">
-                                        <label class="custom-control-label" for="send_mail" >Send Mail to other Members</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg col-md-6 col-sm-6">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="instant_message"   name='feature[]'  value="4">
-                                        <label class="custom-control-label" for="instant_message" >Instant Messaging Capability </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row pt-3">
-                                <div class="form-group col-lg col-md-6 col-sm-6">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="live_video_chat"  name='feature[]' value="5">
-                                        <label class="custom-control-label" for="live_video_chat" >Live Video Chat</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg col-md-6 col-sm-6">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="coaching"  name='feature[]' value="6">
-                                        <label class="custom-control-label" for="coaching" >Coaching </label>
-                                    </div>
-                                </div>
-                            </div>
                             <div class='row'>
                                 @if ($errors->has('feature[]'))
                                     <div class="error">{{ $errors->first('feature[]') }}</div>
                                 @endif
                                 <label id="feature[]-error" class="error" for="feature[]"></label>
-                            </div><br class='remove'>
+                            </div>
+                            <div class="row pt-3">
+                                <div class="form-group col-lg col-md-4 col-sm-4 pr-3">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="swipe_with_like_dislike"  name='feature[]' value="1">
+                                        <label class="custom-control-label swipe_with_like_dislike_label" for="swipe_with_like_dislike" >Number of users they can swipe through (Like or Dislike)</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                        <div class="row">
+                                            <div class="form-group col-lg col-md-4 col-sm-4  swipe_with_like_dislike_wrap"> </div>
+                                            <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                            <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="row pt-3">
+                                <div class="form-group col-lg col-md-4 col-sm-4 ">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="who_viewed_me"  name='feature[]' value="7">
+                                        <label class="custom-control-label" for="who_viewed_me" >Who viewed Me?</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="form-group col-lg col-md-4 col-sm-4  who_viewed_me_wrap"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pt-3">
+                                <div class="form-group col-lg col-md-4 col-sm-4 ">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="photo_upload"  name='feature[]' value="2">
+                                        <label class="custom-control-label" for="photo_upload" >Number of photo user can upload</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="form-group col-lg col-md-4 col-sm-4  photo_upload_wrap"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='row pt-3'>
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="send_mail"  name='feature[]'   value="3">
+                                        <label class="custom-control-label" for="send_mail" >Send Mail to other Members</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pt-3">
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="instant_message"   name='feature[]'  value="4">
+                                        <label class="custom-control-label" for="instant_message" >Instant Messaging Capability </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pt-3">
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="live_video_chat"  name='feature[]' value="5">
+                                        <label class="custom-control-label" for="live_video_chat" >Live Video Chat</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pt-3">
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="coaching"  name='feature[]' value="6">
+                                        <label class="custom-control-label" for="coaching" >Coaching </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br class='remove'>
                             <button type="button" class="btn btn-success float-left add_subscri_plan_in_another_lang">
                                 <i class="fas fa-plus"></i> Add In Another language
                             </button><br class='remove'>

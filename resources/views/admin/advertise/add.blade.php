@@ -1,9 +1,9 @@
 @extends('admin.layout.final')
 @section('title')
-    Add Advertise
+    Add Ad
 @endsection
 @section('pageTitle')
-    Add Advertise
+    Add Ad
 @endsection
 @php
     $language = config('constant.language');
@@ -23,7 +23,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Add Advertise</h3>
+            <h3>Add Ad</h3>
           </div>
             <div class="col-sm-6"></div>
         </div>
@@ -48,7 +48,7 @@
                 @endif 
                 <div class="card card-info">
                     <div class="card-header">
-                      <h3 class="card-title">Add Advertise</h3>
+                      <h3 class="card-title">Add Ad</h3>
                     </div>
                     <form class="form-horizontal" method="post" action="{{route('storeAdvertise')}}" name="add_ads" id="add_ads" enctype="multipart/form-data">
                         @csrf
