@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
 use Laravel\Socialite\Facades\Socialite;
 use App\SocialIdentity;
+use App\Country;
 
 
 class UserController  extends Controller
@@ -24,35 +25,55 @@ class UserController  extends Controller
     }
     public function register(Request $request) {
         $validator =  Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'dob' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8',
-            'password_confirmation' => 'required_with:password|same:password|min:8',
-            'phone' => 'required|numeric',
-            'age'   => 'required|integer',
-            'profile_photo'   => 'required|image',
-            'gender'=> 'required|in:1,2'
-        ]);
+            'password' => 'required|string',
+            'password_confirmation' => 'required_with:password|same:password', 
+            'wish_to_meet'   => 'required',
+            'ethnicity'=> 'required',
+            'relationship'=> 'required',
+        ]); 
         if ($validator->fails()) {
             return redirect('/register')
                         ->withErrors($validator)
                         ->withInput();
         }
         $profile_name = '';
-        if($request->file('profile_photo') !=  ''){
-            $profile_photo = $request->file('profile_photo');
+        if($request->file('photo_id') !=  ''){
+            $profile_photo = $request->file('photo_id');
             $profile_name = time().'.'.$profile_photo->getClientOriginalExtension();
             $destinationPath = public_path('/images/profile');
             $profile_photo->move($destinationPath, $profile_name);
         }
             $password = $request->password;
             $user = new User();
-            $user->name = $request->name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->name = ($request->first_name.' '.$request->last_name);
+            $user->dob = $request->dob;
+            $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:'');
+            $user->preferred_age = (isset($request->preferred_age)?json_encode($request->preferred_age):'');
+            $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):'');
             $user->email = $request->email;
             $user->password = Hash::make($password);
-            $user->phone = $request->phone;
-            $user->age = $request->age;
-            $user->gender = $request->gender;
+            $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:'');
+            $user->height = (isset($request->height)?$request->height:'');
+            $user->weight = (isset($request->weight)?$request->weight:'');
+            $user->build = (isset($request->build)?$request->build:'');
+            $user->relationship = (isset($request->relationship)?$request->relationship:'');
+            $user->living_arrangement = (isset($request->living_arrangement)?$request->living_arrangement:'');
+            $user->city = (isset($request->city)?$request->city:'');
+            $user->state = (isset($request->state)?$request->state:'');
+            $user->country = (isset($request->country)?$request->country:'');
+            $user->favorite_sport = (isset($request->favorite_sport)?$request->favorite_sport:'');
+            $user->high_school_attended = (isset($request->high_school_attended)?$request->high_school_attended:'');
+            $user->collage = (isset($request->collage)?$request->collage:'');
+            $user->employment_status = (isset($request->employment_status)?$request->employment_status:'');
+            $user->education = (isset($request->education)?$request->education:'');
+            $user->children = (isset($request->children)?$request->children:'');
+            $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:'');
             $user->photo = $profile_name;
             $user->is_admin = 0;
             $user->status = 1;
@@ -71,6 +92,7 @@ class UserController  extends Controller
                 return redirect()->route('login')->with('success','Your account has been already activated.');
             }else{
                 $user->status =  2;
+                $user->email_verify =  1;
                 $user->save();
                 return redirect()->route('login')->with('success','Your account has been activated successfully. You can now login.');
             }
@@ -86,6 +108,7 @@ class UserController  extends Controller
     
     public function handleProviderCallback($provider)
     {
+        
        $user = $this->createOrGetUser(Socialite::driver($provider)->stateless()->user(), $provider);
        Auth::login($user);
        return redirect()->to('/home');

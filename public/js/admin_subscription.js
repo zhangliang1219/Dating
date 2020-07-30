@@ -97,9 +97,8 @@
     $('#swipe_with_like_dislike').change(function() {
         if(this.checked) {
             $('.swipe_with_like_dislike_wrap').html(''); 
-            $('.swipe_with_like_dislike_wrap').append('<label for="rec">Quantity</label>\n\
-                                                        <input type="text" class="form-control" placeholder="Quantity" \n\
-                                                    name="like_dislike_qty" id="like_dislike_qty">');
+            $('.swipe_with_like_dislike_wrap').append('<input type="text" class="form-control" placeholder="Quantity" \n\
+                                                    name="like_dislike_qty" id="like_dislike_qty"><span class="pl-3">(0=Unlimited)</span>');
         }else{
            $('.swipe_with_like_dislike_wrap').html(''); 
         }
@@ -108,9 +107,8 @@
      $('#who_viewed_me').change(function() {
         if(this.checked) {
             $('.who_viewed_me_wrap').html('');
-            $('.who_viewed_me_wrap').append('<label for="rec">Quantity</label>\n\
-                                                <input type="text" class="form-control" placeholder="Quantity" name="who_viewed_me_qty" \n\
-                                            id="who_viewed_me_qty">');
+            $('.who_viewed_me_wrap').append('<input type="text" class="form-control" placeholder="Quantity" name="who_viewed_me_qty" \n\
+                                            id="who_viewed_me_qty"><span class="pl-3">(0=Unlimited)</span>');
         }else{
            $('.who_viewed_me_wrap').html('');
         }
@@ -119,9 +117,8 @@
      $('#photo_upload').change(function() {
         if(this.checked) {
             $('.photo_upload_wrap').html('');
-            $('.photo_upload_wrap').append('<label for="rec">Quantity</label>\n\
-                                            <input type="text" class="form-control " placeholder="Quantity" name="photo_upload_qty" \n\
-                                            id="photo_upload_qty">');
+            $('.photo_upload_wrap').append('<input type="text" class="form-control " placeholder="Quantity" name="photo_upload_qty" \n\
+                                            id="photo_upload_qty"><span class="pl-3">(0=Unlimited)</span>');
         }else{
            $('.photo_upload_wrap').html(''); 
         }

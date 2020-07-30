@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Country;
 
 class RegisterController extends Controller
 {
@@ -46,6 +47,14 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+    
+    public function showRegistrationForm()
+    {
+
+        $country = Country::all();
+
+        return view('auth.register', compact('country'));
+    }
     protected function validator(array $data)
     {
         return Validator::make($data, [

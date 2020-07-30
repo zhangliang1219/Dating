@@ -12,6 +12,12 @@
 */
 
 //Frontend Route
+
+//Route::get('lang/{locale}', 'HomeController@lang');
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+});
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -22,10 +28,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('user-register', 'UserController@register')->name('front-register');
 Route::get('/confirm-account/{userId}', 'UserController@confirmAccount')->name('confirm-account');
-Route::get('/login/{provider}', 'UserController@redirectToProvider')->name('redirectToProvider');
-Route::get('/login/{provider}/callback','UserController@handleProviderCallback');
 
 
+Route::get('/redirect/{provider}', 'SocialLogInController@redirect')->name('social-redirect');
+Route::get('/callback/{provider}', 'SocialLogInController@callback');
 
 
 

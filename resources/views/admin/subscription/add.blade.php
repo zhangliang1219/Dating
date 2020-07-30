@@ -107,108 +107,77 @@
                                 @endif
                                 <label id="feature[]-error" class="error" for="feature[]"></label>
                             </div>
-                            <div class="row pt-3">
-                                <div class="form-group col-lg col-md-4 col-sm-4 pr-3">
+                            <div class="row pt-3  align-items-center">
+                                <div class="form-group col-lg col-md-4 col-sm-4 pr-3 mb-0">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="swipe_with_like_dislike"  name='feature[]' value="1">
                                         <label class="custom-control-label swipe_with_like_dislike_label" for="swipe_with_like_dislike" >Number of users they can swipe through (Like or Dislike)</label>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg col-md-4 col-sm-4">
-                                        <div class="row">
-                                            <div class="form-group col-lg col-md-4 col-sm-4  swipe_with_like_dislike_wrap"> </div>
-                                            <div class="form-group col-lg col-md-4 col-sm-4"></div>
-                                            <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                <div class="form-group col-lg col-md-4 col-sm-4  mb-0">
+                                        <div class="row align-items-center">
+                                            <div class="form-group col-lg col-md-8 col-sm-8 d-flex swipe_with_like_dislike_wrap mb-0  align-items-center"></div>
+                                            <div class="form-group col-lg col-md-4 col-sm-4 mb-0"></div>
                                         </div>
                                     </div>
                             </div>
-                            <div class="row pt-3">
-                                <div class="form-group col-lg col-md-4 col-sm-4 ">
+                            <div class="row pt-3  align-items-center">
+                                <div class="form-group col-lg col-md-4 col-sm-4 pr-3 mb-0">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="who_viewed_me"  name='feature[]' value="7">
                                         <label class="custom-control-label" for="who_viewed_me" >Who viewed Me?</label>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg col-md-4 col-sm-4">
-                                    <div class="row">
-                                        <div class="form-group col-lg col-md-4 col-sm-4  who_viewed_me_wrap"> </div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                <div class="form-group col-lg col-md-4 col-sm-4  mb-0">
+                                    <div class="row  align-items-center">
+                                        <div class="form-group col-lg col-md-8 col-sm-8  d-flex who_viewed_me_wrap  mb-0  align-items-center"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4  mb-0"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row pt-3">
-                                <div class="form-group col-lg col-md-4 col-sm-4 ">
+                            <div class="row pt-3  align-items-center">
+                                <div class="form-group col-lg col-md-4 col-sm-4  pr-3 mb-0">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="photo_upload"  name='feature[]' value="2">
                                         <label class="custom-control-label" for="photo_upload" >Number of photo user can upload</label>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg col-md-4 col-sm-4">
-                                    <div class="row">
-                                        <div class="form-group col-lg col-md-4 col-sm-4  photo_upload_wrap"> </div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
+                                <div class="form-group col-lg col-md-4 col-sm-4  mb-0">
+                                    <div class="row   align-items-center">
+                                        <div class="form-group col-lg col-md-8 col-sm-8  d-flex photo_upload_wrap mb-0  align-items-center"> </div>
+                                        <div class="form-group col-lg col-md-4 col-sm-4   mb-0"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class='row pt-3'>
-                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                <div class="form-group col-lg col-md-4 col-sm-4 mb-0">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="send_mail"  name='feature[]'   value="3">
                                         <label class="custom-control-label" for="send_mail" >Send Mail to other Members</label>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg col-md-4 col-sm-4">
-                                    <div class="row">
-                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"></div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row pt-3">
-                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                <div class="form-group col-lg col-md-4 col-sm-4 mb-0">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="instant_message"   name='feature[]'  value="4">
                                         <label class="custom-control-label" for="instant_message" >Instant Messaging Capability </label>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg col-md-4 col-sm-4">
-                                    <div class="row">
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row pt-3">
-                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                <div class="form-group col-lg col-md-4 col-sm-4 mb-0">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="live_video_chat"  name='feature[]' value="5">
                                         <label class="custom-control-label" for="live_video_chat" >Live Video Chat</label>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg col-md-4 col-sm-4">
-                                    <div class="row">
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row pt-3">
-                                <div class="form-group col-lg col-md-4 col-sm-4">
+                                <div class="form-group col-lg col-md-4 col-sm-4 mb-0">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="coaching"  name='feature[]' value="6">
                                         <label class="custom-control-label" for="coaching" >Coaching </label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg col-md-4 col-sm-4">
-                                    <div class="row">
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
-                                        <div class="form-group col-lg col-md-4 col-sm-4"> </div>
                                     </div>
                                 </div>
                             </div>

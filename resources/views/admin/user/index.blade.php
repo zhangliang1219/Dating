@@ -7,8 +7,7 @@
 @endsection
 @php
 $user_status = config('constant.user_status');
-$verify_status = config('constant.verify_status');
-$gender = config('constant.gender');
+$verify_status = config('constant.verify_status'); 
 @endphp
 @section('content')
 <?php 
@@ -63,16 +62,7 @@ $gender = config('constant.gender');
                                                     <option value="{{$key}}" {{($request->search_by_status == $key)?'selected':''}}>{{$val}}</option>
                                                 @endforeach
                                             </select>
-                                    </div>
-                                    <div class="form-group col-lg col-md-3 col-sm-3">
-                                        <label class="">Gender</label>
-                                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="search_by_gender" id="search_by_gender">
-                                            <option value="">All</option>
-                                            @foreach($gender as $key => $val)
-                                                <option value="{{$key}}" {{($request->search_by_gender == $key)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    </div> 
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-lg col-md-3 col-sm-3">
@@ -149,9 +139,7 @@ $gender = config('constant.gender');
                                         <th>No</th>
                                         <th>@sortablelink('name','Name')</th>
                                         <th>@sortablelink('email','Email')</th>
-                                        <th>@sortablelink('phone','Phone')</th>
-                                        <th>@sortablelink('age','Age')</th>
-                                        <th>@sortablelink('gender','Gender')</th>
+                                        <th>@sortablelink('phone','Phone')</th> 
                                         <th>@sortablelink('email_verify','Email Verification')</th>
                                         <th>@sortablelink('phone_verify','Phone Verification')</th>
                                         <th>@sortablelink('id_verify','ID Verification')</th>
@@ -168,12 +156,10 @@ $gender = config('constant.gender');
                                         <td>{{$j}}</td>
                                         <td>{{$val->name}}</td>
                                         <td>{{$val->email}}</td>
-                                        <td>{{$val->phone}}</td>
-                                        <td>{{$val->age}}</td>
-                                        <td>{{$gender[$val->gender]}}</td>
-                                        <td>{{$verify_status[$val->email_verify]}}</td>
-                                        <td>{{$verify_status[$val->phone_verify]}}</td>
-                                        <td>{{$verify_status[$val->id_verify]}}</td>
+                                        <td>{{$val->phone}}</td> 
+                                        <td>{{($val->email_verify == '')?'Unverified':$verify_status[$val->email_verify]}}</td>
+                                        <td>{{($val->phone_verify == '')?'Unverified':$verify_status[$val->phone_verify]}}</td>
+                                        <td>{{($val->id_verify == '')?'Unverified':$verify_status[$val->id_verify]}}</td>
                                         <td>{{$user_status[$val->status]}}</td>
                                         <td>
                                             <a href="{{url('admin/user/edit/'.$val->id)}}" title='Edit User' data-id='{{$val->id}}' class='edit_user'><i class="fa fa-edit"></i></a>
