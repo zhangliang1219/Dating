@@ -39,7 +39,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function identities() {
+    public function social_identities() {
         return $this->hasMany('App\SocialIdentity');
     }
     

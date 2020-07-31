@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Services\Social\SocialService;
 use App\SocialIdentity;
+use App\User;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
 
 class SocialLogInController extends Controller
 {
     protected $socialService;
     public function __construct(SocialService $socialService)
     {
-        $this->socialService = $socialService;
+        
     }
     function getSocialIndex($provider)
     {
@@ -28,24 +30,24 @@ class SocialLogInController extends Controller
     }
     public function redirect($provider)
     {
-//       return $this->socialService->getSocialProviderIndex($provider);
         $socialProvider = $this->getSocialIndex($provider);
         return Socialite::driver($socialProvider)->redirect();
     }
 
     public function callback($provider)
     {
+        $response = $this->handleSocialProviderCallback($provider);
+        if($response){
+            return redirect()->to('/home');
+        }else{
+            return redirect()->to('/register');
+        }
+    }
+    public function handleSocialProviderCallback($provider){
         $user = $this->createUser(Socialite::driver($provider)->stateless()->user(), $provider);
         Auth::login($user);
         return true;
-//        $response = $this->socialService->handleSocialProviderCallback($provider);
-//        if($response){
-//            return redirect()->to('/home');
-//        }else{
-//            return redirect()->to('/home');
-//        }
     }
-    
     function createUser($providerUser, $provider)
     {
        $socialIdentity = SocialIdentity::where('provider_name', $provider)
@@ -57,11 +59,10 @@ class SocialLogInController extends Controller
        } else {
            $user = User::where('email', $providerUser->getEmail())->first();
            if (!$user) {
-               $password = Str::random();
+               $password = '';
                $user = User::create([
                    'email' => $providerUser->getEmail(),
                    'name' => $providerUser->getName(),
-                   'password' => Hash::make($password),
                    'facebook_login'=> ($provider == 'facebook')?1:NULL,
                    'google_login'=>($provider == 'google')?1:NULL,
                    'instagram_login'=>($provider == 'instagram')?1:NULL,
