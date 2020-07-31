@@ -36,18 +36,11 @@ class SocialLogInController extends Controller
 
     public function callback($provider)
     {
-        $response = $this->handleSocialProviderCallback($provider);
-        if($response){
-            return redirect()->to('/home');
-        }else{
-            return redirect()->to('/register');
-        }
-    }
-    public function handleSocialProviderCallback($provider){
         $user = $this->createUser(Socialite::driver($provider)->stateless()->user(), $provider);
         Auth::login($user);
-        return true;
+        return redirect('/home');
     }
+    
     function createUser($providerUser, $provider)
     {
        $socialIdentity = SocialIdentity::where('provider_name', $provider)
