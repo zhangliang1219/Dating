@@ -32,6 +32,10 @@ Route::get('/redirect/{provider}', 'SocialLogInController@redirect')->name('soci
 Route::get('/callback/{provider}', 'SocialLogInController@callback');
 
 
+Route::get('contact-us', 'ContactUsController@contactUs')->name('contactUs');
+Route::post('contact-us/store', 'ContactUsController@contactUsStore')->name('contactUsStore');
+
+
 
 //Backend Route
 Route::group(['before' => 'auth','prefix' => 'admin'], function(){

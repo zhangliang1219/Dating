@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
@@ -212,7 +213,7 @@ class SubscriptionController  extends Controller
                         $subscriptionFeatureQty->save();
                     }else{
                         SubscriptionFeaturesQuantity::where('subscription_id',$request->subscriptionId[$key])
-                                                                               ->where('subscription_feature',1)->delete();
+                                                    ->where('subscription_feature',1)->delete();
                     }
                     
                     if(isset($request->who_viewed_me_qty) && $request->who_viewed_me_qty != ''){

@@ -153,7 +153,7 @@
                                 <div class="form-group col-4">
                                     <label for="weight" >Weight</label>
                                     <select name="weight" class="form-control">
-                                        <option value="">Select weight</option>
+                                        <option value="">Select Weight</option>
                                         @foreach($weight as $key => $val)
                                             <option value="{{$key}}" {{old('weight') == $key|| $user->weight == $key?'selected':''}}>{{$val}}</option>
                                         @endforeach

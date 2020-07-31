@@ -74,4 +74,8 @@ return [
         '3' => 'Oui. On vit ensemble',
         '4' => 'Oui, on vit  séparément',
     ],
+    'full_name'=>'Nom complet',
+    'subject'=>'matière',
+    'message'=>'Message',
+    'send_now'=>'envoyer maintenant',
 ];
