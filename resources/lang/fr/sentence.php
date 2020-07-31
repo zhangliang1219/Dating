@@ -2,7 +2,11 @@
 
 return [
     'register' => "S'inscrire",
+    'login' => "S'identifier",
     'enter' => 'Entrer',
+    'forgot_your_password' => 'Mot de passe oublié?',
+    'reset_password' => 'réinitialiser le mot de passe',
+    'send_password_reset_link' => 'Envoyer le lien de réinitialisation du mot de passe',
     'select' => 'sélectionner',
     'personal_info' => 'Informations personnelles',
     'first_name'=>'Prénom',

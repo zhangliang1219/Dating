@@ -245,7 +245,7 @@
                             </div>
                             <div class="form-group col-6">
                                 <label for="collage" >{{trans('sentence.college')}}</label>
-                                <input type="text" value="{{old('collage')}}" name="collage" class="form-control" value="{{old('collage')}}"
+                                <input type="text" value="{{old('collage')}}" name="collage" class="form-control" 
                                          placeholder="{{ trans('sentence.enter').' '.trans('sentence.college')}}">
                             </div>
                         </div>
@@ -293,13 +293,12 @@
                             </div>
                         </div>
                     </form>
-                    
-<!--                    <div class="form-group">
+                    <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <a href="{{ route('social-redirect','facebook') }}" class="btn btn-facebook" class="btn btn-facebook"><i class="fa fa-facebook"></i> Facebook</a>
                             <a href="{{ route('social-redirect','google') }}" class="btn btn-google" class="btn btn-google"><i class="fa fa-google"></i> Google</a>
                         </div>
-                    </div>-->
+                    </div>
                 </div>
             </div>
         </div>

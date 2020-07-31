@@ -12,8 +12,6 @@
 */
 
 //Frontend Route
-
-//Route::get('lang/{locale}', 'HomeController@lang');
 Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
     return redirect()->back();

@@ -2,6 +2,10 @@
 
 return [
     'register' => 'Register',
+    'login' => 'Login',
+    'forgot_your_password' => 'Forgot Your Password?',
+    'reset_password' => 'Reset Password',
+    'send_password_reset_link' => 'Send Password Reset Link',
     'enter' => 'Enter',
     'select' => 'Select',
     'personal_info'=>'Personal Info',

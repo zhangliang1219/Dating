@@ -1,5 +1,22 @@
  $( document ).ready(function() {
-     $('.delete_user').click(function(){
+     $('#dob,#describe_perfect_date').datepicker({
+        format: 'yyyy/mm/dd',
+    });
+    $("#user_update").validate({
+        rules: {
+            'first_name': {required:true},         
+            'last_name': {required:true},         
+            'dob': {required:true},         
+            'email': {required:true,email: true},              
+            'wish_to_meet': {required:true},         
+            'ethnicity': {required:true},         
+            'relationship': {required:true},         
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+    $('.delete_user').click(function(){
         var userId = $(this).attr('data-id');
         if(userId != ''){
                 swal({

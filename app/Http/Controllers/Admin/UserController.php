@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-
+use App\Country;
 
 class UserController  extends Controller
 {
@@ -111,40 +111,61 @@ class UserController  extends Controller
     
     public function editUser($id){
         $user = User::find($id);
-        return view('admin.user.edit',compact('user'));
+        $country = Country::all();
+        return view('admin.user.edit',compact('user','country'));
     }
     
     public function updateUser(Request $request,$id) {
         try{
             $validator = Validator::make($request->all(), [
-                'name'  => 'required',
-                'email' => 'required|email|unique:users,email,'.$id,
-                'phone' => 'required|numeric',
-                'status'=> 'required',
-                'age'   => 'required|integer',
-                'gender'=> 'required|in:1,2'
+                'first_name' => 'required|string',
+                'last_name' => 'required|string',
+                'dob' => 'required',
+                'email' => 'required|email|unique:users,email,'.$id, 
+                'wish_to_meet'   => 'required',
+                'ethnicity'=> 'required',
+                'relationship'=> 'required',
             ]);
             if ($validator->fails()) {
                 return redirect('admin/user/edit/'.$id)
                             ->withErrors($validator)
                             ->withInput();
             }
-            $profile_name = '';
-            if($request->file('profile_photo') !=  ''){
-                $profile_photo = $request->file('profile_photo');
+            $profile_name = NULL;
+            if($request->file('photo_id') !=  ''){
+                $profile_photo = $request->file('photo_id');
                 $profile_name = time().'.'.$profile_photo->getClientOriginalExtension();
                 $destinationPath = public_path('/images/profile');
                 $profile_photo->move($destinationPath, $profile_name);
             }
             
             $user = User::find($id);
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->status = $request->status;
-            $user->age = $request->age;
-            $user->gender = $request->gender;
-            if($request->file('profile_photo') !=  ''){
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->name = ($request->first_name.' '.$request->last_name);
+            $user->dob = $request->dob;
+            $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:'');
+            $user->preferred_age = (isset($request->preferred_age)?json_encode($request->preferred_age):'');
+            $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):'');
+            $user->email = $request->email; 
+            $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:'');
+            $user->height = (isset($request->height)?$request->height:'');
+            $user->weight = (isset($request->weight)?$request->weight:'');
+            $user->build = (isset($request->build)?$request->build:'');
+            $user->relationship = (isset($request->relationship)?$request->relationship:'');
+            $user->living_arrangement = (isset($request->living_arrangement)?$request->living_arrangement:'');
+            $user->city = (isset($request->city)?$request->city:'');
+            $user->state = (isset($request->state)?$request->state:'');
+            $user->country = (isset($request->country)?$request->country:'');
+            $user->favorite_sport = (isset($request->favorite_sport)?$request->favorite_sport:'');
+            $user->high_school_attended = (isset($request->high_school_attended)?$request->high_school_attended:'');
+            $user->collage = (isset($request->collage)?$request->collage:'');
+            $user->employment_status = (isset($request->employment_status)?$request->employment_status:'');
+            $user->education = (isset($request->education)?$request->education:'');
+            $user->children = (isset($request->children)?$request->children:'');
+            $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:'');
+            $user->status = (isset($request->status)?$request->status:'');
+            if($request->file('photo_id') !=  ''){
                 $user->photo = $profile_name;
             }
             $user->email_verify	 = ($request->email_verification == 'on')?1:2;

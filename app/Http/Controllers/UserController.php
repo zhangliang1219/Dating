@@ -40,7 +40,7 @@ class UserController  extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-        $profile_name = '';
+        $profile_name = NULL;
         if($request->file('photo_id') !=  ''){
             $profile_photo = $request->file('photo_id');
             $profile_name = time().'.'.$profile_photo->getClientOriginalExtension();
