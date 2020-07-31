@@ -42,8 +42,8 @@ return [
     ],
         
     'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID', '64590224812-56p1q7u6fsf6hf8m42jcacpk4joj7f9s.apps.googleusercontent.com'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET', 'l9XAlNnKRuLDGWw1rA8v978G'),
+        'client_id' => env('GOOGLE_CLIENT_ID', '580929387209-7lqhafnegskcema1ucdm739o75iiagtf.apps.googleusercontent.com'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET', '7uGrX7rQZteyq8DtAarhhjAD'),
         'redirect' => env('APP_URL', 'https://team10.devhostserver.com/Dating/public').'/callback/google',
     ],
 

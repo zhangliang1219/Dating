@@ -59,21 +59,21 @@ class SocialLogInController extends Controller
        } else {
            $user = User::where('email', $providerUser->getEmail())->first();
            if (!$user) {
-               $password = '';
-               $user = User::create([
-                   'email' => $providerUser->getEmail(),
-                   'name' => $providerUser->getName(),
-                   'facebook_login'=> ($provider == 'facebook')?1:NULL,
-                   'google_login'=>($provider == 'google')?1:NULL,
-                   'instagram_login'=>($provider == 'instagram')?1:NULL,
-               ]);
+                $password = '';
+                $user = new User();
+                $user->email = $providerUser->getEmail();
+                $user->name  = $providerUser->getName();
+                $user->facebook_login = ($provider == 'facebook')?1:NULL;
+                $user->google_login =($provider == 'google')?1:NULL;
+                $user->instagram_login =($provider == 'instagram')?1:NULL;
+                $user->save();
 
-           }
-           $user->social_identities()->create([
+                $user->social_identities()->create([
                    'user_id' => $user->id,
                    'provider_id' => $providerUser->getId(),
                    'provider_name' => $provider,
                ]);
+           }
 
            return $user;
        }
