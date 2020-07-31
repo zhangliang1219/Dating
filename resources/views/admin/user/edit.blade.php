@@ -122,7 +122,7 @@
                                     <select name="preferred_age[]" class="form-control select2" multiple="multiple">
                                         <option value="">Select Preferred Age</option>
                                         @foreach($preferred_age as $key => $val)
-                                        <option value="{{$key}}" {{(old('preferred_age') == $key || in_array($key,json_decode($user->preferred_age)))?'selected':''}}>{{$val}}</option>
+                                        <option value="{{$key}}" {{(old('preferred_age') == $key || ($user->preferred_age != ''&& in_array($key,json_decode($user->preferred_age))))?'selected':''}}>{{$val}}</option>
                                         @endforeach
                                     </select>
                                 </div>
