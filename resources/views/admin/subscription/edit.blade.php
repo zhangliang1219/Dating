@@ -62,9 +62,9 @@
                                     <select  class="form-control select2" name="free_for_gender[]" multiple="mutiple">
                                         <option value="">Select The Option</option>
                                         @foreach($gender as $gKey => $gVal)
-                                        <option value="{{$gKey}}" {{(in_array($gKey,json_decode($getSubscription[0]->free_gender)))?'selected':''}}>{{$gVal}}</option>
+                                        <option value="{{$gKey}}" {{(in_array($gKey,explode(",",$getSubscription[0]->free_gender)))?'selected':''}}>{{$gVal}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> 
                                     @if ($errors->has('free_for_gender'))
                                         <div class="error">{{ $errors->first('free_for_gender') }}</div>
                                     @endif

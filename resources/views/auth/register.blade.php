@@ -74,6 +74,11 @@
                                 <label for="phoneNumber">{{ trans('sentence.phone_number')}}</label>
                                 <input type="text" class="form-control" id="phoneNumber" placeholder="{{ trans('sentence.enter').' '.trans('sentence.phone_number')}}" name="phoneNumber" value="{{old('phoneNumber')}}">
                             </div>
+                            @error('phoneNumber')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
@@ -138,22 +143,54 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="preferred_height" >{{trans('sentence.preferred_height')}}</label>
+                                <select name="preferred_height[]" class="form-control select2" multiple="multiple">
+                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.preferred_height')}}</option>
+                                    @foreach($height as $key => $val)
+                                    <option value="{{$key}}" {{old('preferred_height') == $key?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="preferred_weight" >{{trans('sentence.preferred_weight')}}</label>
+                                <select name="preferred_weight[]" class="form-control select2" multiple="multiple">
+                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.preferred_weight')}}</option>
+                                    @foreach($weight as $key => $val)
+                                    <option value="{{$key}}" {{old('preferred_weight') == $key?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <h4>About Me</h4><br>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="ethnicity" >{{trans('sentence.ethnicity')}}</label>
-                                <select name="ethnicity" class="form-control">
-                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.ethnicity')}}</option>
-                                    @foreach($ethnicity as $key => $val)
-                                    <option value="{{$key}}" {{old('ethnicity') == $key?'selected':''}}>{{$val}}</option>
+                                <label for="age" >{{trans('sentence.age')}}</label>
+                                <select name="age" class="form-control">
+                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.age')}}</option>
+                                    @foreach($preferred_age as $key => $val)
+                                    <option value="{{$key}}" {{old('age') == $key?'selected':''}}>{{$val}}</option>
                                     @endforeach
                                 </select>
-                                @error('ethnicity')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                @if ($errors->has('age'))
+                                    <div class="error">{{ $errors->first('age') }}</div>
+                                @endif
                             </div>
+                            <div class="form-group col-6">
+                                <label for="age" >{{trans('sentence.your_gender')}}</label>
+                                <select name="gender" class="form-control">
+                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.your_gender')}}</option>
+                                    @foreach($gender as $key => $val)
+                                        <option value="{{$key}}" {{old('gender') == $key?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('gender'))
+                                    <div class="error">{{ $errors->first('gender') }}</div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="height" >{{trans('sentence.height')}}</label>
                                 <select name="height" class="form-control">
@@ -163,8 +200,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="weight" >{{trans('sentence.weight')}}</label>
                                 <select name="weight" class="form-control">
@@ -174,6 +209,8 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="build" >{{trans('sentence.build')}}</label>
                                 <select name="build" class="build form-control">
@@ -183,8 +220,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="relationship" >{{trans('sentence.relationship')}}</label>
                                 <select name="relationship" class="form-control">
@@ -199,6 +234,8 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="living_arrangement" >{{trans('sentence.living_arrangement')}}</label>
                                 <select name="living_arrangement" class="form-control">
@@ -208,20 +245,17 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="city" >{{trans('sentence.city')}}</label>
                                 <input type="text" value="{{old('city')}}" id="city" name="city" class="form-control"  placeholder="{{ trans('sentence.enter').' '.trans('sentence.city')}}">
                                
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="state" >{{trans('sentence.state')}}</label>
                                 <input type="text" value="{{old('state')}}" id="state" name="state" class="form-control"   placeholder="{{ trans('sentence.enter').' '.trans('sentence.state')}}">
-                                
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="country" >{{trans('sentence.country')}}</label>
                                 <select name="country" class="form-control">
@@ -231,25 +265,24 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="favorite_sport" >{{trans('sentence.favorite_sport')}}</label>
                                 <input type="text" value="{{old('favorite_sport')}}" name="favorite_sport" class="form-control"   placeholder="{{ trans('sentence.enter').' '.trans('sentence.favorite_sport')}}">
-                              
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="high_school_attended" >{{trans('sentence.high_school_attended')}}</label>
                                 <input type="text"  name="high_school_attended" class="form-control" value="{{old('high_school_attended')}}"
                                          placeholder="{{ trans('sentence.enter').' '.trans('sentence.high_school_attended')}}">
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="collage" >{{trans('sentence.college')}}</label>
                                 <input type="text" value="{{old('collage')}}" name="collage" class="form-control" 
                                          placeholder="{{ trans('sentence.enter').' '.trans('sentence.college')}}">
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="employment_status" >{{trans('sentence.employee')}}</label>
                                 <select name="employment_status" class="form-control" >
@@ -259,6 +292,8 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="education" >{{trans('sentence.education')}}</label>
                                 <select name="education" class="form-control">
@@ -268,8 +303,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="children" >{{trans('sentence.children')}}</label>
                                 <select name="children" class="form-control">
@@ -278,6 +311,22 @@
                                         <option value="{{$key}}" {{old('children') == $key?'selected':''}}>{{$val}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="ethnicity" >{{trans('sentence.ethnicity')}}</label>
+                                <select name="ethnicity" class="form-control">
+                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.ethnicity')}}</option>
+                                    @foreach($ethnicity as $key => $val)
+                                    <option value="{{$key}}" {{old('ethnicity') == $key?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                                @error('ethnicity')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="form-group col-6">
                                 <label for="describe_perfect_date" >{{trans('sentence.describe_perfect_date')}}</label>

@@ -122,23 +122,55 @@
                                     <select name="preferred_age[]" class="form-control select2" multiple="multiple">
                                         <option value="">Select Preferred Age</option>
                                         @foreach($preferred_age as $key => $val)
-                                        <option value="{{$key}}" {{(old('preferred_age') == $key || ($user->preferred_age != ''&& in_array($key,json_decode($user->preferred_age))))?'selected':''}}>{{$val}}</option>
+                                        <option value="{{$key}}" {{(old('preferred_age') == $key || ($user->preferred_age != ''&& in_array($key, explode(",",$user->preferred_age))))?'selected':''}}>{{$val}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+                            <div class="row">
+                            <div class="form-group col-4">
+                                <label for="preferred_height" >{{trans('sentence.preferred_height')}}</label>
+                                <select name="preferred_height[]" class="form-control select2" multiple="multiple">
+                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.preferred_height')}}</option>
+                                    @foreach($height as $key => $val)
+                                    <option value="{{$key}}" {{(old('preferred_height') == $key || ($user->preferred_height != ''&& in_array($key, explode(",",$user->preferred_height))))?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label for="preferred_weight" >{{trans('sentence.preferred_weight')}}</label>
+                                <select name="preferred_weight[]" class="form-control select2" multiple="multiple">
+                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.preferred_weight')}}</option>
+                                    @foreach($weight as $key => $val)
+                                    <option value="{{$key}}" {{(old('preferred_weight') == $key ||($user->preferred_weight != ''&& in_array($key, explode(",",$user->preferred_weight))))?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                             <br><h4>About Me</h4><hr>
                             <div class="row">
                                 <div class="form-group col-4">
-                                    <label for="ethnicity" >Ethnicity</label>
-                                    <select name="ethnicity" class="form-control">
-                                        <option value="">Select Ethnicity</option>
-                                        @foreach($ethnicity as $key => $val)
-                                        <option value="{{$key}}" {{old('ethnicity') == $key || $user->ethnicity == $key?'selected':''}}>{{$val}}</option>
+                                    <label for="age" >Year Gender</label>
+                                    <select name="gender" class="form-control">
+                                        <option value="">Select Your Gender</option>
+                                        @foreach($gender as $key => $val)
+                                            <option value="{{$key}}" {{old('gender') == $key || $user->gender == $key?'selected':''}}>{{$val}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('ethnicity'))
-                                        <div class="error">{{ $errors->first('ethnicity') }}</div>
+                                    @if ($errors->has('gender'))
+                                        <div class="error">{{ $errors->first('gender') }}</div>
+                                    @endif
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="age" >Age</label>
+                                    <select name="age" class="form-control">
+                                        <option value="">Select Age</option>
+                                        @foreach($preferred_age as $key => $val)
+                                        <option value="{{$key}}" {{old('age') == $key || $user->age == $key?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('age'))
+                                        <div class="error">{{ $errors->first('age') }}</div>
                                     @endif
                                 </div>
                                 <div class="form-group col-4">
@@ -149,7 +181,9 @@
                                             <option value="{{$key}}" {{old('height') == $key|| $user->height == $key?'selected':''}}>{{$val}}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> 
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-4">
                                     <label for="weight" >Weight</label>
                                     <select name="weight" class="form-control">
@@ -159,8 +193,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class='row'>
                                 <div class="form-group col-4">
                                     <label for="build" >Build</label>
                                     <select name="build" class="build form-control">
@@ -182,6 +214,8 @@
                                         <div class="error">{{ $errors->first('relationship') }}</div>
                                     @endif
                                 </div>
+                            </div>
+                            <div class='row'>
                                 <div class="form-group col-4">
                                     <label for="living_arrangement" >Living Arrangement</label>
                                     <select name="living_arrangement" class="form-control">
@@ -191,8 +225,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class='row'>
                                 <div class="form-group col-4">
                                     <label for="city" >City</label>
                                     <input type="text" value="{{isset($user->city)?$user->city:old('city')}}" id="city" name="city" class="form-control"  placeholder="Enter City">
@@ -201,6 +233,8 @@
                                     <label for="state" >State/Province</label>
                                     <input type="text" value="{{isset($user->state)?$user->state:old('state')}}" id="state" name="state" class="form-control"   placeholder="Enter State">
                                 </div>
+                            </div>
+                            <div class='row'>
                                 <div class="form-group col-4">
                                     <label for="country" >Country</label>
                                     <select name="country" class="form-control">
@@ -210,8 +244,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class='row'>
                                 <div class="form-group col-4">
                                     <label for="favorite_sport" >Favorite Sport</label>
                                     <input type="text" value="{{isset($user->favorite_sport)?$user->favorite_sport:old('favorite_sport')}}" name="favorite_sport" class="form-control"   placeholder="Enter Favorite Sport">
@@ -221,13 +253,13 @@
                                     <input type="text"  name="high_school_attended" class="form-control" value="{{isset($user->high_school_attended)?$user->high_school_attended:old('high_school_attended')}}"
                                              placeholder="Enter High School Attended ">
                                 </div>
+                            </div>
+                            <div class='row'>
                                 <div class="form-group col-4">
                                     <label for="collage" >College/University Attended</label>
                                     <input type="text" value="{{isset($user->collage)?$user->collage:old('collage')}}" name="collage" class="form-control"  
                                              placeholder="Enter College">
                                 </div>
-                            </div>
-                            <div class='row'>
                                 <div class="form-group col-4">
                                     <label for="employment_status" >Employment Status</label>
                                     <select name="employment_status" class="form-control" >
@@ -246,6 +278,8 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                            <div class='row'>
                                 <div class="form-group col-4">
                                     <label for="children" >Children</label>
                                     <select name="children" class="form-control">
@@ -255,15 +289,25 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-4">
                                     <label for="describe_perfect_date" >Describe Perfect Date </label>
                                     <input type="text" value="{{isset($user->describe_perfect_date)?date("Y/m/d", strtotime($user->describe_perfect_date)):old('describe_perfect_date')}}" name="describe_perfect_date" class="form-control"
                                              placeholder="Enter Describe Perfect Date " id="describe_perfect_date">
                                 </div>
+                                <div class="form-group col-4">
+                                    <label for="ethnicity" >Ethnicity</label>
+                                    <select name="ethnicity" class="form-control">
+                                        <option value="">Select Ethnicity</option>
+                                        @foreach($ethnicity as $key => $val)
+                                        <option value="{{$key}}" {{old('ethnicity') == $key || $user->ethnicity == $key?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('ethnicity'))
+                                        <div class="error">{{ $errors->first('ethnicity') }}</div>
+                                    @endif
+                                </div>
                             </div>
-                            
+                           
                             <br><h4>General</h4><hr>
                             <div class="row ">
                                 <div class="form-group col-4">

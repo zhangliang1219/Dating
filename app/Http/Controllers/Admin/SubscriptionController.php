@@ -82,7 +82,7 @@ class SubscriptionController  extends Controller
                     $subscriptionPlans->title = $request->title[$key];
                     $subscriptionPlans->description = $request->short_desc[$key];
                     $subscriptionPlans->language_id = $request->language[$key];
-                    $subscriptionPlans->free_gender = (isset($request->free_for_gender)?json_encode($request->free_for_gender):'');
+                    $subscriptionPlans->free_gender = (isset($request->free_for_gender)?implode(",", $request->free_for_gender):'');
                     $subscriptionPlans->recurring_payment = $request->recurring_payment;
                     $subscriptionPlans->status = (isset($request->status)?1:0);
                     $subscriptionPlans->subscribe_by_default = (isset($request->subscribe_by_default)?1:0);
@@ -177,7 +177,7 @@ class SubscriptionController  extends Controller
                     $subscriptionPlans->title = $request->title[$key];
                     $subscriptionPlans->description = $request->short_desc[$key];
                     $subscriptionPlans->language_id = $val;
-                    $subscriptionPlans->free_gender = (isset($request->free_for_gender)?json_encode($request->free_for_gender):'');
+                    $subscriptionPlans->free_gender = (isset($request->free_for_gender)?implode(",", $request->free_for_gender):'');
                     $subscriptionPlans->recurring_payment = $request->recurring_payment;
                     $subscriptionPlans->status = (isset($request->status)?1:0);
                     $subscriptionPlans->subscribe_by_default = (isset($request->subscribe_by_default)?1:0);

@@ -28,6 +28,9 @@ class UserController  extends Controller
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'dob' => 'required',
+            'phoneNumber' => 'required',
+            'age' => 'required',
+            'gender' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|string',
             'password_confirmation' => 'required_with:password|same:password', 
@@ -53,8 +56,12 @@ class UserController  extends Controller
             $user->last_name = $request->last_name;
             $user->name = ($request->first_name.' '.$request->last_name);
             $user->dob = $request->dob;
+            $user->age = $request->age;
+            $user->gender = $request->gender;
             $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:'');
-            $user->preferred_age = (isset($request->preferred_age)?json_encode($request->preferred_age):'');
+            $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):'');
+            $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):'');
+            $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):'');
             $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):'');
             $user->email = $request->email;
             $user->password = Hash::make($password);

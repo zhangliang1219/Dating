@@ -2,11 +2,15 @@
      $('#dob,#describe_perfect_date').datepicker({
         format: 'yyyy/mm/dd',
     });
+    
     $("#user_update").validate({
         rules: {
             'first_name': {required:true},         
             'last_name': {required:true},         
-            'dob': {required:true},         
+            'dob': {required:true},       
+            'phoneNumber' : {required:true},   
+            'age' : {required:true},  
+            'gender' : {required:true},      
             'email': {required:true,email: true},              
             'wish_to_meet': {required:true},         
             'ethnicity': {required:true},         

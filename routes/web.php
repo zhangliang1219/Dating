@@ -35,6 +35,10 @@ Route::get('/callback/{provider}', 'SocialLogInController@callback');
 Route::get('contact-us', 'ContactUsController@contactUs')->name('contactUs');
 Route::post('contact-us/store', 'ContactUsController@contactUsStore')->name('contactUsStore');
 
+//profile route
+Route::get('profile', 'ProfileController@userProfileInfo')->name('userProfileInfo');
+Route::post('search/profile', 'ProfileController@viewSearchProfile')->name('viewSearchProfile');
+Route::get('match/profile', 'ProfileController@matchedProfile')->name('matchedProfile');
 
 
 //Backend Route
