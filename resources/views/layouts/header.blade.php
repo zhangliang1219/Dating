@@ -19,6 +19,7 @@
     <link href="{{ asset('css/bootstrap.css?'.time()) }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css?'.time()) }}" rel="stylesheet"> 
     <link href="{{ asset('css/bootstrap-datepicker.min.css?'.time()) }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <link href="{{ asset('css/custome.css?'.time()) }}" rel="stylesheet">
     <link href="{{ asset('css/style.css?'.time()) }}" rel="stylesheet">
     

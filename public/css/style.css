@@ -263,7 +263,153 @@ header{
     width: 100%;
     z-index: 99;
 }
-
+.single-user-profile {
+    display: flex;
+    box-shadow: 0 3px 34px 0 rgba(0, 0, 0, 0.08);
+    width: 100%;
+    margin-bottom: 50px;
+}
+.single-user-profile .slider {
+    width: 50%;
+    background-color: #d5d5d5;
+}
+.single-user-profile .user-details {
+    width: 50%;
+}
+.single-user-profile .user-details .user-header {
+    padding: 60px;
+    text-align: center;
+    border-bottom: 1px solid #cfcfcf;
+}
+.single-user-profile .user-details .user-header h2 {
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0 0 10px;
+}
+.single-user-profile .user-details .user-header h4 {
+    font-size: 20px;
+    color: #fa2456;
+    margin: 0;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+.single-user-profile .user-details .user-header h5 {
+    font-weight: 400;
+    font-size: 16px;
+    color: #797979;
+}
+.single-user-profile .user-details .desc {
+    padding: 30px 60px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 24px;
+    color: #797979;
+}
+.single-user-profile .user-details .action {
+    padding: 30px 60px;
+    text-align: center;
+    padding-bottom: 60px;
+}
+.single-user-profile .user-details .action .btn-theme {
+    margin-right: 30px;
+}
+.btn-theme {
+    background: #fa2456;
+    background: -moz-linear-gradient(left, #fa2456 0%, #fd735a 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, #fa2456), color-stop(100%, #fd735a));
+    background: -webkit-linear-gradient(left, #fa2456 0%, #fd735a 100%);
+    background: -o-linear-gradient(left, #fa2456 0%, #fd735a 100%);
+    background: -ms-linear-gradient(left, #fa2456 0%, #fd735a 100%);
+    background: linear-gradient(to right, #fa2456 0%, #fd735a 100%);
+    color: #fff;
+    border-radius: 50px;
+    min-width: 140px;
+}
+.btn-theme:hover,
+.btn-theme:focus {
+    color: #fff;
+}
+.btn-theme-outline {
+    border: 1px solid #e0e0e0;
+    color: #fa2456;
+    border-radius: 50px;
+    min-width: 140px;
+}
+.btn-theme-outline:hover,
+.btn-theme-outline:focus {
+    color: #fa2456;
+}
+.single-user-profile .slider {
+    min-height: 300px;
+}
+.single-user-profile .slider .swiper-container {
+    height: 100%;
+}
+.single-user-profile .slider .swiper-container .swiper-slide {
+    height: 100%;
+}
+.single-user-profile .slider .swiper-container .swiper-slide img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+}
+.swiper-buttons {
+    position: absolute;
+    bottom: 30px;
+    z-index: 9;
+    display: flex;
+    border-radius: 50px;
+    overflow: hidden;
+    left: calc(50% - 60px);
+}
+.swiper-buttons .btn-swiper-prev,
+.swiper-buttons .btn-swiper-next {
+    background-color: #fff;
+    height: 40px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+}
+.swiper-buttons .btn-swiper-prev:hover,
+.swiper-buttons .btn-swiper-next:hover {
+    background: #fa2456;
+    background: -moz-linear-gradient(left, #fa2456 0%, #fd735a 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, #fa2456), color-stop(100%, #fd735a));
+    background: -webkit-linear-gradient(left, #fa2456 0%, #fd735a 100%);
+    background: -o-linear-gradient(left, #fa2456 0%, #fd735a 100%);
+    background: -ms-linear-gradient(left, #fa2456 0%, #fd735a 100%);
+    background: linear-gradient(to right, #fa2456 0%, #fd735a 100%);
+    color: #fff;
+}
+.swiper-buttons .btn-swiper-prev:focus,
+.swiper-buttons .btn-swiper-next:focus {
+    outline: none;
+}
+.swiper-buttons .btn-swiper-prev.swiper-button-disabled,
+.swiper-buttons .btn-swiper-next.swiper-button-disabled {
+    cursor: not-allowed;
+    color: rgba(0, 0, 0, 0.35);
+}
+.swiper-buttons .btn-swiper-prev.swiper-button-disabled:hover,
+.swiper-buttons .btn-swiper-next.swiper-button-disabled:hover {
+    background: #fff;
+    color: rgba(0, 0, 0, 0.35);
+}
+@media screen and (max-width:768px){
+    .single-user-profile{
+        flex-wrap: wrap;
+    }
+    .single-user-profile .slider {
+        width: 100%;
+    }
+    .single-user-profile .user-details {
+        width: 100%;
+    }
+}
 @media (min-width: 1400px){
     .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
         max-width: 1140px;
