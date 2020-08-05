@@ -41,7 +41,7 @@ Route::match(['get','post'],'search/profile', 'ProfileController@viewSearchProfi
 Route::get('match/profile', 'ProfileController@matchedProfile')->name('matchedProfile');
 
 //My profile route
-Route::get('user/profile', 'ProfileController@userProfile')->name('userProfile');
+Route::get('user/profile/{id}', 'ProfileController@userProfile')->name('userProfile');
 
 //Backend Route
 Route::group(['before' => 'auth','prefix' => 'admin'], function(){

@@ -48,7 +48,7 @@ $preferred_age = config('constant.preferred_age');
             @foreach($searchProfile as $val)
             <div class="col-md-4">
                 <div class="users-listing-card">
-                    <a class="link-profile" href="{{route('userProfile')}}"></a>
+                    <a class="link-profile" href="{{route('userProfile',$val->id)}}"></a>
                     <div class="image-section">
                         <div class="user-img">
                             <img src="{{($val->photo != '')?asset('images/profile/'.$val->photo):asset('images/profile-default.jpg')}}" alt="">

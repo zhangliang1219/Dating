@@ -14,7 +14,7 @@ $weight = config('constant.weight');
                 <h2>My Profile</h2>
                 <div class="breadcrumbs">
                     <ul>
-                        <li><a href="">Home ></a></li>
+                        <li><a href="{{route('home')}}">Home ></a></li>
                         <li>My Profile</li>
                     </ul>
                 </div>
@@ -49,9 +49,9 @@ $weight = config('constant.weight');
         </div>
         <div class="user-details">
             <div class="user-header">
-                <h2>Shalok Thakur , 22</h2>
+                <h2>{{$userInfo->name}} {{($userInfo->age != '')?' , '.$userInfo->age:''}}</h2>
                 <h4>23 kilometers away</h4>
-                <h5>Aurangābād , India</h5>
+                <h5>{{$userInfo->state}} , {{$userInfo->countryData->country_name}}</h5>
             </div>
             <div class="desc">
                 I still fanboy over 5 seconds of Summer and Neighborhood. (Probably waiting for someone to sing 'Looks

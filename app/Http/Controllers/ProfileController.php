@@ -23,8 +23,9 @@ class ProfileController  extends Controller
         return view('front.profile.index',compact('country')); 
   }
   
-  public function userProfile() {
-        return view('front.profile.user_profile'); 
+  public function userProfile(Request $request,$id) {
+        $userInfo = User::with('countryData')->where('users.id',$id)->first();
+        return view('front.profile.user_profile',compact('userInfo')); 
   }
   
   public function viewSearchProfile(Request $request){
