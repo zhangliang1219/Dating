@@ -18,7 +18,7 @@ use App\SearchHistory;
 
 class ProfileController  extends Controller
 {
-  public function userProfileInfo() {
+  public function profileInfo() {
         $country = Country::all();
         return view('front.profile.index',compact('country')); 
   }
@@ -29,8 +29,8 @@ class ProfileController  extends Controller
   
   public function viewSearchProfile(Request $request){
         $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
-        
-        $dataQuery = User::with('country')->where('users.id','!=',Auth::user()->id)->where('users.is_admin',0)->where('users.status',2);
+        $page_limit = 2;
+        $dataQuery = User::with('countryData')->where('users.id','!=',Auth::user()->id)->where('users.is_admin',0)->where('users.status',2);
         if(isset($request->gender) || $request->gender != ''){
             $dataQuery->where('users.gender',$request->gender);
         }if(isset($request->age) || $request->age != ''){
@@ -41,6 +41,9 @@ class ProfileController  extends Controller
             $dataQuery->where('users.country',$request->country);
         }if(isset($request->weight) || $request->weight != ''){
             $dataQuery->where('users.weight',$request->weight);
+        }
+        if(isset($request->profile_search) && isset($request->profile_search_text) && $request->profile_search_text != ''){
+            $dataQuery->where('users.name','LIKE','%'.$request->profile_search_text.'%');
         }
         $userData = clone $dataQuery;
         $userData = $userData->get();
@@ -60,7 +63,7 @@ class ProfileController  extends Controller
         } else {
             $searchProfile = $dataQuery->sortable()->orderBy('users.id', 'desc')->paginate($page_limit);
         }            
-        return view('front.search.index',compact('searchProfile')); 
+        return view('front.search.index',compact('searchProfile','request')); 
     }
     
     public function matchedProfile() {

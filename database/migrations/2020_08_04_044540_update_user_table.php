@@ -18,6 +18,7 @@ class UpdateUserTable extends Migration
             $table->integer('gender')->after('age')->nullable();
             $table->integer('preferred_height')->after('preferred_age')->nullable();
             $table->integer('preferred_weight')->after('preferred_height')->nullable();
+            $table->integer('login_status')->after('status')->nullable();
         });
     }
 

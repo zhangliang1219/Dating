@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -56,6 +57,7 @@ class LoginController extends Controller
         if ($this->attemptLogin($request))
         {
             if (auth()->user()->is_admin == 0 || auth()->user()->status == 2){
+                User::where('id',auth()->user()->id)->update(['login_status' => 1]);
                 $data = [
                     'data' => auth()->user(),
                     'success' => true,
@@ -77,6 +79,7 @@ class LoginController extends Controller
     }
     
     public function logout() {
+        User::where('id',auth()->user()->id)->update(['login_status' => 0]);
         auth()->logout();
         return redirect()->to('/login');
     }

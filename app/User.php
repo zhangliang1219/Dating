@@ -43,7 +43,7 @@ class User extends Authenticatable
         return $this->hasMany('App\SocialIdentity');
     }
     
-    public function country() {
+    public function countryData() {
         return $this->hasOne('App\Country','id','country');
     }
 }
