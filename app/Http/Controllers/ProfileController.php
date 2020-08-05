@@ -23,6 +23,10 @@ class ProfileController  extends Controller
         return view('front.profile.index',compact('country')); 
   }
   
+  public function userProfile() {
+        return view('front.profile.user_profile'); 
+  }
+  
   public function viewSearchProfile(Request $request){
         $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
         
