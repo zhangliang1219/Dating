@@ -25,17 +25,24 @@
                             <h5>{{ session('success') }}</h5>
                         </div>
                     @endif
+                    @if(count($searchProfile)>0)
+                        <p class="mt-1">Showing {{ $searchProfile->firstItem() }} to {{ $searchProfile->lastItem() }} of total {{$searchProfile->total()}} entries</p>
+                    @endif
                     <div class="row">
-                        @if(count($user)>0)
-                            @foreach($user as $val)
+                        @if(count($searchProfile)>0)
+                            @foreach($searchProfile as $val)
                                 <div class="col-4">
-                                    {{$val->name}}
+                                    {{$val->name}}<br>
+                                    {{$val->state.','.$val->country}}
                                 </div>
                             @endforeach
                         @else
                              <h3>No Data Found</h3>
                         @endif
                     </div>
+                    @if($searchProfile && !empty($searchProfile))
+                        <div class="pt-4">{!! $searchProfile->appends(\Request::except('page'))->render() !!}</div>
+                    @endif
                 </div>
             </div>
         </div>

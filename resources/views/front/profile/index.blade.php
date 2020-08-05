@@ -2,6 +2,8 @@
 @php
     $gender = trans('sentence.gender');
     $preferred_age = config('constant.preferred_age');
+    $height = config('constant.height');
+    $weight = config('constant.weight');
 @endphp
 @section('content')
 <div class="container">
@@ -30,19 +32,11 @@
                         <div class="card-body">
                             <div class="form-group col-4">
                                     <select name="gender" class="form-control">
-                                        <option value="">{{ trans('sentence.your_gender')}}</option>
+                                        <option value="">{{ trans('sentence.gender_label')}}</option>
                                         @foreach($gender as $key => $val)
                                             <option value="{{$key}}">{{$val}}</option>
                                         @endforeach
                                     </select>
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="wish_to_meet" class="form-control">
-                                    <option value="">{{ trans('sentence.wish_to_meet')}}</option>
-                                    @foreach($gender as $key => $val)
-                                        <option value="{{$key}}">{{$val}}</option>
-                                    @endforeach
-                                </select> 
                             </div>
                             <div class="form-group col-4">
                                 <select name="age" class="form-control">
@@ -54,16 +48,26 @@
                             </div>
                             <div class="form-group col-4">
                                 <select name="country" class="form-control" >
-                                    <option value="">{{ trans('sentence.choose_your_country')}}</option>
+                                    <option value="">{{ trans('sentence.country')}}</option>
                                     @foreach($country as $key => $val)
                                         <option value="{{$val->id}}">{{$val->country_name}}</option>
                                     @endforeach
                                 </select> 
                             </div>
                             <div class="form-group col-4">
-                                <select name="interests" class="form-control" >
-                                    <option value="">{{ trans('sentence.your_interests')}}</option>
-                                   
+                                <select name="height" class="form-control" >
+                                    <option value="">{{ trans('sentence.height')}}</option>
+                                    @foreach($height as $key => $val)
+                                        <option value="{{$key}}">{{$val}}</option>
+                                    @endforeach
+                                </select> 
+                            </div>
+                            <div class="form-group col-4">
+                                <select name="weight" class="form-control" >
+                                    <option value="">{{ trans('sentence.weight')}}</option>
+                                    @foreach($weight as $key => $val)
+                                        <option value="{{$key}}">{{$val}}</option>
+                                    @endforeach
                                 </select> 
                             </div>
                         </div>

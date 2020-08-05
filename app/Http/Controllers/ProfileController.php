@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
 use App\SocialIdentity;
 use App\Country;
-
+use App\SearchHistory;
 
 class ProfileController  extends Controller
 {
@@ -24,20 +24,39 @@ class ProfileController  extends Controller
   }
   
   public function viewSearchProfile(Request $request){
-        $user = new user();
+        $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
+        
+        $dataQuery = User::with('country')->where('users.id','!=',Auth::user()->id)->where('users.is_admin',0)->where('users.status',2);
         if(isset($request->gender) || $request->gender != ''){
-            $user =  $user->where('wish_to_meet',$request->gender);
-        }if(isset($request->wish_to_meet) || $request->wish_to_meet != ''){
-            $user = $user->where('gender',$request->wish_to_meet);
+            $dataQuery->where('users.gender',$request->gender);
         }if(isset($request->age) || $request->age != ''){
-            $age = $request->age;
-            $user = $user->whereRaw('FIND_IN_SET('.$age.',preferred_age)');
+            $dataQuery->where('users.age',$request->age);
+        }if(isset($request->height) || $request->height != ''){
+            $dataQuery->where('users.height',$request->height);
         }if(isset($request->country) || $request->country != ''){
-            $user = $user->where('country',$request->country);
-        }if(isset($request->interests) || $request->interests != ''){
+            $dataQuery->where('users.country',$request->country);
+        }if(isset($request->weight) || $request->weight != ''){
+            $dataQuery->where('users.weight',$request->weight);
         }
-        $user = $user->where('id','!=',Auth::user()->id)->get();
-        return view('front.profile.search',compact('user')); 
+        $userData = clone $dataQuery;
+        $userData = $userData->get();
+
+        $getData = SearchHistory::where('user_id',Auth::user()->id)->get()->count();
+        if(count($userData)>0){
+            if($getData == 10){
+                SearchHistory::where('user_id',Auth::user()->id)->orderBy("id", "ASC")->take(1)->forceDelete();
+            }
+            $searchHistory = New SearchHistory();
+            $searchHistory->user_id = Auth::user()->id;
+            $searchHistory->search_data = json_encode($userData);
+            $searchHistory->save();        
+        }
+        if ($request->has('sort') && $request->input('sort') != '') {
+            $searchProfile = $dataQuery->sortable()->orderBy($request->input('sort'), $request->input('direction'))->paginate($page_limit);
+        } else {
+            $searchProfile = $dataQuery->sortable()->orderBy('users.id', 'desc')->paginate($page_limit);
+        }            
+        return view('front.search.index',compact('searchProfile')); 
     }
     
     public function matchedProfile() {
@@ -71,8 +90,7 @@ class ProfileController  extends Controller
                                 })
                                 ->whereRaw('FIND_IN_SET('.$user->weight.',u.preferred_weight)');
                             })
-                        ->where('users.id','!=',Auth::user()->id)->get();
-                            
-        echo "<pre>";print_R($matchProfile);exit;
+                        ->where('users.id','!=',Auth::user()->id)->where('is_admin',0)->where('status',2)->get();
+         
     }
 }

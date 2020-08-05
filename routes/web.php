@@ -37,7 +37,7 @@ Route::post('contact-us/store', 'ContactUsController@contactUsStore')->name('con
 
 //profile route
 Route::get('profile', 'ProfileController@userProfileInfo')->name('userProfileInfo');
-Route::post('search/profile', 'ProfileController@viewSearchProfile')->name('viewSearchProfile');
+Route::match(['get','post'],'search/profile', 'ProfileController@viewSearchProfile')->name('viewSearchProfile');
 Route::get('match/profile', 'ProfileController@matchedProfile')->name('matchedProfile');
 
 

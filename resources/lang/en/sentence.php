@@ -9,6 +9,7 @@ return [
     'enter' => 'Enter',
     'select' => 'Select',
     'your_gender' => 'Your Gender',
+    'gender_label' => 'Gender',
     'personal_info'=>'Personal Info',
     'first_name'=>'First Name',
     'last_name'=>'Last Name',

@@ -13,6 +13,7 @@ return [
     'last_name'=>'Nom de famille',
     'dob'=>'Date de naissance',
     'your_gender' => 'Votre sexe',
+    'gender_label' => 'Sexe',
     'age'=>'âge',
     'phone_number'=>'Numéro De Téléphone',
     'photo_id'=>"Photo D'identité",
