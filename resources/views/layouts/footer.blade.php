@@ -13,5 +13,6 @@
 <script src="{{ asset('js/jquery.validate.js?'.time()) }}"></script>
 <script src="{{ asset('js/additional-methods.js?'.time()) }}"></script>
 <script src="{{ asset('js/sweetalert.min.js?'.time()) }}"></script>
+<script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
 <script src="{{ asset('js/custome.js?'.time()) }}"></script>
 @yield('javascript')
