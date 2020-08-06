@@ -163,12 +163,7 @@
                                 </div>
                                 <div class="form-group col-4">
                                     <label for="age" >Age</label>
-                                    <select name="age" class="form-control">
-                                        <option value="">Select Age</option>
-                                        @foreach($preferred_age as $key => $val)
-                                        <option value="{{$key}}" {{old('age') == $key || $user->age == $key?'selected':''}}>{{$val}}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" id="age" name="age" placeholder="Enter age"  value="{{old('age')!=''?old('age'):$user->age}}">
                                     @if ($errors->has('age'))
                                         <div class="error">{{ $errors->first('age') }}</div>
                                     @endif
@@ -193,15 +188,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-4">
-                                    <label for="build" >Build</label>
-                                    <select name="build" class="build form-control">
-                                        <option value="">Select Build</option>
-                                        @foreach($build as $key => $val)
-                                            <option value="{{$key}}" {{old('build') == $key|| $user->build?'selected':''}}>{{$val}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                
                                 <div class="form-group col-4">
                                     <label for="relationship" >Relationship</label>
                                     <select name="relationship" class="form-control">
@@ -213,6 +200,15 @@
                                     @if ($errors->has('relationship'))
                                         <div class="error">{{ $errors->first('relationship') }}</div>
                                     @endif
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="children" >Do you have Children?</label>
+                                    <select name="children" class="form-control">
+                                        <option value="">Enter Children</option>
+                                        @foreach($children as $key => $val)
+                                            <option value="{{$key}}" {{old('children') == $key ||$user->children == $key ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class='row'>
@@ -262,7 +258,7 @@
                                 </div>
                                 <div class="form-group col-4">
                                     <label for="employment_status" >Employment Status</label>
-                                    <select name="employment_status" class="form-control" >
+                                    <select name="employment_status" class="form-control">
                                         <option value="">Enter Employee</option>
                                         @foreach($employment_status as $key => $val)
                                             <option value="{{$key}}" {{old('employment_status') == $key || $user->employment_status == $key?'selected':''}}>{{$val}}</option>
@@ -281,22 +277,22 @@
                             </div>
                             <div class='row'>
                                 <div class="form-group col-4">
-                                    <label for="children" >Children</label>
-                                    <select name="children" class="form-control">
-                                        <option value="">Enter Children</option>
-                                        @foreach($children as $key => $val)
-                                            <option value="{{$key}}" {{old('children') == $key ||$user->children == $key ?'selected':''}}>{{$val}}</option>
+                                    <label for="describe_perfect_date" >Describe Perfect Date </label>
+                                    <input type="text" value="{{isset($user->describe_perfect_date)?($user->describe_perfect_date):old('describe_perfect_date')}}" name="describe_perfect_date" class="form-control"
+                                             placeholder="Enter Describe Perfect Date " id="describe_perfect_date">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="build" >Build</label>
+                                    <select name="build" class="build form-control"  id="build">
+                                        <option value="">Select Build</option>
+                                        @foreach($build as $key => $val)
+                                            <option value="{{$key}}" {{old('build') == $key|| $user->build?'selected':''}}>{{$val}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group col-4">
-                                    <label for="describe_perfect_date" >Describe Perfect Date </label>
-                                    <input type="text" value="{{isset($user->describe_perfect_date)?date("Y/m/d", strtotime($user->describe_perfect_date)):old('describe_perfect_date')}}" name="describe_perfect_date" class="form-control"
-                                             placeholder="Enter Describe Perfect Date " id="describe_perfect_date">
-                                </div>
-                                <div class="form-group col-4">
                                     <label for="ethnicity" >Ethnicity</label>
-                                    <select name="ethnicity" class="form-control">
+                                    <select name="ethnicity" class="form-control" id="ethnicity">
                                         <option value="">Select Ethnicity</option>
                                         @foreach($ethnicity as $key => $val)
                                         <option value="{{$key}}" {{old('ethnicity') == $key || $user->ethnicity == $key?'selected':''}}>{{$val}}</option>
@@ -308,6 +304,17 @@
                                 </div>
                             </div>
                            
+                            <div class='row'>
+                                <div class="form-group col-4"></div>
+                                <div class="form-group col-4">
+                                    <input type="text" class="form-control" name="build_other" id="build_other" style="display: none;" value="{{$user->build_other}}">
+                                    <input type="hidden" class="form-control" name="build_other_hidden" id="build_other_hidden"  value="{{$user->build_other}}">
+                                </div>
+                                <div class="form-group col-4">
+                                    <input type="text" class="form-control" name="ethnicity_other" id="ethnicity_other" style="display: none;" value="{{$user->ethnicity_other}}">
+                                    <input type="hidden" class="form-control" name="ethnicity_other_hidden" id="ethnicity_other_hidden"  value="{{$user->ethnicity_other}}">
+                                </div>
+                            </div>
                             <br><h4>General</h4><hr>
                             <div class="row ">
                                 <div class="form-group col-4">

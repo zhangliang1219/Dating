@@ -29,14 +29,12 @@ class UserController  extends Controller
             'last_name' => 'required|string',
             'dob' => 'required',
             'phoneNumber' => 'required',
-            'age' => 'required',
+            'age' => 'required|numeric|max:80|min:18',
             'gender' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|string',
             'password_confirmation' => 'required_with:password|same:password', 
-            'wish_to_meet'   => 'required',
-            'ethnicity'=> 'required',
-            'relationship'=> 'required',
+            'describe_perfect_date'=>'max: 1000', 
         ]); 
         if ($validator->fails()) {
             return redirect('/register')
@@ -58,29 +56,9 @@ class UserController  extends Controller
             $user->dob = $request->dob;
             $user->age = $request->age;
             $user->gender = $request->gender;
-            $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:'');
-            $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):'');
-            $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):'');
-            $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):'');
-            $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):'');
+            $user->phone = $request->phoneNumber;
             $user->email = $request->email;
             $user->password = Hash::make($password);
-            $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:'');
-            $user->height = (isset($request->height)?$request->height:'');
-            $user->weight = (isset($request->weight)?$request->weight:'');
-            $user->build = (isset($request->build)?$request->build:'');
-            $user->relationship = (isset($request->relationship)?$request->relationship:'');
-            $user->living_arrangement = (isset($request->living_arrangement)?$request->living_arrangement:'');
-            $user->city = (isset($request->city)?$request->city:'');
-            $user->state = (isset($request->state)?$request->state:'');
-            $user->country = (isset($request->country)?$request->country:'');
-            $user->favorite_sport = (isset($request->favorite_sport)?$request->favorite_sport:'');
-            $user->high_school_attended = (isset($request->high_school_attended)?$request->high_school_attended:'');
-            $user->collage = (isset($request->collage)?$request->collage:'');
-            $user->employment_status = (isset($request->employment_status)?$request->employment_status:'');
-            $user->education = (isset($request->education)?$request->education:'');
-            $user->children = (isset($request->children)?$request->children:'');
-            $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:'');
             $user->photo = $profile_name;
             $user->is_admin = 0;
             $user->status = 1;
@@ -155,4 +133,6 @@ class UserController  extends Controller
            return $user;
        }
     }
+    
+    
 }

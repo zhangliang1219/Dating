@@ -4,6 +4,10 @@
     $preferred_age = config('constant.preferred_age');
     $height = config('constant.height');
     $weight = config('constant.weight');
+    $education = trans('sentence.education_array');
+    $employment_status = trans('sentence.employment_status_array');
+    $living_arrangement = trans('sentence.living_arrangement_array');
+    $ethnicity = config('constant.ethnicity');
 @endphp
 @section('content')
 <div class="page-header-title">
@@ -69,28 +73,7 @@
                         @csrf
                         <div class="card-body">
                             <div class="form-group col-4">
-                                    <select name="gender" class="form-control">
-                                        <option value="">{{ trans('sentence.gender_label')}}</option>
-                                        @foreach($gender as $key => $val)
-                                            <option value="{{$key}}">{{$val}}</option>
-                                        @endforeach
-                                    </select>
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="age" class="form-control">
-                                    <option value="">{{ trans('sentence.age')}}</option>
-                                    @foreach($preferred_age as $key => $val)
-                                        <option value="{{$key}}">{{$val}}</option>
-                                    @endforeach
-                                </select> 
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="country" class="form-control" >
-                                    <option value="">{{ trans('sentence.country')}}</option>
-                                    @foreach($country as $key => $val)
-                                        <option value="{{$val->id}}">{{$val->country_name}}</option>
-                                    @endforeach
-                                </select> 
+                                <input type="text" name="age"  class="form-control"  placeholder="{{ trans('sentence.enter').' '.trans('sentence.age')}}">
                             </div>
                             <div class="form-group col-4">
                                 <select name="height" class="form-control" >
@@ -108,10 +91,55 @@
                                     @endforeach
                                 </select> 
                             </div>
-                        </div>
+                            <div class="form-group col-4">
+                                <input type="text" name="city"  class="form-control" placeholder="{{ trans('sentence.enter').' '.trans('sentence.city')}}">
+                            </div>
+                            <div class="form-group col-4">
+                                <input type="text"   id="state" name="state" class="form-control"   placeholder="{{ trans('sentence.enter').' '.trans('sentence.state')}}">
+                            </div>
+                            <div class="form-group col-4">
+                                <select name="country" class="form-control" >
+                                    <option value="">{{ trans('sentence.country')}}</option>
+                                    @foreach($country as $key => $val)
+                                        <option value="{{$val->id}}">{{$val->country_name}}</option>
+                                    @endforeach
+                                </select> 
+                            </div>
+                            <div class="form-group col-4">
+                                <select name="education" class="form-control">
+                                    <option value="">{{trans('sentence.education')}}</option>
+                                    @foreach($education as $key => $val)
+                                        <option value="{{$key}}" >{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <select name="employment_status" class="form-control" >
+                                    <option value="">{{trans('sentence.employee')}}</option>
+                                    @foreach($employment_status as $key => $val)
+                                        <option value="{{$key}}">{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <select name="ethnicity" class="form-control" id="ethnicity">
+                                    <option value="">{{trans('sentence.ethnicity')}}</option>
+                                    @foreach($ethnicity as $key => $val)
+                                    <option value="{{$key}}" >{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <select name="living_arrangement" class="form-control">
+                                    <option value="">{{trans('sentence.living_arrangement')}}</option>
+                                    @foreach($living_arrangement as $key => $val)
+                                        <option value="{{$key}}" >{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" name="profile_search">
                                     {{ trans('sentence.find_your_partner')}}
                                 </button>
                             </div>

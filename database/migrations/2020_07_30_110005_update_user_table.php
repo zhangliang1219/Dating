@@ -47,7 +47,7 @@ class UpdateUserTable extends Migration
             $table->integer('employment_status')->after('collage')->nullable();
             $table->integer('education')->after('employment_status')->nullable();
             $table->integer('children')->after('education')->nullable();
-            $table->date('describe_perfect_date')->after('children')->nullable();
+            $table->text('describe_perfect_date')->after('children')->nullable();
         });
     }
 

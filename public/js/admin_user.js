@@ -1,20 +1,53 @@
  $( document ).ready(function() {
-     $('#dob,#describe_perfect_date').datepicker({
+     $('#dob').datepicker({
         format: 'yyyy/mm/dd',
     });
     
-    $("#user_update").validate({
+    if($('#ethnicity_other_hidden').val() !== ''){
+        $("#ethnicity_other").show();
+    }
+    if($('#build_other_hidden').val() !== ''){
+        $("#build_other").show();
+    }
+    $('#ethnicity').change(function() {
+        if ($(this).val() == "10") {
+            $("#ethnicity_other").show();
+        } else {
+            $("#ethnicity_other").hide();
+        }
+    });
+    
+    $('#build').change(function() {
+        if ($(this).val() == "4") {
+            $("#build_other").show();
+        } else {
+            $("#build_other").hide();
+        }
+    });
+    
+     $("#user_update").validate({
         rules: {
             'first_name': {required:true},         
             'last_name': {required:true},         
             'dob': {required:true},       
             'phoneNumber' : {required:true},   
-            'age' : {required:true},  
+            'age' : {required:true,min: 18,max:80, number: true},  
             'gender' : {required:true},      
-            'email': {required:true,email: true},              
-            'wish_to_meet': {required:true},         
-            'ethnicity': {required:true},         
-            'relationship': {required:true},         
+            'email': {required:true,email: true},  
+            'describe_perfect_date': {maxlength: 1000},  
+//            'wish_to_meet': {required:true},         
+//            'ethnicity': {required:true},         
+//            'relationship': {required:true},
+            'ethnicity_other': {
+                            required: function(element) {
+                                return $("#ethnicity").val() == 10;
+                            }
+                        },
+            'build_other': {
+                            required: function(element) {
+                                return $("#build").val() == 4;
+                            }
+                        },
         },
         submitHandler: function (form) {
             form.submit();

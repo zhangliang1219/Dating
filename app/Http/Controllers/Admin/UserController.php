@@ -122,12 +122,12 @@ class UserController  extends Controller
                 'last_name' => 'required|string',
                 'dob' => 'required',
                 'phoneNumber' => 'required',
-                'age' => 'required',
+                'age' => 'required|numeric|max:80|min:18',
                 'gender' => 'required',  
                 'email' => 'required|email|unique:users,email,'.$id, 
-                'wish_to_meet'   => 'required',
-                'ethnicity'=> 'required',
-                'relationship'=> 'required',
+//                'wish_to_meet'   => 'required',
+//                'ethnicity'=> 'required',
+//                'relationship'=> 'required',
             ]);
             if ($validator->fails()) {
                 return redirect('admin/user/edit/'.$id)
@@ -149,30 +149,32 @@ class UserController  extends Controller
             $user->dob = $request->dob;
             $user->age = $request->age;
             $user->gender = $request->gender;
-            $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:'');
-            $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):'');
-            $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):'');
-            $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):'');
-            $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):'');
+            $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
+            $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):NULL);
+            $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):NULL);
+            $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):NULL);
+            $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):NULL);
+            $user->ethnicity_other = (isset($request->ethnicity_other)?($request->ethnicity_other):NULL);
             $user->email = $request->email; 
-            $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:'');
-            $user->height = (isset($request->height)?$request->height:'');
-            $user->weight = (isset($request->weight)?$request->weight:'');
-            $user->build = (isset($request->build)?$request->build:'');
-            $user->relationship = (isset($request->relationship)?$request->relationship:'');
-            $user->living_arrangement = (isset($request->living_arrangement)?$request->living_arrangement:'');
-            $user->city = (isset($request->city)?$request->city:'');
-            $user->state = (isset($request->state)?$request->state:'');
-            $user->country = (isset($request->country)?$request->country:'');
-            $user->favorite_sport = (isset($request->favorite_sport)?$request->favorite_sport:'');
-            $user->high_school_attended = (isset($request->high_school_attended)?$request->high_school_attended:'');
-            $user->collage = (isset($request->collage)?$request->collage:'');
-            $user->employment_status = (isset($request->employment_status)?$request->employment_status:'');
-            $user->education = (isset($request->education)?$request->education:'');
-            $user->children = (isset($request->children)?$request->children:'');
-            $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:'');
-            $user->status = (isset($request->status)?$request->status:'');
-            if($request->file('photo_id') !=  ''){
+            $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:NULL);
+            $user->height = (isset($request->height)?$request->height:NULL);
+            $user->weight = (isset($request->weight)?$request->weight:NULL);
+            $user->build = (isset($request->build)?$request->build:NULL);
+            $user->build_other = (isset($request->build_other)?$request->build_other:NULL);
+            $user->relationship = (isset($request->relationship)?$request->relationship:NULL);
+            $user->living_arrangement = (isset($request->living_arrangement)?$request->living_arrangement:NULL);
+            $user->city = (isset($request->city)?$request->city:NULL);
+            $user->state = (isset($request->state)?$request->state:NULL);
+            $user->country = (isset($request->country)?$request->country:NULL);
+            $user->favorite_sport = (isset($request->favorite_sport)?$request->favorite_sport:NULL);
+            $user->high_school_attended = (isset($request->high_school_attended)?$request->high_school_attended:NULL);
+            $user->collage = (isset($request->collage)?$request->collage:NULL);
+            $user->employment_status = (isset($request->employment_status)?$request->employment_status:NULL);
+            $user->education = (isset($request->education)?$request->education:NULL);
+            $user->children = (isset($request->children)?$request->children:NULL);
+            $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:NULL);
+            $user->status = (isset($request->status)?$request->status:NULL);
+            if($request->file('photo_id') !=  NULL){
                 $user->photo = $profile_name;
             }
             $user->email_verify	 = ($request->email_verification == 'on')?1:2;

@@ -41,7 +41,7 @@ return [
     'college'=>'College/Université',
     'employee'=>"Statut D'emploi",
     'education'=>'Education',
-    'children'=>'Enfant',
+    'children'=>'Avez-vous des enfants?',
     'describe_perfect_date'=>'Décrivez nous une soirée parfaite',
     'gender' =>[
         '1' => 'Homme',
@@ -51,6 +51,7 @@ return [
         '1' => 'Mince',
         '2' => 'Moyen Gros',
         '3' => 'Athlète',
+        '4' => 'Autre',
     ],
     'relationship_array'=>[
         '1' => 'Célibataire',
@@ -86,4 +87,5 @@ return [
     'message'=>'Message',
     'send_now'=>'envoyer maintenant',
     'find_your_partner'=>'Trouvez votre partenaire',
+    'save'=>'enregistrer',
 ];

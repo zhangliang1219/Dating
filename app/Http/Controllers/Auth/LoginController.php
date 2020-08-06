@@ -63,7 +63,11 @@ class LoginController extends Controller
                     'success' => true,
                     'msg' => 'Login successfully',
                 ];
-                return redirect()->to('/home');
+                if(auth()->user()->id_verify == 1 && auth()->user()->email_verify == 1 && auth()->user()->phone_verify == 1){
+                    return redirect()->to('/home');
+                }else{
+                    return redirect()->to('/general/info/'.auth()->user()->id);
+                }
             }else{
                 $this->incrementLoginAttempts($request);
                 $data = ['success' => false,
