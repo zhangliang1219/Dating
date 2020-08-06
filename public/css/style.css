@@ -399,6 +399,167 @@ header{
     background: #fff;
     color: rgba(0, 0, 0, 0.35);
 }
+.profile-header {
+    box-shadow: 0 12px 46px 0 rgba(182, 14, 14, 0.05);
+}
+.profile-header .profile-header-image {
+    min-height: 300px;
+    display: flex;
+    width: 100%;
+    background-size: cover;
+    position: relative;
+}
+.profile-header .profile-header-image .edit-btn {
+    position: absolute;
+    right: 0;
+    top: 30px;
+    padding: 10px;
+    background-color: #fff;
+    color: #fa2456;
+    cursor: pointer;
+    height: 40px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    font-size: 20px;
+}
+.profile-header .profile-header-image .social-media {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+}
+.profile-header .profile-header-image .social-media a {
+    padding: 5px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    border-radius: 30px;
+    margin-left: 5px;
+    color: #fff;
+    font-size: 14px;
+}
+.profile-header .profile-header-image .social-media a.facebook {
+    background-color: #455e95;
+}
+.profile-header .profile-header-image .social-media a.twitter {
+    background-color: #38a7e1;
+}
+.profile-header .profile-header-image .social-media a.linkedin {
+    background-color: #0078b6;
+}
+.profile-header .profile-header-image .social-media a:hover {
+    text-decoration: none;
+}
+.profile-header .profile-details {
+    display: flex;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+}
+.profile-header .profile-details .profile-user {
+    display: flex;
+    padding-left: 60px;
+    align-items: center;
+}
+.profile-header .profile-details .profile-user .user-image {
+    height: 180px;
+    width: 180px;
+    overflow: hidden;
+    border-radius: 1000px;
+    border: 5px solid #fff;
+    transform: translatey(-40px);
+    position: relative;
+}
+.profile-header .profile-details .profile-user .user-image .edit-btn {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.31);
+    color: #fff;
+    font-size: 12px;
+    padding: 5px;
+    cursor: pointer;
+}
+.profile-header .profile-details .profile-user .user-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.profile-header .profile-details .profile-user .user-details {
+    margin-left: 30px;
+}
+.profile-header .profile-details .profile-user .user-details h3 {
+    font-size: 24px;
+    font-weight: 400;
+    color: #1f1f1f;
+    margin: 0 0 5px;
+}
+.profile-header .profile-details .profile-user .user-details h5 {
+    font-size: 16px;
+    color: #838383;
+    font-weight: 400;
+    margin: 0 0 10px;
+}
+.profile-header .profile-details .profile-user .user-details h6 {
+    font-size: 16px;
+    color: #fa2456;
+    font-weight: 400;
+    margin: 0 0 5px;
+}
+.profile-header .profile-details .likes {
+    margin-left: auto;
+    border-left: 1px solid #f0f0f0;
+    height: 100%;
+    padding: 30px;
+}
+.profile-header .profile-details .likes h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+.profile-header .profile-details .likes h6 {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    color: #838383;
+}
+.profile-header .images-slider {
+    padding: 0 30px 30px;
+}
+.profile-header .images-slider .swiper-slide .slider-image {
+    padding: 0px;
+}
+.profile-header .images-slider .swiper-slide .slider-image img {
+    width: 100%;
+}
+.profile-header-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    align-items: center;
+}
+.profile-header-title h3 {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+.profile-header-title button {
+    border: none;
+    background-color: transparent;
+    font-size: 24px;
+}
+.profile-header-title button:hover {
+    color: #fa2456;
+}
+
 @media screen and (max-width:768px){
     .single-user-profile{
         flex-wrap: wrap;
