@@ -1,6 +1,5 @@
 @extends('layouts.final')
 @php
-<<<<<<< HEAD
     $gender = trans('sentence.gender');
     $preferred_age = config('constant.preferred_age');
     $height = config('constant.height');
@@ -9,12 +8,6 @@
     $employment_status = trans('sentence.employment_status_array');
     $living_arrangement = trans('sentence.living_arrangement_array');
     $ethnicity = config('constant.ethnicity');
-=======
-$gender = trans('sentence.gender');
-$preferred_age = config('constant.preferred_age');
-$height = config('constant.height');
-$weight = config('constant.weight');
->>>>>>> 4c5e87d62e4e89c53c8675f2d39128aab9cc21ea
 @endphp
 @section('content')
 <div class="page-header-title">
