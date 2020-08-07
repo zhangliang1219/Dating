@@ -126,105 +126,368 @@
             </div>
         </div>
     </div>
-</div>
-<div class="container">
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header"></div>
-                <div class="card-body">
-                    @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
-                    @if (session()->has('success'))
-                    <div class="alert alert-success" role="alert">
-                        <h5>{{ session('success') }}</h5>
-                    </div>
-                    @endif
-                    <form class="form-horizontal" method="post" action="{{route('viewSearchProfile')}}"
-                        name="search_profile" id="search_profile">
-                        @csrf
-                        <div class="card-body">
-                            <div class="form-group col-4">
-                                <input type="text" name="age"  class="form-control"  placeholder="{{ trans('sentence.enter').' '.trans('sentence.age')}}">
+            <div class="profile-tabs">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Matches</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Membership</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contact1-tab" data-toggle="tab" href="#contact1" role="tab" aria-controls="contact1" aria-selected="false">Schedule Counseling</a>
+                      </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="profile-header-title">
+                            <h3>About me</h3>
+                            <button>
+                                <ion-icon name="create-outline"></ion-icon>
+                            </button>
+                        </div>
+                        <p>The Best Solution For Your Business Website. Creative & Interaction Design | Social Media Management | Software Development | Website Designing | Graphic Design | WordPress Theme | Logo Design + Branding | SEO | App Development (</p>
+                        <div class="profile-header-title">
+                            <h3>Basic general information</h3>
+                            <button>
+                                <ion-icon name="create-outline"></ion-icon>
+                            </button>
+                        </div>
+                        <div class="row user-details-table">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-6">
+                                        Gender
+                                    </div>
+                                    <div class="col-6">
+                                        Female
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Age
+                                    </div>
+                                    <div class="col-6">
+                                        22 Years old
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Country
+                                    </div>
+                                    <div class="col-6">
+                                        France
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        City
+                                    </div>
+                                    <div class="col-6">
+                                        Paris
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Birthday
+                                    </div>
+                                    <div class="col-6">
+                                        15 July 1997
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Relationship
+                                    </div>
+                                    <div class="col-6">
+                                        Single
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Height
+                                    </div>
+                                    <div class="col-6">
+                                        5.7
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Weight
+                                    </div>
+                                    <div class="col-6">
+                                        56
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group col-4">
-                                <select name="height" class="form-control" >
-                                    <option value="">{{ trans('sentence.height')}}</option>
-                                    @foreach($height as $key => $val)
-                                        <option value="{{$key}}">{{$val}}</option>
-                                    @endforeach
-                                </select> 
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="weight" class="form-control" >
-                                    <option value="">{{ trans('sentence.weight')}}</option>
-                                    @foreach($weight as $key => $val)
-                                        <option value="{{$key}}">{{$val}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-4">
-                                <input type="text" name="city"  class="form-control" placeholder="{{ trans('sentence.enter').' '.trans('sentence.city')}}">
-                            </div>
-                            <div class="form-group col-4">
-                                <input type="text"   id="state" name="state" class="form-control"   placeholder="{{ trans('sentence.enter').' '.trans('sentence.state')}}">
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="country" class="form-control" >
-                                    <option value="">{{ trans('sentence.country')}}</option>
-                                    @foreach($country as $key => $val)
-                                    <option value="{{$val->id}}">{{$val->country_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="education" class="form-control">
-                                    <option value="">{{trans('sentence.education')}}</option>
-                                    @foreach($education as $key => $val)
-                                        <option value="{{$key}}" >{{$val}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="employment_status" class="form-control" >
-                                    <option value="">{{trans('sentence.employee')}}</option>
-                                    @foreach($employment_status as $key => $val)
-                                        <option value="{{$key}}">{{$val}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="ethnicity" class="form-control" id="ethnicity">
-                                    <option value="">{{trans('sentence.ethnicity')}}</option>
-                                    @foreach($ethnicity as $key => $val)
-                                    <option value="{{$key}}" >{{$val}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-4">
-                                <select name="living_arrangement" class="form-control">
-                                    <option value="">{{trans('sentence.living_arrangement')}}</option>
-                                    @foreach($living_arrangement as $key => $val)
-                                        <option value="{{$key}}" >{{$val}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary" name="profile_search">
-                                    {{ trans('sentence.find_your_partner')}}
-                                </button>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-6">
+                                        Gender
+                                    </div>
+                                    <div class="col-6">
+                                        Female
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Age
+                                    </div>
+                                    <div class="col-6">
+                                        22 Years old
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Country
+                                    </div>
+                                    <div class="col-6">
+                                        France
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        City
+                                    </div>
+                                    <div class="col-6">
+                                        Paris
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Birthday
+                                    </div>
+                                    <div class="col-6">
+                                        15 July 1997
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Relationship
+                                    </div>
+                                    <div class="col-6">
+                                        Single
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Height
+                                    </div>
+                                    <div class="col-6">
+                                        5.7
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Weight
+                                    </div>
+                                    <div class="col-6">
+                                        56
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="users-listing-card">
+                                    <a class="link-profile" href="#"></a>
+                                    <div class="image-section">
+                                        <div class="user-img">
+                                            <img src="{{ asset('images/profile-default.jpg')}}" alt="">
+                                        </div>
+                                        <div class="age-group">
+                                            33 year old Woman
+                                        </div>
+                                        <div class="online"></div>
+                                    </div>
+                                    <div class="details-section">
+                                        <h3>Sarika Parmar</h3>
+                                        <h4>Bilaspur, India</h4>
+                                        <h5>85% Match</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="users-listing-card">
+                                    <a class="link-profile" href="#"></a>
+                                    <div class="image-section">
+                                        <div class="user-img">
+                                            <img src="{{ asset('images/profile-default.jpg')}}" alt="">
+                                        </div>
+                                        <div class="age-group">
+                                            33 year old Woman
+                                        </div>
+                                        <div class="online"></div>
+                                    </div>
+                                    <div class="details-section">
+                                        <h3>Sarika Parmar</h3>
+                                        <h4>Bilaspur, India</h4>
+                                        <h5>85% Match</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="users-listing-card">
+                                    <a class="link-profile" href="#"></a>
+                                    <div class="image-section">
+                                        <div class="user-img">
+                                            <img src="{{ asset('images/profile-default.jpg')}}" alt="">
+                                        </div>
+                                        <div class="age-group">
+                                            33 year old Woman
+                                        </div>
+                                        <div class="online"></div>
+                                    </div>
+                                    <div class="details-section">
+                                        <h3>Sarika Parmar</h3>
+                                        <h4>Bilaspur, India</h4>
+                                        <h5>85% Match</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="users-listing-card">
+                                    <a class="link-profile" href="#"></a>
+                                    <div class="image-section">
+                                        <div class="user-img">
+                                            <img src="{{ asset('images/profile-default.jpg')}}" alt="">
+                                        </div>
+                                        <div class="age-group">
+                                            33 year old Woman
+                                        </div>
+                                        <div class="online"></div>
+                                    </div>
+                                    <div class="details-section">
+                                        <h3>Sarika Parmar</h3>
+                                        <h4>Bilaspur, India</h4>
+                                        <h5>85% Match</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pagination-container">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                        <ion-icon name="arrow-back-outline"></ion-icon>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">
+                                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                    <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact1-tab">...</div>
+                  </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="custom-card">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
+                @endif
+                @if (session()->has('success'))
+                <div class="alert alert-success" role="alert">
+                    <h5>{{ session('success') }}</h5>
+                </div>
+                @endif
+                <form class="form-horizontal" method="post" action="{{route('viewSearchProfile')}}"
+                    name="search_profile" id="search_profile">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group">
+                            <input type="text" name="age"  class="form-control"  placeholder="{{ trans('sentence.enter').' '.trans('sentence.age')}}">
+                        </div>
+                        <div class="form-group">
+                            <select name="height" class="form-control" >
+                                <option value="">{{ trans('sentence.height')}}</option>
+                                @foreach($height as $key => $val)
+                                    <option value="{{$key}}">{{$val}}</option>
+                                @endforeach
+                            </select> 
+                        </div>
+                        <div class="form-group">
+                            <select name="weight" class="form-control" >
+                                <option value="">{{ trans('sentence.weight')}}</option>
+                                @foreach($weight as $key => $val)
+                                    <option value="{{$key}}">{{$val}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="city"  class="form-control" placeholder="{{ trans('sentence.enter').' '.trans('sentence.city')}}">
+                        </div>
+                        <div class="form-group">
+                            <input type="text"   id="state" name="state" class="form-control"   placeholder="{{ trans('sentence.enter').' '.trans('sentence.state')}}">
+                        </div>
+                        <div class="form-group">
+                            <select name="country" class="form-control" >
+                                <option value="">{{ trans('sentence.country')}}</option>
+                                @foreach($country as $key => $val)
+                                <option value="{{$val->id}}">{{$val->country_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select name="education" class="form-control">
+                                <option value="">{{trans('sentence.education')}}</option>
+                                @foreach($education as $key => $val)
+                                    <option value="{{$key}}" >{{$val}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select name="employment_status" class="form-control" >
+                                <option value="">{{trans('sentence.employee')}}</option>
+                                @foreach($employment_status as $key => $val)
+                                    <option value="{{$key}}">{{$val}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select name="ethnicity" class="form-control" id="ethnicity">
+                                <option value="">{{trans('sentence.ethnicity')}}</option>
+                                @foreach($ethnicity as $key => $val)
+                                <option value="{{$key}}" >{{$val}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select name="living_arrangement" class="form-control">
+                                <option value="">{{trans('sentence.living_arrangement')}}</option>
+                                @foreach($living_arrangement as $key => $val)
+                                    <option value="{{$key}}" >{{$val}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    <div class="form-group mb-0">
+                        <button type="submit" class="btn btn-primary" name="profile_search">
+                            {{ trans('sentence.find_your_partner')}}
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

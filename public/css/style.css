@@ -559,7 +559,54 @@ header{
 .profile-header-title button:hover {
     color: #fa2456;
 }
-
+.profile-tabs {
+    box-shadow: 0 12px 46px 0 rgba(182, 14, 14, 0.05);
+    margin-top: 30px;
+}
+.profile-tabs .nav-tabs {
+    padding-left: 20px;
+}
+.profile-tabs .nav-tabs .nav-item {
+    margin: 0 20px;
+}
+.profile-tabs .nav-tabs .nav-item .nav-link {
+    color: #000;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 0;
+}
+.profile-tabs .nav-tabs .nav-item .nav-link.active,
+.profile-tabs .nav-tabs .nav-item .nav-link:hover {
+    border: none;
+    border-bottom: 2px solid #fa2456;
+    color: #fa2456;
+    background-color: transparent;
+}
+.profile-tabs .tab-content {
+    padding: 30px;
+}
+.profile-tabs .tab-content .profile-header-title {
+    padding: 0;
+    margin-bottom: 20px;
+}
+.profile-tabs .tab-content p {
+    color: #838383;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 26px;
+}
+.profile-tabs .tab-content .user-details-table .row {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 26px;
+}
+.profile-tabs .tab-content .user-details-table .row .col-6:first-child {
+    color: #838383;
+}
+.custom-card {
+    box-shadow: 0 12px 46px 0 rgba(182, 14, 14, 0.05);
+    margin-top: 30px;
+}
 @media screen and (max-width:768px){
     .single-user-profile{
         flex-wrap: wrap;
