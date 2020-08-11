@@ -41,6 +41,10 @@ Route::get('general/info/{id}', 'ProfileController@generalProfileInfo')->name('g
 Route::post('general/info/store', 'ProfileController@generalProfileInfoStore')->name('generalProfileInfoStore');
 Route::match(['get','post'],'search/profile', 'ProfileController@viewSearchProfile')->name('viewSearchProfile');
 Route::get('match/profile', 'ProfileController@matchedProfile')->name('matchedProfile');
+Route::post('profile/banner/upload', 'ProfileController@profileBannerUpload')->name('profileBannerUpload');
+Route::post('profile/aboutMe/store', 'ProfileController@profileAboutMeUpload')->name('profileAboutMeUpload');
+
+
 
 //My profile route
 Route::get('user/profile/{id}', 'ProfileController@userProfile')->name('userProfile');
@@ -79,6 +83,10 @@ Route::group(['before' => 'auth','prefix' => 'admin'], function(){
     Route::get('subscription/period/{rowNum}/{currency_id}','Admin\SubscriptionController@subscriptionPeriod')->name('subscriptionPeriod');
     Route::post('subscription/update/{id}','Admin\SubscriptionController@updateSubscription')->name('updateSubscription');
     Route::delete('subscription/price/delete','Admin\SubscriptionController@deleteSubscriptionPrice')->name('deleteSubscriptionPrice');
+    
+    //General Setting
+    Route::get('setting/userInfo/privacy', 'Admin\SettingController@userInfoPrivacyView')->name('userInfoPrivacyView');
+    Route::post('setting/userInfo/privacy/store', 'Admin\SettingController@storeUserInfoPrivacy')->name('storeUserInfoPrivacy');
 });
 Auth::routes();
 

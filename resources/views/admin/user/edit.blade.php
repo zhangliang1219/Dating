@@ -162,13 +162,6 @@
                                     @endif
                                 </div>
                                 <div class="form-group col-4">
-                                    <label for="age" >Age</label>
-                                    <input type="text" class="form-control" id="age" name="age" placeholder="Enter age"  value="{{old('age')!=''?old('age'):$user->age}}">
-                                    @if ($errors->has('age'))
-                                        <div class="error">{{ $errors->first('age') }}</div>
-                                    @endif
-                                </div>
-                                <div class="form-group col-4">
                                     <label for="height" >Height</label>
                                     <select name="height" class="form-control">
                                         <option value="">Select Height</option>

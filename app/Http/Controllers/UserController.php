@@ -28,8 +28,6 @@ class UserController  extends Controller
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'dob' => 'required',
-            'phoneNumber' => 'required',
-            'age' => 'required|numeric|max:80|min:18',
             'gender' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|string',
@@ -48,22 +46,27 @@ class UserController  extends Controller
             $destinationPath = public_path('/images/profile');
             $profile_photo->move($destinationPath, $profile_name);
         }
-            $password = $request->password;
-            $user = new User();
-            $user->first_name = $request->first_name;
-            $user->last_name = $request->last_name;
-            $user->name = ($request->first_name.' '.$request->last_name);
-            $user->dob = $request->dob;
-            $user->age = $request->age;
-            $user->gender = $request->gender;
-            $user->phone = $request->phoneNumber;
-            $user->email = $request->email;
-            $user->password = Hash::make($password);
-            $user->photo = $profile_name;
-            $user->is_admin = 0;
-            $user->status = 1;
-            $user->normal_login = 1;
-            $user->save();
+        
+        $now = time();
+        $dob = strtotime($request->dob);
+        $difference = $now - $dob;
+        $age = floor($difference / 31556926);
+
+        $password = $request->password;
+        $user = new User();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->name = ($request->first_name.' '.$request->last_name);
+        $user->dob = $request->dob;
+        $user->age = $age;
+        $user->gender = $request->gender;
+        $user->email = $request->email;
+        $user->password = Hash::make($password);
+        $user->photo = $profile_name;
+        $user->is_admin = 0;
+        $user->status = 1;
+        $user->normal_login = 1;
+        $user->save();
             
         Mail::to($user->email)->send(new WelcomeMail($user, request()->get('password')));
         return redirect('/register')->with('success','Please check your email to activate your account.');

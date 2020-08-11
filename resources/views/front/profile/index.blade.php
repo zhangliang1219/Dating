@@ -9,6 +9,7 @@
     $living_arrangement = trans('sentence.living_arrangement_array');
     $ethnicity = config('constant.ethnicity');
 @endphp
+
 @section('content')
 <div class="page-header-title">
     <div class="header-background"></div>
@@ -28,26 +29,27 @@
 </div>
 <div class="container">
     <div class="profile-header">
-        <div class="profile-header-image" style="background-image:url('{{ asset('images/profile-default.jpg')}}')">
-            <div class="edit-btn">
-                <ion-icon name="create-outline"></ion-icon>
+            <div class="profile-header-image" style="background-image:url('{{ isset($userInfo->profile_banner)?asset('images/profile_banner/'.$userInfo->profile_banner):asset('images/profile-default.jpg')}}')">
+                <input type="file" name="user-banner-img" class="user-banner-img" style="display:none;" id="user-banner-img" accept='image/*'>
+                <div class="edit-btn edit-user-banner">
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+                <div class="social-media">
+                    <a class="facebook" href="">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="twitter" href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="linkedin" href="">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
             </div>
-            <div class="social-media">
-                <a class="facebook" href="">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a class="twitter" href="">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a class="linkedin" href="">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-            </div>
-        </div>
         <div class="profile-details">
             <div class="profile-user">
                 <div class="user-image">
-                    <img src="{{ asset('images/profile-default.jpg')}}" alt="">
+                        <img src="{{ asset('images/profile-default.jpg')}}" alt="">
                     <div class="edit-btn">Edit</div>
                 </div>
                 <div class="user-details">
@@ -145,13 +147,24 @@
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="profile-header-title">
-                            <h3>About me</h3>
-                            <button>
-                                <ion-icon name="create-outline"></ion-icon>
-                            </button>
+                        <div class='about_me'>
+                            <div class="profile-header-title">
+                                <h3>About me</h3>
+                                <button id="about_me_edit">
+                                    <ion-icon name="create-outline"></ion-icon>
+                                </button>
+                            </div>
+                            <div class="profile_about_me_wrap"  style="display: none">
+                                    <form method="POST" action="{{route('profileAboutMeUpload')}}" name="about_me_form">
+                                    @csrf
+                                    <textarea name="profile_about_me_txt" id="profile_about_me_txt" class="profile_about_me_txt" rows="5" cols="80">
+                                    </textarea>
+                                    <button type="button" value="about_me_submit" class="btn btn-primary" >Submit</button> 
+                                </form>
+                            </div>
+                            <p class="profile_about_me_text">The Best Solution For Your Business Website. Creative & Interaction Design | Social Media Management | Software Development | Website Designing | Graphic Design | WordPress Theme | Logo Design + Branding | SEO | App Development (</p>
+                                    <br>
                         </div>
-                        <p>The Best Solution For Your Business Website. Creative & Interaction Design | Social Media Management | Software Development | Website Designing | Graphic Design | WordPress Theme | Logo Design + Branding | SEO | App Development (</p>
                         <div class="profile-header-title">
                             <h3>Basic general information</h3>
                             <button>
@@ -494,5 +507,6 @@
 </div>
 @endsection
 @section('javascript')
-<script src="{{ asset('js/front_contact_us.js') }}"></script>
+<script src="{{ asset('js/front_profile.js') }}"></script>
+<script src="{{ asset('js/dropzone.js') }}"></script>
 @endsection

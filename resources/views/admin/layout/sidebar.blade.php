@@ -48,6 +48,23 @@
                   </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{route('subscriptionListing')}}" class="nav-link">
+                  <i class="nav-icon fa fa-cog" aria-hidden="true"></i>
+                  <p>
+                    General Settings
+                  </p>
+                  <i class="right fas fa-angle-left"></i>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                      <a href="{{route('userInfoPrivacyView')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>User Info Privacy</p>
+                      </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

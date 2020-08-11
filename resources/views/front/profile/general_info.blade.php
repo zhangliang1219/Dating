@@ -11,6 +11,7 @@
     $employment_status = trans('sentence.employment_status_array');
     $education = trans('sentence.education_array');
     $children = trans('sentence.children_array');
+    $user_info_privacy = trans('sentence.user_info_privacy');
 @endphp
 
 @section('content')
@@ -84,33 +85,34 @@
                         
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="height" >{{trans('sentence.height')}}</label>
-                                <select name="height" class="form-control">
-                                    <option value=""></option>
-                                    @foreach($height as $key => $val)
-                                        <option value="{{$key}}" {{old('height') == $key?'selected':''}}>{{$val}}</option>
-                                    @endforeach
-                                </select>
+                                <label for="phoneNumber">{{ trans('sentence.phone_number')}}
+                                    @if(in_array(1,$userPrivacySetting))
+                                        <select name="user_info_privacy[1]" class="phone_number_privacy user_info_privacy">
+                                            <option></option>
+                                            @foreach($user_info_privacy as $key => $val)
+                                                <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                </label>
+                                <input type="text" class="form-control" id="phoneNumber" placeholder="{{ trans('sentence.enter').' '.trans('sentence.phone_number')}}" name="phoneNumber" value="{{old('phoneNumber')}}">
                             </div>
+                            @error('phoneNumber')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                             <div class="form-group col-6">
-                                <label for="weight" >{{trans('sentence.weight')}}</label>
-                                <select name="weight" class="form-control">
-                                    <option value=""></option>
-                                    @foreach($weight as $key => $val)
-                                        <option value="{{$key}}" {{old('weight') == $key?'selected':''}}>{{$val}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-6">
-                                <label for="describe_perfect_date" >{{trans('sentence.describe_perfect_date')}}</label>
-                                <input type="text" value="{{old('describe_perfect_date')}}" name="describe_perfect_date" class="form-control"
-                                         placeholder="{{ trans('sentence.enter').' '.trans('sentence.describe_perfect_date')}}" id="describe_perfect_date">
-                            </div>
-                            
-                            <div class="form-group col-6">
-                                <label for="relationship" >{{trans('sentence.relationship')}}</label>
+                                <label for="relationship" >{{trans('sentence.relationship')}}
+                                    @if(in_array(2,$userPrivacySetting))
+                                    <select name="user_info_privacy[2]" class="relationship_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <select name="relationship" class="form-control">
                                     <option value=""></option>
                                     @foreach($relationship as $key => $val)
@@ -126,7 +128,54 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="living_arrangement" >{{trans('sentence.living_arrangement')}}</label>
+                                <label for="height" >{{trans('sentence.height')}}
+                                @if(in_array(3,$userPrivacySetting))
+                                <select name="user_info_privacy[3]" class="height_privacy user_info_privacy">
+                                    <option></option>
+                                    @foreach($user_info_privacy as $key => $val)
+                                    <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                                @endif
+                                </label>
+                                <select name="height" class="form-control">
+                                    <option value=""></option>
+                                    @foreach($height as $key => $val)
+                                        <option value="{{$key}}" {{old('height') == $key?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="weight" >{{trans('sentence.weight')}}
+                                    @if(in_array(4,$userPrivacySetting))
+                                    <select name="user_info_privacy[4]" class="weight_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
+                                <select name="weight" class="form-control">
+                                    <option value=""></option>
+                                    @foreach($weight as $key => $val)
+                                        <option value="{{$key}}" {{old('weight') == $key?'selected':''}}>{{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="living_arrangement" >{{trans('sentence.living_arrangement')}}
+                                    @if(in_array(5,$userPrivacySetting))
+                                    <select name="user_info_privacy[5]" class="living_arrangement_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <select name="living_arrangement" class="form-control">
                                     <option value=""></option>
                                     @foreach($living_arrangement as $key => $val)
@@ -135,18 +184,45 @@
                                 </select>
                             </div>
                             <div class="form-group col-6">
-                                <label for="city" >{{trans('sentence.city')}}</label>
+                                <label for="city" >{{trans('sentence.city')}}
+                                    @if(in_array(6,$userPrivacySetting))
+                                    <select name="user_info_privacy[6]" class="city_arrangement_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <input type="text" value="{{old('city')}}" id="city" name="city" class="form-control"  placeholder="{{ trans('sentence.enter').' '.trans('sentence.city')}}">
                                
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="state" >{{trans('sentence.state')}}</label>
+                                <label for="state" >{{trans('sentence.state')}}
+                                    @if(in_array(7,$userPrivacySetting))
+                                    <select name="user_info_privacy[7]" class="state_arrangement_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <input type="text" value="{{old('state')}}" id="state" name="state" class="form-control"   placeholder="{{ trans('sentence.enter').' '.trans('sentence.state')}}">
                             </div>
                             <div class="form-group col-6">
-                                <label for="country" >{{trans('sentence.country')}}</label>
+                                <label for="country" >{{trans('sentence.country')}}
+                                    @if(in_array(8,$userPrivacySetting))
+                                    <select name="user_info_privacy[8]" class="country_arrangement_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <select name="country" class="form-control">
                                     <option value=""></option>
                                     @foreach($country as $key => $val)
@@ -157,23 +233,59 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="favorite_sport" >{{trans('sentence.favorite_sport')}}</label>
+                                <label for="favorite_sport" >{{trans('sentence.favorite_sport')}}
+                                    @if(in_array(9,$userPrivacySetting))
+                                    <select name="user_info_privacy[9]" class="favorite_sport_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <input type="text" value="{{old('favorite_sport')}}" name="favorite_sport" class="form-control"   placeholder="{{ trans('sentence.enter').' '.trans('sentence.favorite_sport')}}">
                             </div>
                             <div class="form-group col-6">
-                                <label for="high_school_attended" >{{trans('sentence.high_school_attended')}}</label>
+                                <label for="high_school_attended" >{{trans('sentence.high_school_attended')}}
+                                    @if(in_array(10,$userPrivacySetting))
+                                    <select name="user_info_privacy[10]" class="high_school_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <input type="text"  name="high_school_attended" class="form-control" value="{{old('high_school_attended')}}"
                                          placeholder="{{ trans('sentence.enter').' '.trans('sentence.high_school_attended')}}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="collage" >{{trans('sentence.college')}}</label>
+                                <label for="collage" >{{trans('sentence.college')}}
+                                    @if(in_array(11,$userPrivacySetting))
+                                    <select name="user_info_privacy[11]" class="college_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <input type="text" value="{{old('collage')}}" name="collage" class="form-control" 
                                          placeholder="{{ trans('sentence.enter').' '.trans('sentence.college')}}">
                             </div>
                             <div class="form-group col-6">
-                                <label for="employment_status" >{{trans('sentence.employee')}}</label>
+                                <label for="employment_status" >{{trans('sentence.employee')}}
+                                    @if(in_array(12,$userPrivacySetting))
+                                    <select name="user_info_privacy[12]" class="employment_status_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <select name="employment_status" class="form-control" >
                                     <option value=""></option>
                                     @foreach($employment_status as $key => $val)
@@ -184,7 +296,16 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="education" >{{trans('sentence.education')}}</label>
+                                <label for="education" >{{trans('sentence.education')}}
+                                    @if(in_array(13,$userPrivacySetting))
+                                    <select name="user_info_privacy[13]" class="education_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <select name="education" class="form-control">
                                     <option value=""></option>
                                     @foreach($education as $key => $val)
@@ -193,7 +314,16 @@
                                 </select>
                             </div>
                             <div class="form-group col-6">
-                                <label for="children" >{{trans('sentence.children')}}</label>
+                                <label for="children" >{{trans('sentence.children')}}
+                                    @if(in_array(14,$userPrivacySetting))
+                                    <select name="user_info_privacy[14]" class="children_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <select name="children" class="form-control">
                                     <option value=""></option>
                                     @foreach($children as $key => $val)
@@ -203,8 +333,34 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="form-group col-12">
+                                <label for="describe_perfect_date" >{{trans('sentence.describe_perfect_date')}}
+                                    @if(in_array(15,$userPrivacySetting))
+                                    <select name="user_info_privacy[15]" class="describe_perfect_date_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
+                                <textarea  row="2" col="2" name="describe_perfect_date" class="form-control"
+                                         placeholder="{{ trans('sentence.enter').' '.trans('sentence.describe_perfect_date')}}" id="describe_perfect_date"></textarea>
+                                
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-6">
-                                <label for="ethnicity" >{{trans('sentence.ethnicity')}}</label>
+                                <label for="ethnicity" >{{trans('sentence.ethnicity')}}
+                                    @if(in_array(16,$userPrivacySetting))
+                                    <select name="user_info_privacy[16]" class="ethnicity_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                    @endif
+                                </label>
                                 <select name="ethnicity" class="form-control" id="ethnicity">
                                     <option value=""></option>
                                     @foreach($ethnicity as $key => $val)
@@ -218,7 +374,16 @@
                                 @enderror
                             </div>
                             <div class="form-group col-6">
-                                <label for="build" >{{trans('sentence.build')}}</label>
+                                <label for="build" >{{trans('sentence.build')}}
+                                @if(in_array(17,$userPrivacySetting))
+                                    <select name="user_info_privacy[17]" class="build_privacy user_info_privacy">
+                                        <option></option>
+                                        @foreach($user_info_privacy as $key => $val)
+                                        <option value="{{$key}}" {{$key == 2 ?'selected':''}}>{{$val}}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                                </label>
                                 <select name="build" class="build form-control" id="build">
                                     <option value=""></option>
                                     @foreach($build as $key => $val)

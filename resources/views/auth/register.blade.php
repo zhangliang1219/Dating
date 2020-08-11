@@ -82,15 +82,6 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="phoneNumber">{{ trans('sentence.phone_number')}}</label>
-                                <input type="text" class="form-control" id="phoneNumber" placeholder="{{ trans('sentence.enter').' '.trans('sentence.phone_number')}}" name="phoneNumber" value="{{old('phoneNumber')}}">
-                            </div>
-                            @error('phoneNumber')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            <div class="form-group col-6">
                                 <label>{{trans('sentence.photo_id')}}</label>
                                 <div class="input-group">
                                   <div class="custom-file">
@@ -98,15 +89,6 @@
                                     <label class="custom-file-label" for="photo_id"  id="uploadedFileName">Choose file</label>
                                   </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-6">
-                                <label for="age" >{{trans('sentence.age')}}</label>
-                                <input type="text" class="form-control" id="age" name="age" placeholder="{{ trans('sentence.enter').' '.trans('sentence.age')}}">
-                                @if ($errors->has('age'))
-                                    <div class="error">{{ $errors->first('age') }}</div>
-                                @endif
                             </div>
                             <div class="form-group col-6">
                                 <label for="age" >{{trans('sentence.your_gender')}}</label>

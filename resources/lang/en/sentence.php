@@ -88,4 +88,8 @@ return [
    'send_now'=>'Send Now',
    'find_your_partner'=>'Find Your Partner',
    'save'=>'Save',
+    'user_info_privacy' =>[
+        '1'=> 'Private',
+        '2'=> 'Public',
+    ],
 ];

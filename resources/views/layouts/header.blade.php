@@ -22,6 +22,14 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <link href="{{ asset('css/custome.css?'.time()) }}" rel="stylesheet">
     <link href="{{ asset('css/style.css?'.time()) }}" rel="stylesheet">
-    
+    <script>
+        var backendUrl ='{{url(config('constant.backend'))}}';
+        function getsiteurl()
+        {
+          var BASE_URL = {!! json_encode(url('/')) !!}
+
+          return BASE_URL;
+        }
+    </script>
 @yield('css')
 </head>

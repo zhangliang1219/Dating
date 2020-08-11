@@ -14,3 +14,5 @@
 .subscription_price_html  {display:inline-flex; }
 #ad_start_date-error,#ad_expiration_date-error{display: inline;}
 .swipe_with_like_dislike_wrap{display: inline-flex;}
+.dz-default{width: 100%;height: auto;text-align: center;}
+.dz-button{border: none;background-color: transparent;margin: 5em 0;font-size: 25px;}

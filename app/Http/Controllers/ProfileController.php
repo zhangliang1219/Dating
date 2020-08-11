@@ -16,19 +16,23 @@ use App\SocialIdentity;
 use App\Country;
 use Illuminate\Support\Facades\Redirect;
 use App\SearchHistory;
+use App\UserPrivacySetting;
+use App\UserInfoPrivacy;
+use App\UserInfo;
 
 class ProfileController  extends Controller
 {
-  public function profileInfo() {
+    public function profileInfo() {
     if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
         $country = Country::all();
-        return view('front.profile.index',compact('country')); 
+        $userInfo = UserInfo::where('user_id',Auth::user()->id)->first();
+        return view('front.profile.index',compact('country','userInfo')); 
     }else{
         return redirect()->to('/general/info/'.Auth::user()->id);
     }
   }
   
-  public function userProfile(Request $request,$id) {
+    public function userProfile(Request $request,$id) {
     if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
         $userInfo = User::with('countryData')->where('users.id',$id)->first();
         return view('front.profile.user_profile',compact('userInfo'));
@@ -37,7 +41,7 @@ class ProfileController  extends Controller
     }
   }
   
-  public function viewSearchProfile(Request $request){
+    public function viewSearchProfile(Request $request){
         if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
             $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
             $page_limit = 2;
@@ -134,10 +138,12 @@ class ProfileController  extends Controller
         }
          
     }
+    
     public function generalProfileInfo(Request $request,$id){
-        if(Auth::user() && Auth::user()->email_verify == 1 && Auth::user()->id_verify != 1 && Auth::user()->phone_verify != 1){
+        if(Auth::user() && Auth::user()->email_verify == 1 && Auth::user()->id_verify != 1 && Auth::user()->phone_verify != 1 ){
             $country = Country::all();
-            return view('front.profile.general_info',compact('country')); 
+            $userPrivacySetting = UserPrivacySetting::where('privacy_option',1)->pluck('field_id')->toArray();
+            return view('front.profile.general_info',compact('country','userPrivacySetting')); 
         }else{
            Session::flash('error', 'You do not have permission to perform this action!');
            return Redirect::to('/'); 
@@ -147,6 +153,7 @@ class ProfileController  extends Controller
     public function generalProfileInfoStore(Request $request) {
         $validator =  Validator::make($request->all(), [
             'wish_to_meet'   => 'required',
+            'phoneNumber' => 'required',
             'ethnicity'=> 'required',
             'relationship'=> 'required',
             'describe_perfect_date'=>'max: 1000',  
@@ -156,7 +163,9 @@ class ProfileController  extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
+        
         $user = User::find($request->user_id);
+        $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:NULL);
         $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
         $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):NULL);
         $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):NULL);
@@ -180,6 +189,36 @@ class ProfileController  extends Controller
         $user->children = (isset($request->children)?$request->children:NULL);
         $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:NULL);
         $user->save();
+        
+        if(isset($request->user_info_privacy) && count($request->user_info_privacy)>0){
+            foreach($request->user_info_privacy as $key => $val){
+                UserInfoPrivacy::where('user_id',$user->id)->where('field_id',$key)->where('privacy_option',$val)->delete();
+                $userInfoPrivacy = new UserInfoPrivacy();
+                $userInfoPrivacy->user_id = $user->id;
+                $userInfoPrivacy->field_id =  $key;
+                $userInfoPrivacy->privacy_option =  $val;
+                $userInfoPrivacy->save();
+            }
+        }
         return redirect('/home')->with('success','Your Profile Info saved successfully.');
+    }
+    
+    public function profileBannerUpload(Request $request) {
+        if($request->file !=  ''){
+            $profile_photo = $request->file;
+            $profile_name = time().'.'.$profile_photo->getClientOriginalExtension();
+            $destinationPath = public_path('/images/profile_banner');
+            $profile_photo->move($destinationPath, $profile_name);
+            
+            $userInfo = UserInfo::where('user_id',Auth::user()->id)->first();
+            if($userInfo === null){
+                $userInfo = new UserInfo();
+            }else{
+                unlink( $destinationPath.'/'.$userInfo->profile_banner );
+            }
+            $userInfo->user_id = Auth::user()->id;
+            $userInfo->profile_banner = $profile_name;
+            $userInfo->save();
+        }
     }
 }

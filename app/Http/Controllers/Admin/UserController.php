@@ -122,7 +122,6 @@ class UserController  extends Controller
                 'last_name' => 'required|string',
                 'dob' => 'required',
                 'phoneNumber' => 'required',
-                'age' => 'required|numeric|max:80|min:18',
                 'gender' => 'required',  
                 'email' => 'required|email|unique:users,email,'.$id, 
 //                'wish_to_meet'   => 'required',
@@ -146,8 +145,14 @@ class UserController  extends Controller
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->name = ($request->first_name.' '.$request->last_name);
+            if(strtotime($user->dob) != strtotime($request->dob)){
+                $now = time();
+                $dob = strtotime($request->dob);
+                $difference = $now - $dob;
+                $age = floor($difference / 31556926);
+                $user->age = $age;
+            }
             $user->dob = $request->dob;
-            $user->age = $request->age;
             $user->gender = $request->gender;
             $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
             $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):NULL);

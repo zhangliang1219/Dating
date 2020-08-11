@@ -5,9 +5,7 @@
             'last_name': {required:true},         
             'dob': {required:true},         
             'email': {required:true,email: true},         
-            'password': {required:true},     
-            'phoneNumber' : {required:true},   
-            'age' : {required:true,min: 18,max:80, number: true},   
+            'password': {required:true},      
             'gender' : {required:true},   
             'password_confirmation': {required:true,equalTo: "#password"},         
         },
@@ -17,7 +15,8 @@
     });
     $("#general_info_form").validate({
         rules: {
-            'wish_to_meet': {required:true},         
+            'wish_to_meet': {required:true}, 
+            'phoneNumber' : {required:true},          
             'ethnicity': {required:true},         
             'relationship': {required:true},         
             'describe_perfect_date': {maxlength: 1000},         
