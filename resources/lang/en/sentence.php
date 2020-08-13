@@ -87,6 +87,7 @@ return [
    'message'=>'Message',
    'send_now'=>'Send Now',
    'find_your_partner'=>'Find Your Partner',
+   'birthday'=>'Birthday',
    'save'=>'Save',
     'user_info_privacy' =>[
         '1'=> 'Private',

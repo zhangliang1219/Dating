@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-6">
-                                <label for="age" >{{trans('sentence.your_gender')}}</label>
+                                <label for="gender" >{{trans('sentence.your_gender')}}</label>
                                 <select name="gender" class="form-control">
                                     <option value="">{{ trans('sentence.select').' '.trans('sentence.your_gender')}}</option>
                                     @foreach($gender as $key => $val)

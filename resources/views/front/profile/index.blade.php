@@ -1,13 +1,18 @@
 @extends('layouts.final')
 @php
     $gender = trans('sentence.gender');
+    $state = trans('sentence.state');
     $preferred_age = config('constant.preferred_age');
+    $ethnicity = config('constant.ethnicity');
     $height = config('constant.height');
     $weight = config('constant.weight');
-    $education = trans('sentence.education_array');
-    $employment_status = trans('sentence.employment_status_array');
+    $build = trans('sentence.build_array');
+    $relationship =  trans('sentence.relationship_array');
     $living_arrangement = trans('sentence.living_arrangement_array');
-    $ethnicity = config('constant.ethnicity');
+    $employment_status = trans('sentence.employment_status_array');
+    $education = trans('sentence.education_array');
+    $children = trans('sentence.children_array');
+    $user_info_privacy = trans('sentence.user_info_privacy');
 @endphp
 
 @section('content')
@@ -49,13 +54,14 @@
         <div class="profile-details">
             <div class="profile-user">
                 <div class="user-image">
-                        <img src="{{ asset('images/profile-default.jpg')}}" alt="">
-                    <div class="edit-btn">Edit</div>
+                        <img src="{{isset($user->photo)? asset('images/profile/'.$user->photo):asset('images/profile-default.jpg')}}" alt="" id="profile_img">
+                        <input type="file" name="user-profile-img" class="user-profile-img" style="display:none;" id="user-profile-img" accept='image/*'>
+                    <div class="edit-btn" id="editUserProfile">Edit</div>
                 </div>
                 <div class="user-details">
-                    <h3>Sarika Parmar</h3>
-                    <h5>33 year old Woman</h5>
-                    <h6><i class="fas fa-map-marker-alt"></i> Tokyo, Japan</h6>
+                    <h3>{{(Auth::user()?Auth::user()->first_name.' '.Auth::user()->last_name:'')}}</h3>
+                    <h5>{{Auth::user()?Auth::user()->age:''}} year old {{Auth::user()?$gender[Auth::user()->gender]:''}}</h5>
+                    <h6><i class="fas fa-map-marker-alt"></i> {{Auth::user()?(Auth::user()->city.(Auth::user()->country != ''?', '.$country[Auth::user()->country]->country_name:'')):''}}</h6>
                 </div>
             </div>
             <div class="likes">
@@ -69,6 +75,9 @@
                 <button>
                     <ion-icon name="create-outline"></ion-icon>
                 </button>
+            </div>
+            <div>
+                
             </div>
             <div class="images-slider">
                 <div class="swiper-container swiper-container-1">
@@ -157,17 +166,17 @@
                             <div class="profile_about_me_wrap"  style="display: none">
                                     <form method="POST" action="{{route('profileAboutMeUpload')}}" name="about_me_form">
                                     @csrf
-                                    <textarea name="profile_about_me_txt" id="profile_about_me_txt" class="profile_about_me_txt" rows="5" cols="80">
-                                    </textarea>
-                                    <button type="button" value="about_me_submit" class="btn btn-primary" >Submit</button> 
+                                    <textarea name="profile_about_me_txt" id="profile_about_me_txt" class="profile_about_me_txt" rows="5" cols="80"
+                                              placeholder="please Enter About Me Text...">{{isset($userInfo->about_me)?$userInfo->about_me:''}} </textarea>
+                                    <button type="submit" value="about_me_submit" class="btn btn-primary" >Submit</button> 
                                 </form>
                             </div>
-                            <p class="profile_about_me_text">The Best Solution For Your Business Website. Creative & Interaction Design | Social Media Management | Software Development | Website Designing | Graphic Design | WordPress Theme | Logo Design + Branding | SEO | App Development (</p>
-                                    <br>
+                            <p class="profile_about_me_text">{{isset($userInfo->about_me)?$userInfo->about_me:'please Enter About Me Text...'}}</p>
+                            <br>
                         </div>
                         <div class="profile-header-title">
                             <h3>Basic general information</h3>
-                            <button>
+                            <button class="general_info_edit">
                                 <ion-icon name="create-outline"></ion-icon>
                             </button>
                         </div>
@@ -175,135 +184,152 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-6">
-                                        Gender
+                                       {{trans('sentence.your_gender')}}
                                     </div>
                                     <div class="col-6">
-                                        Female
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        Age
-                                    </div>
-                                    <div class="col-6">
-                                        22 Years old
+                                        {{($user && $user->gender != '')?$gender[$user->gender]:'-'}}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        Country
+                                        {{trans('sentence.age')}}
                                     </div>
                                     <div class="col-6">
-                                        France
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        City
-                                    </div>
-                                    <div class="col-6">
-                                        Paris
+                                        {{($user && $user->age != '')?$user->age .' Years old':'-'}} 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        Birthday
+                                        {{trans('sentence.country')}}
                                     </div>
                                     <div class="col-6">
-                                        15 July 1997
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        Relationship
-                                    </div>
-                                    <div class="col-6">
-                                        Single
+                                       {{($user && $user->country != '')?$country[$user->country]->country_name:'-'}} 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        Height
+                                        {{trans('sentence.city')}}
                                     </div>
                                     <div class="col-6">
-                                        5.7
+                                        {{($user && $user->city != '')?$user->city:'-'}} 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        Weight
+                                        {{trans('sentence.birthday')}}-
                                     </div>
                                     <div class="col-6">
-                                        56
+                                        {{($user && $user->dob != '')?date("d-M-Y", strtotime($user->dob)):''}} 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{trans('sentence.relationship')}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{($user && $user->relationship != '')?$relationship[$user->relationship]:'-'}} 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{trans('sentence.height')}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{($user && $user->height != '')?$user->height:'-'}} 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{trans('sentence.weight')}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{($user && $user->weight != '')?$user->weight:'-'}} 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{trans('sentence.preferred_height')}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{($user && $user->preferred_height != '')?$preferred_height[$user->preferred_height]:'-'}}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-6">
-                                        Gender
+                                        {{trans('sentence.education')}}
                                     </div>
                                     <div class="col-6">
-                                        Female
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        Age
-                                    </div>
-                                    <div class="col-6">
-                                        22 Years old
+                                       {{($user && $user->education != '')?$education[$user->education]:'-'}} 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        Country
+                                        {{trans('sentence.wish_to_meet')}}
                                     </div>
                                     <div class="col-6">
-                                        France
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        City
-                                    </div>
-                                    <div class="col-6">
-                                        Paris
+                                        {{($user && $user->wish_to_meet != '')?$gender[$user->wish_to_meet]:'-'}} 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        Birthday
+                                        {{trans('sentence.living_arrangement')}}
                                     </div>
                                     <div class="col-6">
-                                        15 July 1997
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        Relationship
-                                    </div>
-                                    <div class="col-6">
-                                        Single
+                                        {{($user && $user->living_arrangement != '')?$living_arrangement[$user->living_arrangement]:'-'}}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        Height
+                                        {{trans('sentence.employee')}}
                                     </div>
                                     <div class="col-6">
-                                        5.7
+                                        {{($user && $user->employment_status != '')?$employment_status[$user->employment_status]:'-'}}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        Weight
+                                        {{trans('sentence.children')}}
                                     </div>
                                     <div class="col-6">
-                                        56
+                                        {{($user && $user->children != '')?$children[$user->children]:'-'}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{trans('sentence.ethnicity')}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{($user && $user->ethnicity != '')?($user->ethnicity == 10?$user->ethnicity_other:$ethnicity[$user->ethnicity]):'-'}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{trans('sentence.build')}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{($user && $user->build != '')?($user->build == 4?$user->build_other:$ethnicity[$user->build]):'-'}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{trans('sentence.preferred_age')}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{($user && $user->preferred_age != '')?$preferred_age[$user->preferred_age]:'-'}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{trans('sentence.preferred_weight')}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{($user && $user->preferred_weight != '')?$preferred_weight[$user->preferred_weight]:'-'}}
                                     </div>
                                 </div>
                             </div>
+                            <button type="submit" value="general_info_submit" class="btn btn-primary" style="display: none;" id='general_info_submit'>Submit</button>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">

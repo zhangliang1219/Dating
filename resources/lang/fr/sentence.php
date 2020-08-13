@@ -15,6 +15,7 @@ return [
     'your_gender' => 'Votre sexe',
     'gender_label' => 'Sexe',
     'age'=>'âge',
+    'birthday'=>'Anniversaire',
     'phone_number'=>'Numéro De Téléphone',
     'photo_id'=>"Photo D'identité",
     'email'=>'Adresse électronique',

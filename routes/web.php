@@ -42,6 +42,7 @@ Route::post('general/info/store', 'ProfileController@generalProfileInfoStore')->
 Route::match(['get','post'],'search/profile', 'ProfileController@viewSearchProfile')->name('viewSearchProfile');
 Route::get('match/profile', 'ProfileController@matchedProfile')->name('matchedProfile');
 Route::post('profile/banner/upload', 'ProfileController@profileBannerUpload')->name('profileBannerUpload');
+Route::post('profile/image/upload', 'ProfileController@profileImageUpload')->name('profileImageUpload');
 Route::post('profile/aboutMe/store', 'ProfileController@profileAboutMeUpload')->name('profileAboutMeUpload');
 
 

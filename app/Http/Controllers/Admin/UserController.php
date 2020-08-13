@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Country;
+use App\UserPrivacySetting;
+use App\UserInfoPrivacy;
 
 class UserController  extends Controller
 {
@@ -112,7 +114,9 @@ class UserController  extends Controller
     public function editUser($id){
         $user = User::find($id);
         $country = Country::all();
-        return view('admin.user.edit',compact('user','country'));
+        $userPrivacySetting = UserPrivacySetting::where('privacy_option',1)->pluck('field_id')->toArray();
+        $userInfoPrivacy = UserInfoPrivacy::where('privacy_option',1)->where('user_id',$id)->pluck('field_id')->toArray();
+        return view('admin.user.edit',compact('user','country','userPrivacySetting','userInfoPrivacy'));
     }
     
     public function updateUser(Request $request,$id) {
@@ -187,6 +191,17 @@ class UserController  extends Controller
             $user->id_verify = ($request->id_verification == 'on')?1:2;
             $user->save();
             
+            if(isset($request->user_info_privacy) && count($request->user_info_privacy)>0){
+                foreach($request->user_info_privacy as $key => $val){
+                    UserInfoPrivacy::where('user_id',$user->id)->where('field_id',$key)->forceDelete();
+                    $userInfoPrivacy = new UserInfoPrivacy();
+                    $userInfoPrivacy->user_id = $user->id;
+                    $userInfoPrivacy->field_id =  $key;
+                    $userInfoPrivacy->privacy_option =  $val;
+                    $userInfoPrivacy->save();
+                }
+            }
+        
             Session::flash('success', 'User updated successfully.');
             return redirect(url('/admin/user' ));
         }catch(Exception $e){

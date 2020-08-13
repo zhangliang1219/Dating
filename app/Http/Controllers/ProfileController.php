@@ -26,7 +26,8 @@ class ProfileController  extends Controller
     if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
         $country = Country::all();
         $userInfo = UserInfo::where('user_id',Auth::user()->id)->first();
-        return view('front.profile.index',compact('country','userInfo')); 
+        $user = User::find(Auth::user()->id);
+        return view('front.profile.index',compact('country','userInfo','user')); 
     }else{
         return redirect()->to('/general/info/'.Auth::user()->id);
     }
@@ -192,7 +193,7 @@ class ProfileController  extends Controller
         
         if(isset($request->user_info_privacy) && count($request->user_info_privacy)>0){
             foreach($request->user_info_privacy as $key => $val){
-                UserInfoPrivacy::where('user_id',$user->id)->where('field_id',$key)->where('privacy_option',$val)->delete();
+                UserInfoPrivacy::where('user_id',$user->id)->where('field_id',$key)->forceDelete();
                 $userInfoPrivacy = new UserInfoPrivacy();
                 $userInfoPrivacy->user_id = $user->id;
                 $userInfoPrivacy->field_id =  $key;
@@ -220,5 +221,27 @@ class ProfileController  extends Controller
             $userInfo->profile_banner = $profile_name;
             $userInfo->save();
         }
+    }
+    public function profileImageUpload(Request $request) {
+        if($request->file !=  ''){
+            $profile_photo = $request->file;
+            $profile_name = time().'.'.$profile_photo->getClientOriginalExtension();
+            $destinationPath = public_path('/images/profile');
+            $profile_photo->move($destinationPath, $profile_name);
+            
+            $user = User::find(Auth::user()->id);
+            $user->photo = $profile_name;
+            $user->save();
+        }
+    }
+    
+    public function profileAboutMeUpload(Request $request) {
+        $userInfo = UserInfo::where('user_id',Auth::user()->id)->first();
+        if($userInfo === null){
+            $userInfo = new UserInfo();
+        }
+        $userInfo->about_me = $request->profile_about_me_txt;
+        $userInfo->save();
+        return redirect('/profile');
     }
 }
