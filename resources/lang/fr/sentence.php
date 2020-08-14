@@ -93,4 +93,13 @@ return [
         '1'=> 'Privée',
         '2'=> 'Publique',
     ],
+    'about_upload_photo'=>"À propos du téléchargement d'une photo",
+    'profile'=>'Profil',
+    'matches'=>'Allumettes',
+    'membership'=>'Adhésion',
+    'schedule_counseling'=>'Planifier le counseling',
+    'about_me'=>'À propos de moi',
+    'basic_general_information'=>'Informations générales de base',
+    'edit'=>'Éditer',
+    'cancel'=>'Annuler',
 ];

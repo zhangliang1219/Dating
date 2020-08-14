@@ -86,14 +86,7 @@
                                 <div class="form-group col-4">
                                     <label for="phone">Phone Number
                                         @if(in_array(1,$userPrivacySetting))
-                                           <select name="user_info_privacy[1]" class="phone_number_privacy user_info_privacy">
-                                               <option></option>
-                                               @foreach($user_info_privacy as $key => $val)
-                                                   <option value="{{$key}}"
-                                                           {{(in_array(1,$userInfoPrivacy) && $key == 1 || !in_array(1,$userInfoPrivacy) && $key == 2)?'selected':''}}>
-                                                       {{$val}}</option>
-                                               @endforeach
-                                           </select>
+                                            <input type="checkbox" class="phone_number_privacy user_info_privacy" name="user_info_privacy[1]" value="1" {{in_array(1,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter phone"  value="{{old('phoneNumber')!=''?old('phoneNumber'):$user->phone}}">
@@ -176,14 +169,7 @@
                                 <div class="form-group col-4">
                                     <label for="height" >Height
                                         @if(in_array(3,$userPrivacySetting))
-                                            <select name="user_info_privacy[3]" class="height_privacy user_info_privacy">
-                                                <option></option>
-                                                @foreach($user_info_privacy as $key => $val)
-                                                    <option value="{{$key}}" 
-                                                        {{(in_array(3,$userInfoPrivacy) && $key == 1 || !in_array(3,$userInfoPrivacy) && $key == 2)?'selected':''}}>
-                                                        {{$val}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="checkbox" class="height_privacy user_info_privacy" name="user_info_privacy[3]" value="1"  {{in_array(3,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <select name="height" class="form-control">
@@ -198,14 +184,7 @@
                                 <div class="form-group col-4">
                                     <label for="weight" >Weight
                                         @if(in_array(4,$userPrivacySetting))
-                                        <select name="user_info_privacy[4]" class="weight_privacy user_info_privacy">
-                                            <option></option>
-                                            @foreach($user_info_privacy as $key => $val)
-                                            <option value="{{$key}}" {{$key == 2 ?'selected':''}}
-                                                    {{(in_array(4,$userInfoPrivacy) && $key == 1 || !in_array(4,$userInfoPrivacy) && $key == 2)?'selected':''}}
-                                                    >{{$val}}</option>
-                                            @endforeach
-                                        </select>
+                                            <input type="checkbox" class="weight_privacy user_info_privacy" name="user_info_privacy[4]" value="1"  {{in_array(4,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <select name="weight" class="form-control">
@@ -219,13 +198,7 @@
                                 <div class="form-group col-4">
                                     <label for="relationship" >Relationship
                                         @if(in_array(2,$userPrivacySetting))
-                                           <select name="user_info_privacy[2]" class="relationship_privacy user_info_privacy">
-                                               <option></option>
-                                               @foreach($user_info_privacy as $key => $val)
-                                                   <option value="{{$key}}"  {{(in_array(2,$userInfoPrivacy) && $key == 1 || !in_array(2,$userInfoPrivacy) && $key == 2)?'selected':''}}
-                                                           >{{$val}}</option>
-                                               @endforeach
-                                           </select>
+                                            <input type="checkbox" class="relationship_privacy user_info_privacy" name="user_info_privacy[2]" value="1"  {{in_array(2,$userInfoPrivacy)?'checked':''}}>
                                         @endif</label>
                                     <select name="relationship" class="form-control">
                                         <option value="">Select Relationship</option>
@@ -240,12 +213,7 @@
                                 <div class="form-group col-4">
                                     <label for="children" >Do you have Children?
                                         @if(in_array(14,$userPrivacySetting))
-                                            <select name="user_info_privacy[14]" class="children_privacy user_info_privacy">
-                                                <option></option>
-                                                @foreach($user_info_privacy as $key => $val)
-                                                <option value="{{$key}}"  {{(in_array(14,$userInfoPrivacy) && $key == 1 || !in_array(14,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="checkbox" class="children_privacy user_info_privacy" name="user_info_privacy[14]" value="1"  {{in_array(14,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <select name="children" class="form-control">
@@ -260,12 +228,7 @@
                                 <div class="form-group col-4">
                                     <label for="living_arrangement" >Living Arrangement
                                         @if(in_array(5,$userPrivacySetting))
-                                        <select name="user_info_privacy[5]" class="living_arrangement_privacy user_info_privacy">
-                                            <option></option>
-                                            @foreach($user_info_privacy as $key => $val)
-                                            <option value="{{$key}}" {{(in_array(5,$userInfoPrivacy) && $key == 1 || !in_array(5,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                        </select>
+                                            <input type="checkbox" class="living_arrangement_privacy user_info_privacy" name="user_info_privacy[5]" value="1"  {{in_array(5,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <select name="living_arrangement" class="form-control">
@@ -278,12 +241,7 @@
                                 <div class="form-group col-4">
                                     <label for="city" >City
                                         @if(in_array(6,$userPrivacySetting))
-                                        <select name="user_info_privacy[6]" class="city_arrangement_privacy user_info_privacy">
-                                            <option></option>
-                                            @foreach($user_info_privacy as $key => $val)
-                                            <option value="{{$key}}" {{(in_array(6,$userInfoPrivacy) && $key == 1 || !in_array(6,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                        </select>
+                                            <input type="checkbox" class="city_arrangement_privacy user_info_privacy" name="user_info_privacy[6]" value="1"  {{in_array(6,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <input type="text" value="{{isset($user->city)?$user->city:old('city')}}" id="city" name="city" class="form-control"  placeholder="Enter City">
@@ -291,12 +249,7 @@
                                 <div class="form-group col-4">
                                     <label for="state" >State/Province
                                     @if(in_array(7,$userPrivacySetting))
-                                        <select name="user_info_privacy[7]" class="state_arrangement_privacy user_info_privacy">
-                                            <option></option>
-                                            @foreach($user_info_privacy as $key => $val)
-                                            <option value="{{$key}}" {{(in_array(7,$userInfoPrivacy) && $key == 1 || !in_array(7,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="checkbox" class="state_arrangement_privacy user_info_privacy" name="user_info_privacy[7]" value="1"  {{in_array(7,$userInfoPrivacy)?'checked':''}}>
                                     @endif
                                     </label>
                                     <input type="text" value="{{isset($user->state)?$user->state:old('state')}}" id="state" name="state" class="form-control"   placeholder="Enter State">
@@ -306,12 +259,7 @@
                                 <div class="form-group col-4">
                                     <label for="country" >Country
                                         @if(in_array(8,$userPrivacySetting))
-                                            <select name="user_info_privacy[8]" class="country_arrangement_privacy user_info_privacy">
-                                                <option></option>
-                                                @foreach($user_info_privacy as $key => $val)
-                                                <option value="{{$key}}" {{(in_array(8,$userInfoPrivacy) && $key == 1 || !in_array(8,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="checkbox" class="country_arrangement_privacy user_info_privacy" name="user_info_privacy[8]" value="1"  {{in_array(8,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <select name="country" class="form-control">
@@ -324,12 +272,7 @@
                                 <div class="form-group col-4">
                                     <label for="favorite_sport" >Favorite Sport
                                         @if(in_array(9,$userPrivacySetting))
-                                        <select name="user_info_privacy[9]" class="favorite_sport_privacy user_info_privacy">
-                                            <option></option>
-                                            @foreach($user_info_privacy as $key => $val)
-                                            <option value="{{$key}}" {{(in_array(9,$userInfoPrivacy) && $key == 1 || !in_array(9,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                        </select>
+                                            <input type="checkbox" class="favorite_sport_privacy user_info_privacy" name="user_info_privacy[9]" value="1"  {{in_array(9,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <input type="text" value="{{isset($user->favorite_sport)?$user->favorite_sport:old('favorite_sport')}}" name="favorite_sport" class="form-control"   placeholder="Enter Favorite Sport">
@@ -337,13 +280,8 @@
                                 <div class="form-group col-4">
                                     <label for="high_school_attended" >High School Attended 
                                         @if(in_array(10,$userPrivacySetting))
-                                            <select name="user_info_privacy[10]" class="high_school_privacy user_info_privacy">
-                                                <option></option>
-                                                @foreach($user_info_privacy as $key => $val)
-                                                <option value="{{$key}}" {{(in_array(10,$userInfoPrivacy) && $key == 1 || !in_array(10,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                                @endforeach
-                                            </select>
-                                        @endif
+                                            <input type="checkbox" class="high_school_privacy user_info_privacy" name="user_info_privacy[10]" value="1"  {{in_array(10,$userInfoPrivacy)?'checked':''}}>
+                                       @endif
                                     </label>
                                     <input type="text"  name="high_school_attended" class="form-control" value="{{isset($user->high_school_attended)?$user->high_school_attended:old('high_school_attended')}}"
                                              placeholder="Enter High School Attended ">
@@ -353,12 +291,7 @@
                                 <div class="form-group col-4">
                                         <label for="collage" >College/University Attended
                                         @if(in_array(11,$userPrivacySetting))
-                                            <select name="user_info_privacy[11]" class="college_privacy user_info_privacy">
-                                                <option></option>
-                                                @foreach($user_info_privacy as $key => $val)
-                                                <option value="{{$key}}" {{(in_array(11,$userInfoPrivacy) && $key == 1 || !in_array(11,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="checkbox" class="college_privacy user_info_privacy" name="user_info_privacy[11]" value="1"  {{in_array(11,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <input type="text" value="{{isset($user->collage)?$user->collage:old('collage')}}" name="collage" class="form-control"  
@@ -367,12 +300,7 @@
                                 <div class="form-group col-4">
                                     <label for="employment_status" >Employment Status
                                         @if(in_array(12,$userPrivacySetting))
-                                            <select name="user_info_privacy[12]" class="employment_status_privacy user_info_privacy">
-                                                <option></option>
-                                                @foreach($user_info_privacy as $key => $val)
-                                                <option value="{{$key}}" {{(in_array(12,$userInfoPrivacy) && $key == 1 || !in_array(12,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="checkbox" class="employment_status_privacy user_info_privacy" name="user_info_privacy[12]" value="1"  {{in_array(12,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <select name="employment_status" class="form-control">
@@ -385,12 +313,7 @@
                                 <div class="form-group col-4">
                                     <label for="education" >Education
                                         @if(in_array(13,$userPrivacySetting))
-                                        <select name="user_info_privacy[13]" class="education_privacy user_info_privacy">
-                                            <option></option>
-                                            @foreach($user_info_privacy as $key => $val)
-                                            <option value="{{$key}}" {{(in_array(13,$userInfoPrivacy) && $key == 1 || !in_array(13,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                        </select>
+                                            <input type="checkbox" class="education_privacy user_info_privacy" name="user_info_privacy[13]" value="1"  {{in_array(13,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <select name="education" class="form-control">
@@ -405,12 +328,7 @@
                                 <div class="form-group col-4">
                                     <label for="describe_perfect_date" >Describe Perfect Date
                                         @if(in_array(15,$userPrivacySetting))
-                                            <select name="user_info_privacy[15]" class="describe_perfect_date_privacy user_info_privacy">
-                                                <option></option>
-                                                @foreach($user_info_privacy as $key => $val)
-                                                <option value="{{$key}}" {{(in_array(15,$userInfoPrivacy) && $key == 1 || !in_array(15,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="checkbox" class="describe_perfect_date_privacy user_info_privacy" name="user_info_privacy[15]" value="1"  {{in_array(15,$userInfoPrivacy)?'checked':''}}>
                                         @endif 
                                     </label>
                                      <textarea  row="2" col="2" name="describe_perfect_date" class="form-control"
@@ -421,12 +339,7 @@
                                 <div class="form-group col-4">
                                     <label for="build" >Build
                                     @if(in_array(17,$userPrivacySetting))
-                                        <select name="user_info_privacy[17]" class="build_privacy user_info_privacy">
-                                            <option></option>
-                                            @foreach($user_info_privacy as $key => $val)
-                                            <option value="{{$key}}" {{(in_array(17,$userInfoPrivacy) && $key == 1 || !in_array(17,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="checkbox" class="build_privacy user_info_privacy" name="user_info_privacy[17]" value="1"  {{in_array(17,$userInfoPrivacy)?'checked':''}}>
                                     @endif
                                     </label>
                                     <select name="build" class="build form-control"  id="build">
@@ -439,12 +352,7 @@
                                 <div class="form-group col-4">
                                     <label for="ethnicity" >Ethnicity
                                         @if(in_array(16,$userPrivacySetting))
-                                            <select name="user_info_privacy[16]" class="ethnicity_privacy user_info_privacy">
-                                                <option></option>
-                                                @foreach($user_info_privacy as $key => $val)
-                                                <option value="{{$key}}" {{(in_array(16,$userInfoPrivacy) && $key == 1 || !in_array(16,$userInfoPrivacy) && $key == 2)?'selected':''}}>{{$val}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="checkbox" class="ethnicity_privacy user_info_privacy" name="user_info_privacy[16]" value="1"  {{in_array(16,$userInfoPrivacy)?'checked':''}}>
                                         @endif
                                     </label>
                                     <select name="ethnicity" class="form-control" id="ethnicity">

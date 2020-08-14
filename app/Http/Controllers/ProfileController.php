@@ -19,6 +19,7 @@ use App\SearchHistory;
 use App\UserPrivacySetting;
 use App\UserInfoPrivacy;
 use App\UserInfo;
+use App\UserPhotos;
 
 class ProfileController  extends Controller
 {
@@ -27,7 +28,10 @@ class ProfileController  extends Controller
         $country = Country::all();
         $userInfo = UserInfo::where('user_id',Auth::user()->id)->first();
         $user = User::find(Auth::user()->id);
-        return view('front.profile.index',compact('country','userInfo','user')); 
+        $userPrivacySetting = UserPrivacySetting::where('privacy_option',1)->pluck('field_id')->toArray();
+        $userInfoPrivacy = UserInfoPrivacy::where('privacy_option',1)->where('user_id',Auth::user()->id)->pluck('field_id')->toArray();
+        $userPhoto = UserPhotos::where('user_id',Auth::user()->id)->get()->toArray();
+        return view('front.profile.index',compact('country','userInfo','user','userPrivacySetting','userInfoPrivacy','userPhoto')); 
     }else{
         return redirect()->to('/general/info/'.Auth::user()->id);
     }
@@ -243,5 +247,52 @@ class ProfileController  extends Controller
         $userInfo->about_me = $request->profile_about_me_txt;
         $userInfo->save();
         return redirect('/profile');
+    }
+    
+    public function editProfile(Request $request,$id){
+        try{
+            $user = User::find($id);
+            $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
+            $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):NULL);
+            $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):NULL);
+            $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):NULL);
+            $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):NULL);
+            $user->ethnicity_other = (isset($request->ethnicity_other)?($request->ethnicity_other):NULL);
+            $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:NULL);
+            $user->height = (isset($request->height)?$request->height:NULL);
+            $user->weight = (isset($request->weight)?$request->weight:NULL);
+            $user->build = (isset($request->build)?$request->build:NULL);
+            $user->build_other = (isset($request->build_other)?$request->build_other:NULL);
+            $user->relationship = (isset($request->relationship)?$request->relationship:NULL);
+            $user->living_arrangement = (isset($request->living_arrangement)?$request->living_arrangement:NULL);
+            $user->city = (isset($request->city)?$request->city:NULL);
+            $user->state = (isset($request->state)?$request->state:NULL);
+            $user->country = (isset($request->country)?$request->country:NULL);
+            $user->favorite_sport = (isset($request->favorite_sport)?$request->favorite_sport:NULL);
+            $user->high_school_attended = (isset($request->high_school_attended)?$request->high_school_attended:NULL);
+            $user->collage = (isset($request->collage)?$request->collage:NULL);
+            $user->employment_status = (isset($request->employment_status)?$request->employment_status:NULL);
+            $user->education = (isset($request->education)?$request->education:NULL);
+            $user->children = (isset($request->children)?$request->children:NULL);
+            $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:NULL);
+            $user->save();
+            
+            if(isset($request->user_info_privacy) && count($request->user_info_privacy)>0){
+                foreach($request->user_info_privacy as $key => $val){
+                    UserInfoPrivacy::where('user_id',$user->id)->where('field_id',$key)->forceDelete();
+                    $userInfoPrivacy = new UserInfoPrivacy();
+                    $userInfoPrivacy->user_id = $user->id;
+                    $userInfoPrivacy->field_id =  $key;
+                    $userInfoPrivacy->privacy_option =  $val;
+                    $userInfoPrivacy->save();
+                }
+            }
+            Session::flash('success', 'General Information Updated successfully.');
+            return redirect(url('/profile' ));
+        }catch(Exception $e){
+            Session::flash('error', 'Something is wrong.Please try again!');
+            return Redirect::to('');
+        }
+        
     }
 }

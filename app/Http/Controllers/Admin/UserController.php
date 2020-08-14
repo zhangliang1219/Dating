@@ -128,9 +128,9 @@ class UserController  extends Controller
                 'phoneNumber' => 'required',
                 'gender' => 'required',  
                 'email' => 'required|email|unique:users,email,'.$id, 
-//                'wish_to_meet'   => 'required',
-//                'ethnicity'=> 'required',
-//                'relationship'=> 'required',
+                'wish_to_meet'   => 'required',
+                'ethnicity'=> 'required',
+                'relationship'=> 'required',
             ]);
             if ($validator->fails()) {
                 return redirect('admin/user/edit/'.$id)

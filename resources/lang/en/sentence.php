@@ -93,4 +93,14 @@ return [
         '1'=> 'Private',
         '2'=> 'Public',
     ],
+    'about_upload_photo'=>'About Upload Photo',
+    'profile'=>'Profile',
+    'matches'=>'Matches',
+    'membership'=>'Membership',
+    'schedule_counseling'=>'Schedule Counseling',
+    'about_me'=>'About me',
+    'basic_general_information'=>'Basic General Information',
+    'edit'=>'Edit',
+    'cancel'=>'Cancel',
+    
 ];

@@ -13,6 +13,7 @@
     $education = trans('sentence.education_array');
     $children = trans('sentence.children_array');
     $user_info_privacy = trans('sentence.user_info_privacy');
+     
 @endphp
 
 @section('content')
@@ -34,6 +35,20 @@
 </div>
 <div class="container">
     <div class="profile-header">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session()->has('success'))
+                <div class="alert alert-success" role="alert">
+                    <h5>{{ session('success') }}</h5>
+                </div>
+            @endif
             <div class="profile-header-image" style="background-image:url('{{ isset($userInfo->profile_banner)?asset('images/profile_banner/'.$userInfo->profile_banner):asset('images/profile-default.jpg')}}')">
                 <input type="file" name="user-banner-img" class="user-banner-img" style="display:none;" id="user-banner-img" accept='image/*'>
                 <div class="edit-btn edit-user-banner">
@@ -71,67 +86,18 @@
         </div>
         <div class="images-upload">
             <div class="profile-header-title">
-                <h3>About Upload Photo</h3>
-                <button>
+                <h3>{{ trans('sentence.about_upload_photo')}}</h3>
+                <button class='profile_photos' id='profile_photos'>
                     <ion-icon name="create-outline"></ion-icon>
                 </button>
-            </div>
-            <div>
-                
             </div>
             <div class="images-slider">
                 <div class="swiper-container swiper-container-1">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="slider-image">
-                                <img src="{{ asset('images/profile/pexels-rafael-barros-1996887.jpg') }}" alt="">
-                            </div>
-                        </div>
+                        @if(count($userPhoto)>0)
+                        @else
+                            <div><h5>No Photos</h5></div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -142,23 +108,27 @@
             <div class="profile-tabs">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a>
+                      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                          {{ trans('sentence.profile')}}</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Matches</a>
+                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                          {{ trans('sentence.matches')}}</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Membership</a>
+                      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                          {{ trans('sentence.membership')}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="contact1-tab" data-toggle="tab" href="#contact1" role="tab" aria-controls="contact1" aria-selected="false">Schedule Counseling</a>
+                        <a class="nav-link" id="contact1-tab" data-toggle="tab" href="#contact1" role="tab" aria-controls="contact1" aria-selected="false">
+                            {{ trans('sentence.schedule_counseling')}}</a>
                       </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class='about_me'>
                             <div class="profile-header-title">
-                                <h3>About me</h3>
+                                <h3>{{ trans('sentence.about_me')}}</h3>
                                 <button id="about_me_edit">
                                     <ion-icon name="create-outline"></ion-icon>
                                 </button>
@@ -175,7 +145,7 @@
                             <br>
                         </div>
                         <div class="profile-header-title">
-                            <h3>Basic general information</h3>
+                            <h3>{{ trans('sentence.basic_general_information')}}</h3>
                             <button class="general_info_edit">
                                 <ion-icon name="create-outline"></ion-icon>
                             </button>
@@ -216,7 +186,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        {{trans('sentence.birthday')}}-
+                                        {{trans('sentence.birthday')}}
                                     </div>
                                     <div class="col-6">
                                         {{($user && $user->dob != '')?date("d-M-Y", strtotime($user->dob)):''}} 
@@ -251,7 +221,15 @@
                                         {{trans('sentence.preferred_height')}}
                                     </div>
                                     <div class="col-6">
-                                        {{($user && $user->preferred_height != '')?$preferred_height[$user->preferred_height]:'-'}}
+                                        @php
+                                            $hightVal = array();
+                                            if($user->preferred_height != ''){
+                                                foreach(explode(",",$user->preferred_height) as $val){
+                                                    $hightVal[] = $height[$val];
+                                                }
+                                            }
+                                        @endphp
+                                        {{($user && $user->preferred_height != '')?implode(",",$hightVal):'-'}}
                                     </div>
                                 </div>
                             </div>
@@ -317,7 +295,15 @@
                                         {{trans('sentence.preferred_age')}}
                                     </div>
                                     <div class="col-6">
-                                        {{($user && $user->preferred_age != '')?$preferred_age[$user->preferred_age]:'-'}}
+                                        @php
+                                            $ageVal = array();
+                                            if($user->preferred_age != ''){
+                                                foreach(explode(",",$user->preferred_age) as $val){
+                                                    $ageVal[] = $preferred_age[$val];
+                                                }
+                                            }
+                                        @endphp
+                                        {{($user && $user->preferred_height != '')?implode(",",$ageVal):'-'}}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -325,7 +311,15 @@
                                         {{trans('sentence.preferred_weight')}}
                                     </div>
                                     <div class="col-6">
-                                        {{($user && $user->preferred_weight != '')?$preferred_weight[$user->preferred_weight]:'-'}}
+                                        @php
+                                            $weightVal = array();
+                                            if($user->preferred_weight != ''){
+                                                foreach(explode(",",$user->preferred_weight) as $val){
+                                                    $weightVal[] = $weight[$val];
+                                                }
+                                            }
+                                        @endphp
+                                        {{($user && $user->preferred_height != '')?implode(",",$weightVal):'-'}}
                                     </div>
                                 </div>
                             </div>
@@ -438,20 +432,6 @@
         </div>
         <div class="col-md-4">
             <div class="custom-card">
-                @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-                @if (session()->has('success'))
-                <div class="alert alert-success" role="alert">
-                    <h5>{{ session('success') }}</h5>
-                </div>
-                @endif
                 <form class="form-horizontal" method="post" action="{{route('viewSearchProfile')}}"
                     name="search_profile" id="search_profile">
                     @csrf
@@ -531,8 +511,9 @@
         </div>
     </div>
 </div>
+@include('front.profile.modal.edit_general_info')
+@include('front.profile.modal.manage_profile_photo')
 @endsection
 @section('javascript')
 <script src="{{ asset('js/front_profile.js') }}"></script>
-<script src="{{ asset('js/dropzone.js') }}"></script>
 @endsection

@@ -44,6 +44,7 @@ Route::get('match/profile', 'ProfileController@matchedProfile')->name('matchedPr
 Route::post('profile/banner/upload', 'ProfileController@profileBannerUpload')->name('profileBannerUpload');
 Route::post('profile/image/upload', 'ProfileController@profileImageUpload')->name('profileImageUpload');
 Route::post('profile/aboutMe/store', 'ProfileController@profileAboutMeUpload')->name('profileAboutMeUpload');
+Route::post('edit/profile/{id}', 'ProfileController@editProfile')->name('editProfile');
 
 
 
