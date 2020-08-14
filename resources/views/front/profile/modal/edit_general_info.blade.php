@@ -284,9 +284,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{trans('sentence.save')}}
                                 </button>
-                                <button type="cancel" class="btn btn-secondary">
+<!--                                <button type="cancel" class="btn btn-secondary">
                                     {{trans('sentence.cancel')}}
-                                </button>
+                                </button>-->
                             </div>
                         </div>
                 </form>
