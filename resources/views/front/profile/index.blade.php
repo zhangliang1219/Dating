@@ -95,6 +95,13 @@
                 <div class="swiper-container swiper-container-1">
                     <div class="swiper-wrapper">
                         @if(count($userPhoto)>0)
+                            @foreach($userPhoto as $val)
+                                <div class="swiper-slide">
+                                    <div class="slider-image">
+                                        <img src="{{ asset('images/profile_gallery_photo/'.$val['photo_name']) }}" alt="">
+                                    </div>
+                                </div>
+                            @endforeach
                         @else
                             <div><h5>No Photos</h5></div>
                         @endif

@@ -293,6 +293,29 @@ class ProfileController  extends Controller
             Session::flash('error', 'Something is wrong.Please try again!');
             return Redirect::to('');
         }
-        
+    }
+    
+    public function galleryPhotosUpload(Request $request) {
+        $totalCount = $request->totalCount;
+        if($totalCount != 0){
+            $profile_name = '';
+            for($i=0;$i<$totalCount;$i++){
+                $fileData = 'fileData_'.$i;
+                $filePrivacy = 'filePrivacy_'.$i;
+                if($request->$fileData != '' && $request->$filePrivacy != ''){
+                    $profile_photo = $request->$fileData;
+                    $profile_name = time().'_'.$i.'.'.$profile_photo->getClientOriginalExtension();
+                    $destinationPath = public_path('/images/profile_gallery_photo');
+                    $profile_photo->move($destinationPath, $profile_name);
+
+                    $userPhotos = new UserPhotos();
+                    $userPhotos->user_id            = Auth::user()->id;
+                    $userPhotos->photo_name  	= $profile_name;
+                    $userPhotos->privacy_option	= $request->$filePrivacy;
+                    $userPhotos->save();
+                }
+            }
+        }
     }
 }
+
