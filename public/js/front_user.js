@@ -9,9 +9,11 @@
             'gender' : {required:true},   
             'password_confirmation': {required:true,equalTo: "#password"},         
         },
+        errorElement : 'small',
         submitHandler: function (form) {
             form.submit();
         }
+        
     });
     $("#general_info_form").validate({
         rules: {

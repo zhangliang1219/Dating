@@ -1,4 +1,4 @@
-@extends('layouts.final')
+@extends('layouts.auth')
 @php
     $gender = trans('sentence.gender');
     $preferred_age = config('constant.preferred_age');
@@ -15,6 +15,22 @@
 @endphp
 
 @section('content')
+<div class="page-header-title">
+    <div class="header-background"></div>
+    <div class="inner-header">
+        <div class="container">
+            <div class="title-section">
+                <h2>Profile</h2>
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="">Home ></a></li>
+                        <li>Profile</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row ">
         <div class="col-md-8">
