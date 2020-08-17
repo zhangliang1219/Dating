@@ -330,14 +330,17 @@ header{
     color: #fff;
 }
 .btn-theme-outline {
-    border: 1px solid #e0e0e0;
-    color: #fa2456;
-    border-radius: 50px;
+    border-width: 3px;
+    border-color: #fa2456;
+    background-color: rgba(255, 255, 255, 0.102);
     min-width: 140px;
+    border-radius: 0;
+    color: #fa2456;
 }
 .btn-theme-outline:hover,
 .btn-theme-outline:focus {
-    color: #fa2456;
+    color: #fff;
+    background-color: #fa2456;
 }
 .single-user-profile .slider {
     min-height: 300px;
@@ -607,6 +610,135 @@ header{
     box-shadow: 0 12px 46px 0 rgba(182, 14, 14, 0.05);
     margin-top: 30px;
 }
+.form-control {
+    border: 1px solid #e2e2e2;
+    border-radius: 0;
+}
+.custom-file-label {
+    border: 1px solid #e2e2e2;
+    border-radius: 0;
+}
+label {
+    font-size: 0.9rem;
+    color: #898989;
+}
+.input-group-icon {
+    position: relative;
+}
+.input-group-icon .form-control {
+    padding-right: 40px;
+}
+.input-group-icon .input-group-append {
+    position: absolute;
+    z-index: 6;
+    height: 100%;
+    right: 0;
+}
+.input-group-icon .input-group-append .input-group-text {
+    color: #fa2456;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+}
+.auth-card {
+    margin-top: 100px;
+    box-shadow: 0 3px 34px 0 rgba(0, 0, 0, 0.08);
+}
+.auth-card h1 {
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+.auth-card .auth-logo-part {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.auth-card .auth-logo-part .logo {
+    background-image: -moz-linear-gradient(0deg, #fa2456 0%, #fd735a 100%);
+    background-image: -webkit-linear-gradient(0deg, #fa2456 0%, #fd735a 100%);
+    background-image: -ms-linear-gradient(0deg, #fa2456 0%, #fd735a 100%);
+    position: absolute;
+    padding: 20px 30px 30px;
+    border-bottom-left-radius: 150px;
+    border-bottom-right-radius: 150px;
+    left: calc(50% - 80px);
+}
+.auth-card .auth-logo-part .logo img {
+    max-width: 100px;
+    filter:grayscale(100) brightness(100);
+}
+.auth-card .auth-logo-part .sign-up-btn {
+    position: absolute;
+    right: 0;
+    top: 30px;
+    padding: 10px 15px;
+    background-color: #fff;
+    color: #fa2456;
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    font-size: 14px;
+}
+.auth-card .auth-logo-part .sign-up-btn:hover {
+    text-decoration: none;
+}
+.auth-card .auth-logo-part .sociel-login {
+    position: absolute;
+    bottom: 0;
+    max-width: 250px;
+    left: calc(50% - 102px);
+    text-align: center;
+    margin-bottom: 30px;
+}
+.auth-card .auth-logo-part .sociel-login .btn {
+    margin-bottom: 16px;
+    display: block;
+    padding: 10px 30px;
+    font-size: 14px;
+}
+.auth-card .auth-logo-part .sociel-login .btn.facebook-btn {
+    background-image: none;
+    background-color: #3c5a96;
+}
+.auth-card .auth-logo-part .sociel-login .btn.google-btn {
+    background-image: none;
+    background-color: #db4c3e;
+}
+.auth-card .auth-form-part {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.auth-card .auth-form-part .auth-form {
+    padding: 80px 45px;
+}
+
+
+
+@media screen and (max-width:991px){
+    .auth-card {
+        margin-top: 30px;
+    }
+    .auth-card .auth-logo-part {
+        min-height: 300px;
+    }
+    .auth-card .auth-form-part .auth-form {
+        padding: 30px;
+    }
+    .auth-card .auth-logo-part .sign-up-btn {
+        right: 5%;
+        top: 100px;
+        width: 100%;
+        border-radius: 40px;
+        max-width: 90%;
+    }
+}
 @media screen and (max-width:768px){
     .single-user-profile{
         flex-wrap: wrap;
@@ -616,6 +748,12 @@ header{
     }
     .single-user-profile .user-details {
         width: 100%;
+    }
+    
+}
+@media screen and (max-width:620px){
+    .auth-card {
+        margin-top: 16px;
     }
 }
 @media (min-width: 1400px){

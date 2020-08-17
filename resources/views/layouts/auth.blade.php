@@ -1,11 +1,9 @@
 @include('layouts.header')
 
 <body>
-  @include('layouts.menu')
   <div class="page">
       @yield('content')
   </div>
-  @include('layouts.footer')
   @include('layouts.js')
 </body>
 

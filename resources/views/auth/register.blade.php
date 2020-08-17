@@ -1,4 +1,4 @@
-@extends('layouts.final')
+@extends('layouts.auth')
 @php
     $gender = trans('sentence.gender');
     $preferred_age = config('constant.preferred_age');
@@ -12,14 +12,41 @@
     $education = trans('sentence.education_array');
     $children = trans('sentence.children_array');
 @endphp
-
+<style>
+    body{
+        background-image: url("{{ asset('images/auth-bg.jpg')}}");
+        background-position: bottom center;
+        background-repeat: no-repeat;
+        min-height: 100%;
+        background-size: cover;
+    }
+    html{
+        min-height: 100%;
+    }
+</style>
 @section('content')
 <div class="container">
-    <div class="row ">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ trans('sentence.register')}}</div>
-                <div class="card-body">
+    <div class="auth-card">
+        <div class="row no-gutters">
+            <div class="col-lg-6 auth-logo-part" style='background-image: url("{{ asset('images/auth-image.jpg')}}")'>
+                <div class="logo">
+                    <a href="{{route('home')}}">
+                        <img src="{{ asset('images/logo.png')}}" alt="">
+                    </a>
+                </div>
+                <a href="{{ route('login') }}" class="sign-up-btn">Login</a>
+                <div class="sociel-login">
+                    <a class="btn btn-theme facebook-btn" href="{{ route('social-redirect','facebook') }}">
+                        Login with Facebook
+                    </a>
+                    <a class="btn btn-theme google-btn" href="{{ route('social-redirect','google') }}">
+                        Login with Google
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 auth-form-part">
+                <div class="auth-form">
+                    <h1>{{ trans('sentence.register')}}</h1>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -128,12 +155,6 @@
                             </div>
                         </div>
                     </form>
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <a href="{{ route('social-redirect','facebook') }}" class="btn btn-facebook" class="btn btn-facebook"><i class="fa fa-facebook"></i> Facebook</a>
-                            <a href="{{ route('social-redirect','google') }}" class="btn btn-google" class="btn btn-google"><i class="fa fa-google"></i> Google</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
