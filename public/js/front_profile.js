@@ -120,35 +120,66 @@
     
     var formData = new FormData();
     var fileData = new Array();
-    var fileCount = 0;
+    var filePrivacyData = new Array();
+    var fileCount = $('.photo_gallery_count').val();
+    var filePrivacyCount = $('.photo_gallery_count').val();
     var profilePhotosURL = function(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                $('.photo_gallary tr').append('<td class="photo_box"><img src='+ e.target.result+' alt="photo" >\n\
-                                                <i class="fa fa-trash" aria-hidden="true"></i>\n\
-                                                <input type="checkbox" class="" name="upload_photos[]" value="1" }></td>');
+                $('.photo_gallery tr').append('<td class="photo_box" id="photo_box_'+filePrivacyCount+'"><img src='+ e.target.result+' alt="photo" >\n\
+                                                <i class="fa fa-trash gallery_photo_remove" aria-hidden="true" data-count-id="'+filePrivacyCount+'" data-id="0"></i>\n\
+                                                <input type="checkbox" class="photo_gallery_privacy" name="upload_photos['+filePrivacyCount+']" value="1" \n\
+                                                data-count-id="'+filePrivacyCount+'" data-id="0"></td>');
+                filePrivacyData[filePrivacyCount] = 2;
+                $(".photo_gallery_privacy").one('change', function(){
+                    if ($(this).is(':checked')){
+                        filePrivacyData[$(this).attr('data-count-id')] = 1;
+                    }else{
+                        filePrivacyData[$(this).attr('data-count-id')] = 2;
+                    }
+                });
+                filePrivacyCount ++;
             }
+            $(".gallery_photo_remove").one('click', function(){
+                $('#photo_box_'+$(this).attr('data-count-id')).remove();
+                filePrivacyData.splice($(this).attr('data-count-id'),1);
+                fileData.splice($(this).attr('data-count-id'), 1);
+            });
+            
             reader.readAsDataURL(input.files[0]);
             fileData[fileCount] = input.files[0];
             fileCount ++;
-            console.log(fileData);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-//            $.ajax({
-//                url : getsiteurl() + '/profile/banner/upload',
-//                type : 'POST',
-//                data : formData,
-//                processData: false,  
-//                contentType: false, 
-//                success : function(data) {
-//                }
-//            });
         }
     }
+//    $(".gallery_photo_remove").on('click', function(){
+//         
+//    });
+    $('#photos_gallery_save').on('click',function(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        var formData = new FormData();
+        
+        fileData.forEach(function(file, i) {
+            formData.append('fileData_'+i, file);
+            formData.append('filePrivacy_'+i, filePrivacyData[i]);
+            formData.append('totalCount',filePrivacyData.length);
+        });
+        $.ajax({
+                url : getsiteurl() + '/profile/gallery/photos/upload',
+                type : 'POST',
+                data :formData,
+                contentType: false,
+                processData: false,
+                success : function(data) {
+                    location.reload();
+                }
+            });
+    })
+    
     $("#photo_upload").on('change', function(){
         profilePhotosURL(this);
     });
