@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header card-header">
-                <h4 class="modal-title">{{ trans('sentence.edit')}} {{ trans('sentence.basic_general_information')}}</h4>
+                <h4 class="modal-title">{{ trans('sentence.basic_general_information')}}</h4>
                 <button type="button" class="close" data-dismiss="modal" style="color: #fff; opacity: 1;">&times;</button>
             </div>
             <div class="modal-body">
@@ -30,6 +30,7 @@
                                 <option value="{{$key}}"  {{(old('preferred_age') == $key || ($user->preferred_age != ''&& in_array($key, explode(",",$user->preferred_age))))?'selected':''}}>{{$val}}</option>
                                 @endforeach
                             </select>
+                            <label id="preferred_age[]-error" class="error" for="preferred_age[]"></label>
                         </div>
                     </div>
                     <div class="row">
@@ -40,6 +41,7 @@
                                 <option value="{{$key}}" {{(old('preferred_height') == $key || ($user->preferred_height != ''&& in_array($key, explode(",",$user->preferred_height))))?'selected':''}}>{{$val}}</option>
                                 @endforeach
                             </select>
+                            <label id="preferred_height[]-error" class="error" for="preferred_height[]"></label>
                         </div>
                         <div class="form-group col-6">
                             <label for="preferred_weight" >{{trans('sentence.preferred_weight')}}</label>
@@ -48,38 +50,11 @@
                                 <option value="{{$key}}" {{(old('preferred_weight') == $key ||($user->preferred_weight != ''&& in_array($key, explode(",",$user->preferred_weight))))?'selected':''}}>{{$val}}</option>
                                 @endforeach
                             </select>
+                            <label id="preferred_weight[]-error" class="error" for="preferred_weight[]"></label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-6">
-                            <label for="phoneNumber">{{ trans('sentence.phone_number')}}
-                                @if(in_array(1,$userPrivacySetting))
-                                    <input type="checkbox" class="phone_number_privacy user_info_privacy" name="user_info_privacy[1]" value="1" {{in_array(1,$userInfoPrivacy)?'checked':''}}>  
-                                @endif
-                            </label>
-                            <input type="text" class="form-control" id="phoneNumber" placeholder="{{ trans('sentence.enter').' '.trans('sentence.phone_number')}}" 
-                                   name="phoneNumber" value="{{old('phoneNumber')!=''?old('phoneNumber'):$user->phone}}">
-                        </div>
-                        @error('phoneNumber')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                        <div class="form-group col-6">
-                            <label for="relationship" >Relationship
-                                @if(in_array(2,$userPrivacySetting))
-                                    <input type="checkbox" class="relationship_privacy user_info_privacy" name="user_info_privacy[2]" value="1"  {{in_array(2,$userInfoPrivacy)?'checked':''}}>
-                                @endif</label>
-                            <select name="relationship" class="form-control">
-                                <option value="">Select Relationship</option>
-                                @foreach($relationship as $key => $val)
-                                    <option value="{{$key}}" {{old('relationship') == $key || $user->relationship == $key?'selected':''}}>{{$val}}</option>
-                                @endforeach
-                            </select>
-                            @if ($errors->has('relationship'))
-                                <div class="error">{{ $errors->first('relationship') }}</div>
-                            @endif
-                        </div>
+                        
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
@@ -227,15 +202,30 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-12">
+                        <div class="form-group col-6">
                             <label for="describe_perfect_date" >{{trans('sentence.describe_perfect_date')}}
                                 @if(in_array(15,$userPrivacySetting))
                                     <input type="checkbox" class="describe_perfect_date_privacy user_info_privacy" name="user_info_privacy[15]" value="1">
                                 @endif
                             </label>
-                            <textarea  row="2" col="2" name="describe_perfect_date" class="form-control"
-                                    placeholder="{{ trans('sentence.enter').' '.trans('sentence.describe_perfect_date')}}" id="describe_perfect_date"> {{isset($user->describe_perfect_date)?($user->describe_perfect_date):old('describe_perfect_date')}}</textarea>
+                            <textarea  row="4" col="2" name="describe_perfect_date" class="form-control"
+                                    placeholder="{{ trans('sentence.enter').' '.trans('sentence.describe_perfect_date')}}" id="describe_perfect_date">{{isset($user->describe_perfect_date)?($user->describe_perfect_date):old('describe_perfect_date')}}</textarea>
 
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="relationship" >Relationship
+                                @if(in_array(2,$userPrivacySetting))
+                                    <input type="checkbox" class="relationship_privacy user_info_privacy" name="user_info_privacy[2]" value="1"  {{in_array(2,$userInfoPrivacy)?'checked':''}}>
+                                @endif</label>
+                            <select name="relationship" class="form-control">
+                                <option value="">Select Relationship</option>
+                                @foreach($relationship as $key => $val)
+                                    <option value="{{$key}}" {{old('relationship') == $key || $user->relationship == $key?'selected':''}}>{{$val}}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('relationship'))
+                                <div class="error">{{ $errors->first('relationship') }}</div>
+                            @endif
                         </div>
                     </div>
                         <div class="row">
@@ -246,7 +236,7 @@
                                     @endif
                                 </label>
                                 <select name="ethnicity" class="form-control" id="ethnicity">
-                                    <option value="">Select Ethnicity</option>
+                                    <option value=""></option>
                                     @foreach($ethnicity as $key => $val)
                                     <option value="{{$key}}" {{old('ethnicity') == $key || $user->ethnicity == $key?'selected':''}}>{{$val}}</option>
                                     @endforeach
@@ -284,9 +274,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{trans('sentence.save')}}
                                 </button>
-<!--                                <button type="cancel" class="btn btn-secondary">
+                                <button type="button" class="btn btn-secondary" onclick="location.href='{{url('/profile')}}'">
                                     {{trans('sentence.cancel')}}
-                                </button>-->
+                                </button>
                             </div>
                         </div>
                 </form>

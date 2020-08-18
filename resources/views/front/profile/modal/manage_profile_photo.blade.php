@@ -6,8 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal" style="color: #fff; opacity: 1;">&times;</button>
             </div>
             <div class="modal-body">
-                <!--<form action="{{route('galleryPhotosUpload')}}" id="editProfile" method="post" enctype="multipart/form-data">-->
-                <form action="" id="editProfile" method="POST" action="javascript:void(0);">
+                <form action="" id="manage_profile_photo" method="POST" action="javascript:void(0);">
                     @csrf
                     <div class='row'>
                         <div class="input-group">
@@ -15,14 +14,14 @@
                                 <label for="upload_photos" >Upload Photos</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="photo_upload" accept="image/*" name='photo_upload[]'>
-                                    <label class="custom-file-label" for="photo_upload">Choose file</label>
+                                    <label class="custom-file-label" for="photo_upload" id="photo_upload_label">Choose file</label>
                                 </div>
                             </div>
                         </div>
                     </div><br>
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
-                            <button type="button" class="btn btn-primary" id="photos_gallery_save">
+                            <button type="button" class="btn btn-primary" id="photos_gallery_save" style="display: none;">
                                 {{trans('sentence.save')}}
                             </button>
                             <button type="button" class="btn btn-secondary" onclick="location.href='{{url('/profile')}}'">

@@ -37,15 +37,17 @@ Route::post('contact-us/store', 'ContactUsController@contactUsStore')->name('con
 
 //profile route
 Route::get('profile', 'ProfileController@profileInfo')->name('profileInfo');
-Route::get('general/info/{id}', 'ProfileController@generalProfileInfo')->name('generalProfileInfo');
-Route::post('general/info/store', 'ProfileController@generalProfileInfoStore')->name('generalProfileInfoStore');
 Route::match(['get','post'],'search/profile', 'ProfileController@viewSearchProfile')->name('viewSearchProfile');
 Route::get('match/profile', 'ProfileController@matchedProfile')->name('matchedProfile');
 Route::post('profile/banner/upload', 'ProfileController@profileBannerUpload')->name('profileBannerUpload');
+Route::post('profile/phone/verification', 'ProfileController@phoneVerification')->name('phoneVerification');
+Route::post('profile/doc/verification', 'ProfileController@docVerification')->name('docVerification');
 Route::post('profile/gallery/photos/upload', 'ProfileController@galleryPhotosUpload')->name('galleryPhotosUpload');
 Route::post('profile/image/upload', 'ProfileController@profileImageUpload')->name('profileImageUpload');
 Route::post('profile/aboutMe/store', 'ProfileController@profileAboutMeUpload')->name('profileAboutMeUpload');
 Route::post('edit/profile/{id}', 'ProfileController@editProfile')->name('editProfile');
+Route::get('profile/gallery/photos/delete/{id}', 'ProfileController@galleryPhotosDelete')->name('galleryPhotosDelete');
+Route::get('/gallery/photos/privacy/update/{id}/{checked}', 'ProfileController@galleryPhotosPrivacyUpdate')->name('galleryPhotosPrivacyUpdate');
 
 
 
@@ -65,6 +67,7 @@ Route::group(['before' => 'auth','prefix' => 'admin'], function(){
     Route::delete('user/delete','Admin\UserController@deleteUser')->name('deleteUser');
     Route::get('user/edit/{id}','Admin\UserController@editUser');
     Route::post('user/update/{id}','Admin\UserController@updateUser')->name('updateUser');
+    Route::post('user/id_verify/update/{id}','Admin\UserController@userIdVerifyUpdate')->name('userIdVerifyUpdate');
     
     //Advertise Management
     Route::match(['get','post'],'advertise', 'Admin\AdvertiseController@advertiseListing')->name('advertiseListing');

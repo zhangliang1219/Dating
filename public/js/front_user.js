@@ -15,28 +15,7 @@
         }
         
     });
-    $("#general_info_form").validate({
-        rules: {
-            'wish_to_meet': {required:true}, 
-            'phoneNumber' : {required:true},          
-            'ethnicity': {required:true},         
-            'relationship': {required:true},         
-            'describe_perfect_date': {maxlength: 1000},         
-            'ethnicity_other': {
-                            required: function(element) {
-                                return $("#ethnicity").val() == 10;
-                            }
-                        },
-            'build_other': {
-                            required: function(element) {
-                                return $("#build").val() == 4;
-                            }
-                        },
-        },
-        submitHandler: function (form) {
-            form.submit();
-        }
-    });
+    
     $('#dob').datepicker({
         format: 'yyyy/mm/dd',
     });

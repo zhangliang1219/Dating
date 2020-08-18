@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use App\Country;
 use App\UserPrivacySetting;
 use App\UserInfoPrivacy;
+use App\UserDoc;
 
 class UserController  extends Controller
 {
@@ -116,7 +117,8 @@ class UserController  extends Controller
         $country = Country::all();
         $userPrivacySetting = UserPrivacySetting::where('privacy_option',1)->pluck('field_id')->toArray();
         $userInfoPrivacy = UserInfoPrivacy::where('privacy_option',1)->where('user_id',$id)->pluck('field_id')->toArray();
-        return view('admin.user.edit',compact('user','country','userPrivacySetting','userInfoPrivacy'));
+        $userDoc = UserDoc::where('user_id',$id)->get()->toArray();
+        return view('admin.user.edit',compact('user','country','userPrivacySetting','userInfoPrivacy','userDoc'));
     }
     
     public function updateUser(Request $request,$id) {
@@ -129,8 +131,25 @@ class UserController  extends Controller
                 'gender' => 'required',  
                 'email' => 'required|email|unique:users,email,'.$id, 
                 'wish_to_meet'   => 'required',
-                'ethnicity'=> 'required',
-                'relationship'=> 'required',
+                'relationship'=> 'required', 
+                'preferred_age.*'=> 'required', 
+                'preferred_height.*'=> 'required', 
+                'preferred_weight.*'=> 'required',
+                'height'=> 'required',
+                'weight'=> 'required',
+                'living_arrangement' => 'required',         
+                'city'=> 'required',         
+                'state' => 'required',       
+                'country' => 'required',          
+                'favorite_sport' => 'required',          
+                'high_school_attended' => 'required',          
+                'collage'=> 'required',      
+                'employment_status' => 'required',        
+                'education' => 'required',      
+                'build' =>'required',        
+                'children' => 'required',          
+                'ethnicity'=>'required',       
+                'describe_perfect_date'=>'required|max: 1000', 
             ]);
             if ($validator->fails()) {
                 return redirect('admin/user/edit/'.$id)
@@ -207,6 +226,18 @@ class UserController  extends Controller
         }catch(Exception $e){
             Session::flash('error', 'Something is wrong.Please try again!');
             return Redirect::to('');
+        }
+    }
+    
+    public function userIdVerifyUpdate(Request $request,$id) {
+        if($request->id_verify != ''){
+            $user = User::find($id);
+            $user->id_verify = $request->id_verify;
+            $user->save();
+            Session::flash('success', 'User Id verifaction status updated successfully.');
+            return redirect(url('/admin/user' ));
+        }else{
+            return redirect()->to('/admin/user/edit/'.$id);
         }
     }
 }

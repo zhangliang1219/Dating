@@ -1,3 +1,4 @@
+.card-primary:not(.card-outline)>.card-header {background-color: #17a2b8;}
 #user_listing th a,#user_listing th ,#advertise_listing th a,#advertise_listing th,#subscription_listing th a,#subscription_listing th{color: #000;font-size: 14px;}
 .error{color:#f80e0e}
 .gender_opt{display: -webkit-box;border: 1px solid #ccc;padding: 6px;border-radius: .25rem;}
@@ -16,3 +17,5 @@
 .swipe_with_like_dislike_wrap{display: inline-flex;}
 .dz-default{width: 100%;height: auto;text-align: center;}
 .dz-button{border: none;background-color: transparent;margin: 5em 0;font-size: 25px;}
+.search_range{border:0; color:#f6931f; font-weight:bold;}
+.doc_photo{width: 100px; height: 100px;}

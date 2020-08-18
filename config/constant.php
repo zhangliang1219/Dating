@@ -17,6 +17,10 @@ return [
         '1' => 'Verified',
         '2' => 'Unverified',
     ],
+    'verify_option' =>[
+        '1' => 'Approve',
+        '2' => 'Reject',
+    ],
     'language' => [
         '1' => 'English',
         '2' => 'French',

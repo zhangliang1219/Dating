@@ -1,7 +1,9 @@
  $( document ).ready(function() {
+     
     $('.edit-user-banner').click(function(){
         $("#user-banner-img").click();
     });
+    
     var profileBannerURL = function(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -28,6 +30,7 @@
             });
         }
     }
+    
     $("#user-banner-img").on('change', function(){
         profileBannerURL(this);
     });
@@ -35,6 +38,7 @@
     $('#editUserProfile').click(function(){
         $("#user-profile-img").click();
     });
+    
     var profileURL = function(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -61,22 +65,28 @@
             });
         }
     }
+    
     $("#user-profile-img").on('change', function(){
         profileURL(this);
     });
+    
     $('#about_me_edit').click(function(){
         $('.profile_about_me_wrap').show();
         $('.profile_about_me_text').hide();
     });
+    
     $('.general_info_edit').click(function(){
         $('#editBasicGeneralInfo').modal('show');  
     });
-   if($('#ethnicity_other_hidden').val() !== ''){
+    
+    if($('#ethnicity_other_hidden').val() !== ''){
         $("#ethnicity_other").show();
     }
+    
     if($('#build_other_hidden').val() !== ''){
         $("#build_other").show();
     }
+    
     $('#ethnicity').change(function() {
         if ($(this).val() == "10") {
             $("#ethnicity_other").show();
@@ -92,13 +102,29 @@
             $("#build_other").hide();
         }
     });
+    
     $("#editProfile").validate({
         rules: {
             'wish_to_meet': {required:true}, 
-            'phoneNumber' : {required:true},          
+            'preferred_age[]': {required:true}, 
+            'preferred_height[]': {required:true}, 
+            'preferred_weight[]': {required:true}, 
+            'height': {required:true}, 
+            'weight': {required:true}, 
+            'living_arrangement' : {required:true},          
+            'city' : {required:true},          
+            'state' : {required:true},          
+            'country' : {required:true},          
+            'favorite_sport' : {required:true},          
+            'high_school_attended' : {required:true},          
+            'collage' : {required:true},          
+            'employment_status' : {required:true},          
+            'education' : {required:true},          
+            'build' : {required:true},          
+            'children' : {required:true},          
             'ethnicity': {required:true},         
             'relationship': {required:true},         
-            'describe_perfect_date': {maxlength: 1000},         
+            'describe_perfect_date': {required:true,maxlength: 1000},         
             'ethnicity_other': {
                             required: function(element) {
                                 return $("#ethnicity").val() == 10;
@@ -110,12 +136,31 @@
                             }
                         },
         },
+        errorElement : 'small',
         submitHandler: function (form) {
             form.submit();
         }
     });
+    
+    $("#docVerification").validate({
+        rules: {
+            'doc_upload[]': {required:true,extension: "TIFF|JPEG|GIF|PDF|PNG|JPG"}, 
+        },
+        errorElement : 'small',
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+    $("#doc_upload").change(function(e){
+        var fileName =  e.target.files[0].name;
+        $('#doc_upload_label').text(fileName);
+    });
     $('#profile_photos').click(function(){
         $('#profilePhotosModal').modal('show');  
+    });
+    
+    $("#photo_upload").on('change', function(e){
+        profilePhotosURL(this);
     });
     
     var formData = new FormData();
@@ -123,10 +168,14 @@
     var filePrivacyData = new Array();
     var fileCount = $('.photo_gallery_count').val();
     var filePrivacyCount = $('.photo_gallery_count').val();
+    
     var profilePhotosURL = function(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
+                $('#photos_gallery_save').show();
+                var fileName = input.files[0].name;
+                $('#photo_upload_label').text(fileName);
                 $('.photo_gallery tr').append('<td class="photo_box" id="photo_box_'+filePrivacyCount+'"><img src='+ e.target.result+' alt="photo" >\n\
                                                 <i class="fa fa-trash gallery_photo_remove" aria-hidden="true" data-count-id="'+filePrivacyCount+'" data-id="0"></i>\n\
                                                 <input type="checkbox" class="photo_gallery_privacy" name="upload_photos['+filePrivacyCount+']" value="1" \n\
@@ -152,9 +201,29 @@
             fileCount ++;
         }
     }
-//    $(".gallery_photo_remove").on('click', function(){
-//         
-//    });
+    
+    $(".gallery_photo_remove").on('click', function(){
+        var rowId = $(this).attr('data-count-id');
+         $.ajax({
+            url : getsiteurl() + '/profile/gallery/photos/delete/'+$(this).attr('data-id'),
+            type : 'GET',
+            success : function() {
+                $('#photo_box_'+rowId).remove();
+            }
+        });
+    });
+    
+    $(".photo_gallery_privacy").one('change', function(){
+        var rowId = $(this).attr('data-count-id');
+         $.ajax({
+            url : getsiteurl() + '/gallery/photos/privacy/update/'+$(this).attr('data-id')+'/'+($(this).is(':checked')?1:2),
+            type : 'GET',
+            success : function(data) {
+                $(this).prop( "checked", true );
+            }
+        });
+    });
+    
     $('#photos_gallery_save').on('click',function(){
         $.ajaxSetup({
             headers: {
@@ -162,26 +231,34 @@
             }
         });
         var formData = new FormData();
-        
+        console.log(fileData);
         fileData.forEach(function(file, i) {
             formData.append('fileData_'+i, file);
             formData.append('filePrivacy_'+i, filePrivacyData[i]);
             formData.append('totalCount',filePrivacyData.length);
         });
         $.ajax({
-                url : getsiteurl() + '/profile/gallery/photos/upload',
-                type : 'POST',
-                data :formData,
-                contentType: false,
-                processData: false,
-                success : function(data) {
-                    location.reload();
-                }
-            });
-    })
-    
-    $("#photo_upload").on('change', function(){
-        profilePhotosURL(this);
+            url : getsiteurl() + '/profile/gallery/photos/upload',
+            type : 'POST',
+            data :formData,
+            contentType: false,
+            processData: false,
+            success : function(data) {
+                location.reload();
+            }
+        });
     });
+    
+    $("#age-slider-range").slider({
+        range: true,
+        min: 18,
+        max: 80,
+        values: [ 30, 40 ],
+        slide: function( event, ui ) {
+            $("#age_range").val(ui.values[0] + " - " + ui.values[1]);
+        }
+    });
+    
+    $("#age_range").val($("#age-slider-range").slider("values", 0)+" - " + $("#age-slider-range").slider("values", 1 ));
 });
 

@@ -20,34 +20,29 @@ use App\UserPrivacySetting;
 use App\UserInfoPrivacy;
 use App\UserInfo;
 use App\UserPhotos;
+use App\UserDoc;
 
 class ProfileController  extends Controller
 {
     public function profileInfo() {
-    if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
         $country = Country::all();
         $userInfo = UserInfo::where('user_id',Auth::user()->id)->first();
         $user = User::find(Auth::user()->id);
         $userPrivacySetting = UserPrivacySetting::where('privacy_option',1)->pluck('field_id')->toArray();
         $userInfoPrivacy = UserInfoPrivacy::where('privacy_option',1)->where('user_id',Auth::user()->id)->pluck('field_id')->toArray();
         $userPhoto = UserPhotos::where('user_id',Auth::user()->id)->get()->toArray();
-        return view('front.profile.index',compact('country','userInfo','user','userPrivacySetting','userInfoPrivacy','userPhoto')); 
-    }else{
-        return redirect()->to('/general/info/'.Auth::user()->id);
-    }
+        $userDoc = UserDoc::where('user_id',Auth::user()->id)->get()->toArray();
+        return view('front.profile.index',compact('country','userInfo','user','userPrivacySetting','userInfoPrivacy','userPhoto','userDoc')); 
   }
   
     public function userProfile(Request $request,$id) {
-    if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
         $userInfo = User::with('countryData')->where('users.id',$id)->first();
         return view('front.profile.user_profile',compact('userInfo'));
-    }else{
-        return redirect()->to('/general/info/'.Auth::user()->id);
     }
-  }
   
     public function viewSearchProfile(Request $request){
         if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
+//            echo "<pre>";print_R($request->all());exit;
             $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
             $page_limit = 2;
             $searchProfile = array();
@@ -101,7 +96,7 @@ class ProfileController  extends Controller
             }            
             return view('front.search.index',compact('searchProfile','request')); 
         }else{
-            return redirect()->to('/general/info/'.Auth::user()->id);
+            return redirect('/profile')->with('success',"You'll need to complete your profile and verify your phone number,identity.");
         }
     }
     
@@ -139,75 +134,11 @@ class ProfileController  extends Controller
                             })
                         ->where('users.id','!=',Auth::user()->id)->where('is_admin',0)->where('status',2)->get();
         }else{
-            return redirect()->to('/general/info/'.Auth::user()->id);
+            return redirect('/profile')->with('success',"You'll need to complete your profile and verify your phone number,identity.");
         }
          
     }
-    
-    public function generalProfileInfo(Request $request,$id){
-        if(Auth::user() && Auth::user()->email_verify == 1 && Auth::user()->id_verify != 1 && Auth::user()->phone_verify != 1 ){
-            $country = Country::all();
-            $userPrivacySetting = UserPrivacySetting::where('privacy_option',1)->pluck('field_id')->toArray();
-            return view('front.profile.general_info',compact('country','userPrivacySetting')); 
-        }else{
-           Session::flash('error', 'You do not have permission to perform this action!');
-           return Redirect::to('/'); 
-        }
-    }
-    
-    public function generalProfileInfoStore(Request $request) {
-        $validator =  Validator::make($request->all(), [
-            'wish_to_meet'   => 'required',
-            'phoneNumber' => 'required',
-            'ethnicity'=> 'required',
-            'relationship'=> 'required',
-            'describe_perfect_date'=>'max: 1000',  
-        ]); 
-        if ($validator->fails()) {
-            return redirect('/general/info/'.$request->user_id)
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-        
-        $user = User::find($request->user_id);
-        $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:NULL);
-        $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
-        $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):NULL);
-        $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):NULL);
-        $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):NULL);
-        $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):NULL);
-        $user->ethnicity_other = (isset($request->ethnicity_other)?($request->ethnicity_other):NULL);
-        $user->height = (isset($request->height)?$request->height:NULL);
-        $user->weight = (isset($request->weight)?$request->weight:NULL);
-        $user->build = (isset($request->build)?$request->build:NULL);
-        $user->build_other = (isset($request->build_other)?$request->build_other:NULL);
-        $user->relationship = (isset($request->relationship)?$request->relationship:NULL);
-        $user->living_arrangement = (isset($request->living_arrangement)?$request->living_arrangement:NULL);
-        $user->city = (isset($request->city)?$request->city:NULL);
-        $user->state = (isset($request->state)?$request->state:NULL);
-        $user->country = (isset($request->country)?$request->country:NULL);
-        $user->favorite_sport = (isset($request->favorite_sport)?$request->favorite_sport:NULL);
-        $user->high_school_attended = (isset($request->high_school_attended)?$request->high_school_attended:NULL);
-        $user->collage = (isset($request->collage)?$request->collage:NULL);
-        $user->employment_status = (isset($request->employment_status)?$request->employment_status:NULL);
-        $user->education = (isset($request->education)?$request->education:NULL);
-        $user->children = (isset($request->children)?$request->children:NULL);
-        $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:NULL);
-        $user->save();
-        
-        if(isset($request->user_info_privacy) && count($request->user_info_privacy)>0){
-            foreach($request->user_info_privacy as $key => $val){
-                UserInfoPrivacy::where('user_id',$user->id)->where('field_id',$key)->forceDelete();
-                $userInfoPrivacy = new UserInfoPrivacy();
-                $userInfoPrivacy->user_id = $user->id;
-                $userInfoPrivacy->field_id =  $key;
-                $userInfoPrivacy->privacy_option =  $val;
-                $userInfoPrivacy->save();
-            }
-        }
-        return redirect('/home')->with('success','Your Profile Info saved successfully.');
-    }
-    
+  
     public function profileBannerUpload(Request $request) {
         if($request->file !=  ''){
             $profile_photo = $request->file;
@@ -240,6 +171,14 @@ class ProfileController  extends Controller
     }
     
     public function profileAboutMeUpload(Request $request) {
+        $validator =  Validator::make($request->all(), [
+            'profile_about_me_txt' => 'required'
+        ]); 
+        if ($validator->fails()) {
+            return redirect('/profile')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
         $userInfo = UserInfo::where('user_id',Auth::user()->id)->first();
         if($userInfo === null){
             $userInfo = new UserInfo();
@@ -251,6 +190,35 @@ class ProfileController  extends Controller
     
     public function editProfile(Request $request,$id){
         try{
+            $validator =  Validator::make($request->all(), [
+                'wish_to_meet' => 'required',
+                'preferred_age' => 'required',
+                'wish_to_meet'=>'required', 
+                'preferred_age[]'=> 'required', 
+                'preferred_height[]'=> 'required', 
+                'preferred_weight[]'=> 'required',
+                'height'=> 'required',
+                'weight'=> 'required',
+                'living_arrangement' => 'required',         
+                'city'=> 'required',         
+                'state' => 'required',       
+                'country' => 'required',          
+                'favorite_sport' => 'required',          
+                'high_school_attended' => 'required',          
+                'collage'=> 'required',      
+                'employment_status' => 'required',        
+                'education' => 'required',      
+                'build' =>'required',        
+                'children' => 'required',          
+                'ethnicity'=>'required',     
+                'relationship'=>'required',     
+                'describe_perfect_date'=>'required|max: 1000', 
+            ]); 
+            if ($validator->fails()) {
+                return redirect('/profile')
+                            ->withErrors($validator)
+                            ->withInput();
+            }
             $user = User::find($id);
             $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
             $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):NULL);
@@ -258,7 +226,6 @@ class ProfileController  extends Controller
             $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):NULL);
             $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):NULL);
             $user->ethnicity_other = (isset($request->ethnicity_other)?($request->ethnicity_other):NULL);
-            $user->phone = (isset($request->phoneNumber)?$request->phoneNumber:NULL);
             $user->height = (isset($request->height)?$request->height:NULL);
             $user->weight = (isset($request->weight)?$request->weight:NULL);
             $user->build = (isset($request->build)?$request->build:NULL);
@@ -316,6 +283,62 @@ class ProfileController  extends Controller
                 }
             }
         }
+    }
+    public function galleryPhotosDelete($id) {
+        UserPhotos::where('id',$id)->delete();
+    }
+    
+    public function galleryPhotosPrivacyUpdate($id,$checked) {
+        $userPhotos = UserPhotos::find($id);
+        $userPhotos->privacy_option	= $checked;
+        $userPhotos->save();
+    }
+    public function phoneVerification(Request $request){
+        $validator = Validator::make($request->all(), [
+            'phoneNumber' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return redirect('/profile')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $user = User::find(Auth::user()->id);
+        $user->phone = $request->phoneNumber;
+        $user->save();
+        return redirect('/profile')->with('success','OTP is sent to Your Mobile Number');
+    }
+    
+    public function docVerification(Request $request){
+        $validator = Validator::make($request->all(), [
+            'doc_upload.*' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect('/profile')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $files = $request->doc_upload;
+        if(count($files)>0){
+            $doc_name = $doc_type = '';
+            foreach ($files as $key => $file) { 
+                $ext = $file->getClientOriginalExtension();
+                $doc_type = 'application';
+                if(in_array($ext,array('TIFF','JPEG','GIF','PNG','PDF'))){
+                    $doc_type = 'image';
+                }
+                
+                $doc_name = time().'_'.$key.'.'.$file->getClientOriginalExtension();
+                $destinationPath = public_path('/user_doc');
+                $file->move($destinationPath, $doc_name);
+                
+                $userDoc = new UserDoc();
+                $userDoc->user_id = Auth::user()->id;
+                $userDoc->doc_name = $doc_name;
+                $userDoc->doc_type = $doc_type;
+                $userDoc->save();
+            }
+        }
+        return redirect('/profile')->with('success',"Your documents upload successfully and it's under verification.");
     }
 }
 

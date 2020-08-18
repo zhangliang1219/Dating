@@ -66,7 +66,7 @@ class LoginController extends Controller
                 if(auth()->user()->id_verify == 1 && auth()->user()->email_verify == 1 && auth()->user()->phone_verify == 1){
                     return redirect()->to('/home');
                 }else{
-                    return redirect()->to('/general/info/'.auth()->user()->id);
+                    return redirect('/profile')->with('success',"You'll need to complete your profile and verify your phone number,identity.");
                 }
             }else{
                 $this->incrementLoginAttempts($request);

@@ -69,18 +69,18 @@
         <div class="profile-details">
             <div class="profile-user">
                 <div class="user-image">
-                        <img src="{{isset($user->photo)? asset('images/profile/'.$user->photo):asset('images/profile-default.jpg')}}" alt="" id="profile_img">
+                        <img src="{{isset($user->photo) && ($user->photo != '')? asset('images/profile/'.$user->photo):asset('images/profile-default.jpg')}}" alt="" id="profile_img">
                         <input type="file" name="user-profile-img" class="user-profile-img" style="display:none;" id="user-profile-img" accept='image/*'>
                     <div class="edit-btn" id="editUserProfile">Edit</div>
                 </div>
                 <div class="user-details">
                     <h3>{{(Auth::user()?Auth::user()->first_name.' '.Auth::user()->last_name:'')}}</h3>
-                    <h5>{{Auth::user()?Auth::user()->age:''}} year old {{Auth::user()?$gender[Auth::user()->gender]:''}}</h5>
+                    <h5>{{Auth::user()?Auth::user()->age:''}} year old {{Auth::user() && Auth::user()->gender != '' ?$gender[Auth::user()->gender]:''}}</h5>
                     <h6><i class="fas fa-map-marker-alt"></i> {{Auth::user()?(Auth::user()->city.(Auth::user()->country != ''?', '.$country[Auth::user()->country]->country_name:'')):''}}</h6>
                 </div>
             </div>
             <div class="likes">
-                <h3>121</h3>
+                <h3>00</h3>
                 <h6>Number of Likes</h6>
             </div>
         </div>
@@ -118,18 +118,29 @@
                       <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
                           {{ trans('sentence.profile')}}</a>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-                          {{ trans('sentence.matches')}}</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                          {{ trans('sentence.membership')}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="contact1-tab" data-toggle="tab" href="#contact1" role="tab" aria-controls="contact1" aria-selected="false">
-                            {{ trans('sentence.schedule_counseling')}}</a>
-                      </li>
+                    @if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1)
+                        <li class="nav-item">
+                          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                              {{ trans('sentence.matches')}}</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                              {{ trans('sentence.membership')}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact1-tab" data-toggle="tab" href="#contact1" role="tab" aria-controls="contact1" aria-selected="false">
+                                {{ trans('sentence.schedule_counseling')}}</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                          <a class="nav-link" id="phone-verify-tab" data-toggle="tab" href="#phone_verify" role="tab" aria-controls="phone_verify" aria-selected="false">
+                              {{ trans('sentence.phone_verification')}}</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="doc-tab" data-toggle="tab" href="#document_verify" role="tab" aria-controls="document_verify" aria-selected="false">
+                              {{ trans('sentence.doc_verification')}}</a>
+                        </li>
+                    @endif
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -148,9 +159,10 @@
                                     <button type="submit" value="about_me_submit" class="btn btn-primary" >Submit</button> 
                                 </form>
                             </div>
-                            <p class="profile_about_me_text">{{isset($userInfo->about_me)?$userInfo->about_me:'please Enter About Me Text...'}}</p>
+                            <p class="profile_about_me_text">{{isset($userInfo->about_me)?$userInfo->about_me:'please Enter About Me Text Here...'}}</p>
                             <br>
                         </div>
+                                        
                         <div class="profile-header-title">
                             <h3>{{ trans('sentence.basic_general_information')}}</h3>
                             <button class="general_info_edit">
@@ -164,7 +176,7 @@
                                        {{trans('sentence.your_gender')}}
                                     </div>
                                     <div class="col-6">
-                                        {{($user && $user->gender != '')?$gender[$user->gender]:'-'}}
+                                        {{($user && $user->gender != '')?$gender[$user->gender]:'-'}} 
                                     </div>
                                 </div>
                                 <div class="row">
@@ -432,19 +444,101 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="phone_verify" role="tabpanel" aria-labelledby="phone-verify-tab">
+                        <form action="{{route('phoneVerification')}}" id="phoneVerification" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="phoneNumber">{{ trans('sentence.phone_number')}}
+                                        @if(in_array(1,$userPrivacySetting))
+                                            <input type="checkbox" class="phone_number_privacy user_info_privacy" name="user_info_privacy[1]" value="1" {{in_array(1,$userInfoPrivacy)?'checked':''}}>  
+                                        @endif
+                                    </label>
+                                    <input type="text" class="form-control" id="phoneNumber" placeholder="{{ trans('sentence.enter').' '.trans('sentence.phone_number')}}" 
+                                           name="phoneNumber" value="{{old('phoneNumber')!=''?old('phoneNumber'):$user->phone}}">
+                                </div>
+                                @error('phoneNumber')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                        `   </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{trans('sentence.send')}}
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="location.href='{{url('/profile')}}'">
+                                        {{trans('sentence.cancel')}}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                      <div class="tab-pane fade" id="document_verify" role="tabpanel" aria-labelledby="doc-tab">
+                          @if(count($userDoc)>0 && Auth::user()->id_verify != 1)
+                            <div class="alert alert-warning" role="alert">
+                                <h6>Your documents are under verification.</h6>
+                            </div>
+                          @elseif (Auth::user()->id_verify == 1)
+                            <div class="alert alert-success" role="alert">
+                                <h6>Your documents are verified.</h6>
+                            </div>
+                          @elseif (count($userDoc) == 0)
+                            <form action="{{route('docVerification')}}" id="docVerification" method="post"  enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
+                                 <div class="form-group col-6">
+                                     <label for="doc">{{ trans('sentence.doc_upload')}}</label>
+                                     <div class="input-group">
+                                         <div class="custom-file">
+                                             <input type="file" class="custom-file-input" id="doc_upload" name="doc_upload[]"
+                                                    accept="image/TIFF,image/PNG,image/JPG,image/JPEG,image/GIF,application/PDF" multiple="multiple">
+                                             <label class="custom-file-label" for="doc_upload" id="doc_upload_label">Choose file</label>
+                                         </div>
+                                     </div>
+                                     <small id="doc_upload-error" class="error"></small>
+                                     <div>(TIFF, JPEG, JPG, GIF, PNG, PDF )</div>
+                                 </div>
+                                 @error('doc_upload')
+                                     <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                     </span>
+                                 @enderror
+                         `   </div>
+                                <div class="form-group row mb-0">
+                                 <div class="col-md-6 offset-md-4">
+                                     <button type="submit" class="btn btn-primary">
+                                         {{trans('sentence.send')}}
+                                     </button>
+                                     <button type="button" class="btn btn-secondary" onclick="location.href='{{url('/profile')}}'">
+                                         {{trans('sentence.cancel')}}
+                                     </button>
+                                 </div>
+                             </div>
+                            </form>
+                          @endif
+                       
+                    </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
                     <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact1-tab">...</div>
                   </div>
             </div>
         </div>
-        <div class="col-md-4">
+        @if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1)
+            <div class="col-md-4">
             <div class="custom-card">
                 <form class="form-horizontal" method="post" action="{{route('viewSearchProfile')}}"
                     name="search_profile" id="search_profile">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <input type="text" name="age"  class="form-control"  placeholder="{{ trans('sentence.enter').' '.trans('sentence.age')}}">
+                            <div class=" ">
+                                <label class=" ">{{ trans('sentence.select').' '.trans('sentence.age')}}</label>
+                                <input type="text" id="age_range" readonly class="search_range" name="age"  >
+                            </div>
+                            <div id="age-slider-range"></div>
+                            <!--<input type="text" name="age"  class="form-control"  placeholder="{{ trans('sentence.enter').' '.trans('sentence.age')}}">-->
                         </div>
                         <div class="form-group">
                             <select name="height" class="form-control" >
@@ -517,10 +611,12 @@
             </div>
         </div>
     </div>
+        @endif
 </div>
 @include('front.profile.modal.edit_general_info')
 @include('front.profile.modal.manage_profile_photo')
 @endsection
+  
 @section('javascript')
-<script src="{{ asset('js/front_profile.js') }}"></script>
+<script src="{{ asset('js/front_profile.js?'.time()) }}"></script>
 @endsection

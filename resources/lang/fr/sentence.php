@@ -102,4 +102,8 @@ return [
     'basic_general_information'=>'Informations générales de base',
     'edit'=>'Éditer',
     'cancel'=>'Annuler',
+    'phone_verification'=>'Vérification du téléphone',
+    'doc_verification'=>'Vérification des documents',
+    'send'=>'Envoyer',
+    'doc_upload'=>'Téléchargement de documents',
 ];

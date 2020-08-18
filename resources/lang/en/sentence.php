@@ -102,5 +102,9 @@ return [
     'basic_general_information'=>'Basic General Information',
     'edit'=>'Edit',
     'cancel'=>'Cancel',
+    'phone_verification'=>'Phone Verification',
+    'doc_verification'=>'Document Verification',
+    'send'=>'Send',
+    'doc_upload'=>'Document Upload',
     
 ];
