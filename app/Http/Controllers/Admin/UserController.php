@@ -14,6 +14,7 @@ use App\Country;
 use App\UserPrivacySetting;
 use App\UserInfoPrivacy;
 use App\UserDoc;
+use App\UserInfo;
 
 class UserController  extends Controller
 {
@@ -115,10 +116,11 @@ class UserController  extends Controller
     public function editUser($id){
         $user = User::find($id);
         $country = Country::all();
+        $userInfo = UserInfo::where('user_id',$id)->first();
         $userPrivacySetting = UserPrivacySetting::where('privacy_option',1)->pluck('field_id')->toArray();
         $userInfoPrivacy = UserInfoPrivacy::where('privacy_option',1)->where('user_id',$id)->pluck('field_id')->toArray();
         $userDoc = UserDoc::where('user_id',$id)->get()->toArray();
-        return view('admin.user.edit',compact('user','country','userPrivacySetting','userInfoPrivacy','userDoc'));
+        return view('admin.user.edit',compact('user','country','userPrivacySetting','userInfoPrivacy','userDoc','userInfo'));
     }
     
     public function updateUser(Request $request,$id) {
@@ -132,9 +134,6 @@ class UserController  extends Controller
                 'email' => 'required|email|unique:users,email,'.$id, 
                 'wish_to_meet'   => 'required',
                 'relationship'=> 'required', 
-                'preferred_age.*'=> 'required', 
-                'preferred_height.*'=> 'required', 
-                'preferred_weight.*'=> 'required',
                 'height'=> 'required',
                 'weight'=> 'required',
                 'living_arrangement' => 'required',         
@@ -177,10 +176,6 @@ class UserController  extends Controller
             }
             $user->dob = $request->dob;
             $user->gender = $request->gender;
-            $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
-            $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):NULL);
-            $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):NULL);
-            $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):NULL);
             $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):NULL);
             $user->ethnicity_other = (isset($request->ethnicity_other)?($request->ethnicity_other):NULL);
             $user->email = $request->email; 
@@ -209,6 +204,28 @@ class UserController  extends Controller
             $user->phone_verify = ($request->phone_verification == 'on')?1:2;
             $user->id_verify = ($request->id_verification == 'on')?1:2;
             $user->save();
+            
+            $userInfo = UserInfo::where('user_id',$id)->first();
+            if($userInfo === null){
+                $userInfo = new UserInfo();
+            }
+            $userInfo->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
+            $preferred_age = explode(" - ",$request->preferred_age);
+            if(count($preferred_age)>0){
+                $userInfo->preferred_min_age = $preferred_age[0];
+                $userInfo->preferred_max_age = $preferred_age[1];
+            }
+            $preferred_height = explode(" - ",$request->preferred_height);
+            if(count($preferred_height)>0){
+                $userInfo->preferred_min_height = $preferred_height[0];
+                $userInfo->preferred_max_height = $preferred_height[1];
+            }
+            $preferred_weight = explode(" - ",$request->preferred_weight);
+            if(count($preferred_weight)>0){
+                $userInfo->preferred_min_weight = $preferred_weight[0];
+                $userInfo->preferred_max_weight = $preferred_weight[1];
+            }
+            $userInfo->save();
             
             if(isset($request->user_info_privacy) && count($request->user_info_privacy)>0){
                 foreach($request->user_info_privacy as $key => $val){

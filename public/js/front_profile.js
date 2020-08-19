@@ -106,9 +106,6 @@
     $("#editProfile").validate({
         rules: {
             'wish_to_meet': {required:true}, 
-            'preferred_age[]': {required:true}, 
-            'preferred_height[]': {required:true}, 
-            'preferred_weight[]': {required:true}, 
             'height': {required:true}, 
             'weight': {required:true}, 
             'living_arrangement' : {required:true},          
@@ -231,7 +228,6 @@
             }
         });
         var formData = new FormData();
-        console.log(fileData);
         fileData.forEach(function(file, i) {
             formData.append('fileData_'+i, file);
             formData.append('filePrivacy_'+i, filePrivacyData[i]);
@@ -253,12 +249,78 @@
         range: true,
         min: 18,
         max: 80,
-        values: [ 30, 40 ],
+        values: [ 18, 80 ],
         slide: function( event, ui ) {
             $("#age_range").val(ui.values[0] + " - " + ui.values[1]);
         }
     });
-    
     $("#age_range").val($("#age-slider-range").slider("values", 0)+" - " + $("#age-slider-range").slider("values", 1 ));
+    
+    $("#height-slider-range").slider({
+        range: true,
+        min:4.2,
+        max:7.5,
+        values: [4.2,7.5],
+        step:0.1,
+        slide: function( event, ui ) {
+            $("#height_range").val(ui.values[0] + " - " +ui.values[1]);
+            $("#height_range_hidden").val(ui.values[0] + " - " +ui.values[1]+ " ft ");
+        }
+    });
+    $("#height_range").val($("#height-slider-range").slider("values", 0)+" - " + $("#height-slider-range").slider("values", 1 ));
+    $("#height_range_hidden").val($("#height-slider-range").slider("values", 0)+" - " + $("#height-slider-range").slider("values", 1 )+" ft ");
+    
+    $("#weight-slider-range").slider({
+        range: true,
+        min: 20,
+        max: 200,
+        values: [20,200],
+        step:1,
+        slide: function( event, ui ) {
+            $("#weight_range").val(ui.values[0] + " - " + ui.values[1]);
+            $("#weight_range_hidden").val(ui.values[0] + " - " + ui.values[1]+ " kg ");
+        }
+    });
+    $("#weight_range").val($("#weight-slider-range").slider("values", 0)+" - " + $("#weight-slider-range").slider("values", 1 ));
+    $("#weight_range_hidden").val($("#weight-slider-range").slider("values", 0)+" - " + $("#weight-slider-range").slider("values", 1 )+" kg ");
+    
+    $("#preferred-age-slider-range").slider({
+        range: true,
+        min: 18,
+        max: 80,
+        values: [ 18, 80 ],
+        slide: function( event, ui ) {
+            $("#preferred_age_range").val(ui.values[0] + " - " + ui.values[1]);
+        }
+    });
+    $("#preferred_age_range").val($("#preferred-age-slider-range").slider("values", 0)+" - " + $("#preferred-age-slider-range").slider("values", 1 ));
+    
+    $("#preferred-height-slider-range").slider({
+        range: true,
+        min:4.2,
+        max:7.5,
+        values: [4.2,7.5],
+        step:0.1,
+        slide: function( event, ui ) {
+            $("#preferred_height_range").val(ui.values[0] + " - " +ui.values[1]);
+            $("#preferred_height_range_hidden").val(ui.values[0] + " - " +ui.values[1]+ " ft ");
+        }
+    });
+    $("#preferred_height_range").val($("#preferred-height-slider-range").slider("values", 0)+" - " + $("#preferred-height-slider-range").slider("values", 1 ));
+    $("#preferred_height_range_hidden").val($("#preferred-height-slider-range").slider("values", 0)+" - " + $("#preferred-height-slider-range").slider("values", 1 )+" ft ");
+    
+    $("#preferred-weight-slider-range").slider({
+        range: true,
+        min: 20,
+        max: 200,
+        values: [20,200],
+        step:1,
+        slide: function( event, ui ) {
+            $("#preferred_weight_range").val(ui.values[0] + " - " + ui.values[1]);
+            $("#preferred_weight_range_hidden").val(ui.values[0] + " - " + ui.values[1]+ " kg ");
+        }
+    });
+    $("#preferred_weight_range").val($("#preferred-weight-slider-range").slider("values", 0)+" - " + $("#preferred-weight-slider-range").slider("values", 1 ));
+    $("#preferred_weight_range_hidden").val($("#preferred-weight-slider-range").slider("values", 0)+" - " + $("#preferred-weight-slider-range").slider("values", 1 )+" kg ");
 });
 

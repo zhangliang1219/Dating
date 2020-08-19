@@ -34,10 +34,23 @@
             'age' : {required:true,min: 18,max:80, number: true},  
             'gender' : {required:true},      
             'email': {required:true,email: true},  
-            'describe_perfect_date': {maxlength: 1000},  
-//            'wish_to_meet': {required:true},         
-//            'ethnicity': {required:true},         
-//            'relationship': {required:true},
+            'wish_to_meet': {required:true}, 
+            'height': {required:true}, 
+            'weight': {required:true}, 
+            'living_arrangement' : {required:true},          
+            'city' : {required:true},          
+            'state' : {required:true},          
+            'country' : {required:true},          
+            'favorite_sport' : {required:true},          
+            'high_school_attended' : {required:true},          
+            'collage' : {required:true},          
+            'employment_status' : {required:true},          
+            'education' : {required:true},          
+            'build' : {required:true},          
+            'children' : {required:true},          
+            'ethnicity': {required:true},         
+            'relationship': {required:true},         
+            'describe_perfect_date': {required:true,maxlength: 1000},  
             'ethnicity_other': {
                             required: function(element) {
                                 return $("#ethnicity").val() == 10;
@@ -68,6 +81,44 @@
              });
         }
     });	
+    $("#preferred-age-slider-range").slider({
+        range: true,
+        min: 18,
+        max: 80,
+        values: [ 18, 80 ],
+        slide: function( event, ui ) {
+            $("#preferred_age_range").val(ui.values[0] + " - " + ui.values[1]);
+        }
+    });
+    $("#preferred_age_range").val($("#preferred-age-slider-range").slider("values", 0)+" - " + $("#preferred-age-slider-range").slider("values", 1 ));
+    
+    $("#preferred-height-slider-range").slider({
+        range: true,
+        min:4.2,
+        max:7.5,
+        values: [4.2,7.5],
+        step:0.1,
+        slide: function( event, ui ) {
+            $("#preferred_height_range").val(ui.values[0] + " - " +ui.values[1]);
+            $("#preferred_height_range_hidden").val(ui.values[0] + " - " +ui.values[1]+ " ft ");
+        }
+    });
+    $("#preferred_height_range").val($("#preferred-height-slider-range").slider("values", 0)+" - " + $("#preferred-height-slider-range").slider("values", 1 ));
+    $("#preferred_height_range_hidden").val($("#preferred-height-slider-range").slider("values", 0)+" - " + $("#preferred-height-slider-range").slider("values", 1 )+" ft ");
+    
+    $("#preferred-weight-slider-range").slider({
+        range: true,
+        min: 20,
+        max: 200,
+        values: [20,200],
+        step:1,
+        slide: function( event, ui ) {
+            $("#preferred_weight_range").val(ui.values[0] + " - " + ui.values[1]);
+            $("#preferred_weight_range_hidden").val(ui.values[0] + " - " + ui.values[1]+ " kg ");
+        }
+    });
+    $("#preferred_weight_range").val($("#preferred-weight-slider-range").slider("values", 0)+" - " + $("#preferred-weight-slider-range").slider("values", 1 ));
+    $("#preferred_weight_range_hidden").val($("#preferred-weight-slider-range").slider("values", 0)+" - " + $("#preferred-weight-slider-range").slider("values", 1 )+" kg ");
 });
 function deleteUser(userId){
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');

@@ -21,6 +21,7 @@
     <link href="{{ asset('css/bootstrap-datepicker.min.css?'.time()) }}" rel="stylesheet">
     <link href="{{ asset('css/lightbox.css?'.time()) }}" rel="stylesheet">
     <link href="{{ asset('css/custome.css?'.time()) }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery-ui.css?'.time()) }}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Assistant">
     
     @yield('style')

@@ -137,36 +137,31 @@
                                                         <div class="error">{{ $errors->first('wish_to_meet') }}</div>
                                                     @endif
                                                 </div>
-                                                <div class="form-group col-4">
+                                                <div class="form-group col-2"></div>
+                                                <div class="form-group col-4 admin_rang_div ">
                                                     <label for="preferred_age" >Preferred Age</label>
-                                                    <select name="preferred_age[]" class="form-control select2" multiple="multiple">
-                                                        <option value="">Select Preferred Age</option>
-                                                        @foreach($preferred_age as $key => $val)
-                                                        <option value="{{$key}}" {{(old('preferred_age') == $key || ($user->preferred_age != ''&& in_array($key, explode(",",$user->preferred_age))))?'selected':''}}>{{$val}}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <div id="preferred-age-slider-range"></div>
+                                                    <input type="text" id="preferred_age_range" readonly class="search_range" name="preferred_age"  >
+                                                    <input type="hidden" id="preferred_min_age" class="preferred_min_age" name="preferred_min_age"  value="{{($userInfo)?($userInfo->preferred_min_age):0}}">
+                                                    <input type="hidden" id="preferred_max_age" class="preferred_max_age" name="preferred_min_age"   value="{{($userInfo)?($userInfo->preferred_max_age):0}}">
                                                 </div>
                                             </div>
                                                 <div class="row">
-                                                    <div class="form-group col-4">
-                                                        <label for="preferred_height" >{{trans('sentence.preferred_height')}}</label>
-                                                        <select name="preferred_height[]" class="form-control select2" multiple="multiple">
-                                                            <option value="">{{ trans('sentence.select').' '.trans('sentence.preferred_height')}}</option>
-                                                            @foreach($height as $key => $val)
-                                                            <option value="{{$key}}" {{(old('preferred_height') == $key || ($user->preferred_height != ''&& in_array($key, explode(",",$user->preferred_height))))?'selected':''}}>{{$val}}</option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="form-group col-4 admin_rang_div">
+                                                        <label for="preferred_height" >Preferred Height </label>
+                                                        <div id="preferred-height-slider-range"></div>
+                                                        <input type="text" id="preferred_height_range" readonly class="search_range" name="preferred_height"  style="display: none;">
+                                                        <input type="text" id="preferred_height_range_hidden" class="search_range" name="preferred_height_range_hidden"  >
                                                     </div>
-                                                    <div class="form-group col-4">
-                                                <label for="preferred_weight" >{{trans('sentence.preferred_weight')}}</label>
-                                                <select name="preferred_weight[]" class="form-control select2" multiple="multiple">
-                                                    <option value="">{{ trans('sentence.select').' '.trans('sentence.preferred_weight')}}</option>
-                                                    @foreach($weight as $key => $val)
-                                                    <option value="{{$key}}" {{(old('preferred_weight') == $key ||($user->preferred_weight != ''&& in_array($key, explode(",",$user->preferred_weight))))?'selected':''}}>{{$val}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                                    <div class="form-group col-2"></div>
+                                                    <div class="form-group col-4 admin_rang_div">
+                                                        <label for="preferred_weight" >Preferred Weight</label>
+                                                        <div id="preferred-weight-slider-range"></div>
+                                                        <input type="text" id="preferred_weight_range" readonly class="search_range" name="preferred_weight"  style="display: none;">
+                                                        <input type="text" id="preferred_weight_range_hidden" class="search_range" name="preferred_weight_range_hidden"  >
+                                                    </div>
                                                 </div>
+                                            </div>
                                             <br><h4>About Me</h4><hr>
                                             <div class="row">
                                                 <div class="form-group col-4">
@@ -193,6 +188,9 @@
                                                             <option value="{{$key}}" {{old('height') == $key|| $user->height == $key?'selected':''}}>{{$val}}</option>
                                                         @endforeach
                                                     </select>
+                                                @if ($errors->has('height'))
+                                                    <div class="error">{{ $errors->first('height') }}</div>
+                                                @endif
                                                 </div> 
                                             </div>
                                             <div class="row">
@@ -202,12 +200,10 @@
                                                             <input type="checkbox" class="weight_privacy user_info_privacy" name="user_info_privacy[4]" value="1"  {{in_array(4,$userInfoPrivacy)?'checked':''}}>
                                                         @endif
                                                     </label>
-                                                    <select name="weight" class="form-control">
-                                                        <option value="">Select Weight</option>
-                                                        @foreach($weight as $key => $val)
-                                                            <option value="{{$key}}" {{old('weight') == $key|| $user->weight == $key?'selected':''}}>{{$val}}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input type="text" value="{{isset($user->weight)?$user->weight:old('weight')}}" name="weight" class="form-control" placeholder="Enter weight">
+                                                @if ($errors->has('weight'))
+                                                    <div class="error">{{ $errors->first('weight') }}</div>
+                                                @endif
                                                 </div>
 
                                                 <div class="form-group col-4">
@@ -237,6 +233,9 @@
                                                             <option value="{{$key}}" {{old('children') == $key ||$user->children == $key ?'selected':''}}>{{$val}}</option>
                                                         @endforeach
                                                     </select>
+                                                @if ($errors->has('children'))
+                                                    <div class="error">{{ $errors->first('children') }}</div>
+                                                @endif
                                                 </div>
                                             </div>
                                             <div class='row'>
@@ -252,6 +251,9 @@
                                                             <option value="{{$key}}" {{old('living_arrangement') == $key ||  $user->living_arrangement == $key?'selected':''}}>{{$val}}</option>
                                                         @endforeach
                                                     </select>
+                                                @if ($errors->has('living_arrangement'))
+                                                    <div class="error">{{ $errors->first('living_arrangement') }}</div>
+                                                @endif
                                                 </div>
                                                 <div class="form-group col-4">
                                                     <label for="city" >City
@@ -260,6 +262,9 @@
                                                         @endif
                                                     </label>
                                                     <input type="text" value="{{isset($user->city)?$user->city:old('city')}}" id="city" name="city" class="form-control"  placeholder="Enter City">
+                                                    @if ($errors->has('city'))
+                                                        <div class="error">{{ $errors->first('city') }}</div>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-4">
                                                     <label for="state" >State/Province
@@ -268,6 +273,9 @@
                                                     @endif
                                                     </label>
                                                     <input type="text" value="{{isset($user->state)?$user->state:old('state')}}" id="state" name="state" class="form-control"   placeholder="Enter State">
+                                                    @if ($errors->has('state'))
+                                                        <div class="error">{{ $errors->first('state') }}</div>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class='row'>
@@ -283,6 +291,9 @@
                                                             <option value="{{$val->id}}" {{old('country') == $val->id || $user->country == $val->id?'selected':''}}>{{$val->country_name}}</option>
                                                         @endforeach
                                                     </select>
+                                                    @if ($errors->has('country'))
+                                                        <div class="error">{{ $errors->first('country') }}</div>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-4">
                                                     <label for="favorite_sport" >Favorite Sport
@@ -291,6 +302,10 @@
                                                         @endif
                                                     </label>
                                                     <input type="text" value="{{isset($user->favorite_sport)?$user->favorite_sport:old('favorite_sport')}}" name="favorite_sport" class="form-control"   placeholder="Enter Favorite Sport">
+                                                    
+                                                    @if ($errors->has('favorite_sport'))
+                                                        <div class="error">{{ $errors->first('favorite_sport') }}</div>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-4">
                                                     <label for="high_school_attended" >High School Attended 
@@ -300,6 +315,10 @@
                                                     </label>
                                                     <input type="text"  name="high_school_attended" class="form-control" value="{{isset($user->high_school_attended)?$user->high_school_attended:old('high_school_attended')}}"
                                                              placeholder="Enter High School Attended ">
+                                                    
+                                                    @if ($errors->has('high_school_attended'))
+                                                        <div class="error">{{ $errors->first('high_school_attended') }}</div>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class='row'>
@@ -311,6 +330,9 @@
                                                     </label>
                                                     <input type="text" value="{{isset($user->collage)?$user->collage:old('collage')}}" name="collage" class="form-control"  
                                                              placeholder="Enter College">
+                                                    @if ($errors->has('collage'))
+                                                        <div class="error">{{ $errors->first('collage') }}</div>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-4">
                                                     <label for="employment_status" >Employment Status
@@ -324,6 +346,9 @@
                                                             <option value="{{$key}}" {{old('employment_status') == $key || $user->employment_status == $key?'selected':''}}>{{$val}}</option>
                                                         @endforeach
                                                     </select>
+                                                    @if ($errors->has('employment_status'))
+                                                        <div class="error">{{ $errors->first('employment_status') }}</div>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-4">
                                                     <label for="education" >Education
@@ -337,6 +362,9 @@
                                                             <option value="{{$key}}" {{old('education') == $key ||$user->education == $key ?'selected':''}}>{{$val}}</option>
                                                         @endforeach
                                                     </select>
+                                                    @if ($errors->has('education'))
+                                                        <div class="error">{{ $errors->first('education') }}</div>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class='row'>
@@ -347,8 +375,12 @@
                                                         @endif 
                                                     </label>
                                                      <textarea  row="2" col="2" name="describe_perfect_date" class="form-control"
-                                                         placeholder="{{ trans('sentence.enter').' '.trans('sentence.describe_perfect_date')}}" id="describe_perfect_date">
+                                                         placeholder="Enter Describe Perfect Date" id="describe_perfect_date">
                                                          {{isset($user->describe_perfect_date)?($user->describe_perfect_date):old('describe_perfect_date')}}</textarea>
+                                                    
+                                                    @if ($errors->has('describe_perfect_dateable'))
+                                                        <div class="error">{{ $errors->first('describe_perfect_date') }}</div>
+                                                    @endif
 
                                                 </div>
                                                 <div class="form-group col-4">
@@ -363,6 +395,9 @@
                                                             <option value="{{$key}}" {{old('build') == $key|| $user->build?'selected':''}}>{{$val}}</option>
                                                         @endforeach
                                                     </select>
+                                                    @if ($errors->has('build'))
+                                                        <div class="error">{{ $errors->first('build') }}</div>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-4">
                                                     <label for="ethnicity" >Ethnicity

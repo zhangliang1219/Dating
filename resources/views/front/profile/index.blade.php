@@ -80,10 +80,21 @@
                 </div>
             </div>
             <div class="likes">
+                @php
+                    $percentages = 0;
+                    $percentages = ((Auth::user()->id_verify != '')?config('constant.id_verification'):0)+ 
+                                    ((Auth::user()->email_verify != '')?config('constant.email_verification'):0) +
+                                    ((Auth::user()->phone_verify != '')?config('constant.phone_verification'):0)+
+                                    ((Auth::user()->wish_to_meet != '')?config('constant.profile_verification'):0)
+                @endphp
+                <h3>{{$percentages.'%'}}</h3>
+                <h6>Profile Verified</h6>
+            </div>
+            <div class="likes">
                 <h3>00</h3>
                 <h6>Number of Likes</h6>
             </div>
-        </div>
+        </div> 
         <div class="images-upload">
             <div class="profile-header-title">
                 <h3>{{ trans('sentence.about_upload_photo')}}</h3>
@@ -224,7 +235,7 @@
                                         {{trans('sentence.height')}}
                                     </div>
                                     <div class="col-6">
-                                        {{($user && $user->height != '')?$user->height:'-'}} 
+                                        {{($user && $user->height != '')?$height["$user->height"]:'-'}} 
                                     </div>
                                 </div>
                                 <div class="row">
@@ -240,15 +251,6 @@
                                         {{trans('sentence.preferred_height')}}
                                     </div>
                                     <div class="col-6">
-                                        @php
-                                            $hightVal = array();
-                                            if($user->preferred_height != ''){
-                                                foreach(explode(",",$user->preferred_height) as $val){
-                                                    $hightVal[] = $height[$val];
-                                                }
-                                            }
-                                        @endphp
-                                        {{($user && $user->preferred_height != '')?implode(",",$hightVal):'-'}}
                                     </div>
                                 </div>
                             </div>
@@ -538,65 +540,60 @@
                                 <input type="text" id="age_range" readonly class="search_range" name="age"  >
                             </div>
                             <div id="age-slider-range"></div>
-                            <!--<input type="text" name="age"  class="form-control"  placeholder="{{ trans('sentence.enter').' '.trans('sentence.age')}}">-->
                         </div>
                         <div class="form-group">
-                            <select name="height" class="form-control" >
-                                <option value="">{{ trans('sentence.height')}}</option>
-                                @foreach($height as $key => $val)
-                                    <option value="{{$key}}">{{$val}}</option>
-                                @endforeach
-                            </select> 
+                            <div class=" ">
+                                <label class=" ">{{ trans('sentence.select').' '.trans('sentence.height')}}</label>
+                                <input type="text" id="height_range" readonly class="search_range" name="height"  style="display: none;">
+                                <input type="text" id="height_range_hidden" class="search_range" name="height_range_hidden"  >
+                            </div>
+                            <div id="height-slider-range"></div>
                         </div>
                         <div class="form-group">
-                            <select name="weight" class="form-control" >
-                                <option value="">{{ trans('sentence.weight')}}</option>
-                                @foreach($weight as $key => $val)
-                                    <option value="{{$key}}">{{$val}}</option>
-                                @endforeach
-                            </select>
+                            <div class=" ">
+                                <label class=" ">{{ trans('sentence.select').' '.trans('sentence.weight')}}</label>
+                                <input type="text" id="weight_range" readonly class="search_range" name="weight"  style="display: none;">
+                                <input type="text" id="weight_range_hidden" class="search_range" name="weight_range_hidden"  >
+                            </div>
+                            <div id="weight-slider-range"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="city"  class="form-control" placeholder="{{ trans('sentence.enter').' '.trans('sentence.city')}}">
+                            <select class="form-control" name="city[]" id="search_city" multiple="multiple" ></select>
                         </div>
                         <div class="form-group">
-                            <input type="text"   id="state" name="state" class="form-control"   placeholder="{{ trans('sentence.enter').' '.trans('sentence.state')}}">
+                            <select class="form-control " name="state[]" id="search_state" multiple="multiple" ></select>
+                            
                         </div>
                         <div class="form-group">
-                            <select name="country" class="form-control" >
-                                <option value="">{{ trans('sentence.country')}}</option>
+                            <select name="country[]" class="form-control"  multiple="multiple" id="search_country">
                                 @foreach($country as $key => $val)
                                 <option value="{{$val->id}}">{{$val->country_name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="education" class="form-control">
-                                <option value="">{{trans('sentence.education')}}</option>
+                            <select name="education[]" class="form-control" id="search_education"  multiple="multiple">
                                 @foreach($education as $key => $val)
                                     <option value="{{$key}}" >{{$val}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="employment_status" class="form-control" >
-                                <option value="">{{trans('sentence.employee')}}</option>
+                            <select name="employment_status[]" class="form-control"  id="search_employment_status"  multiple="multiple">
                                 @foreach($employment_status as $key => $val)
                                     <option value="{{$key}}">{{$val}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="ethnicity" class="form-control" id="ethnicity">
-                                <option value="">{{trans('sentence.ethnicity')}}</option>
+                            <select name="ethnicity[]" class="form-control" id="ethnicity"  multiple="multiple">
                                 @foreach($ethnicity as $key => $val)
                                 <option value="{{$key}}" >{{$val}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="living_arrangement" class="form-control">
-                                <option value="">{{trans('sentence.living_arrangement')}}</option>
+                            <select name="living_arrangement[]" class="form-control" id="search_living_arrangement"  multiple="multiple">
                                 @foreach($living_arrangement as $key => $val)
                                     <option value="{{$key}}" >{{$val}}</option>
                                 @endforeach
@@ -605,6 +602,9 @@
                     <div class="form-group mb-0">
                         <button type="submit" class="btn btn-primary" name="profile_search">
                             {{ trans('sentence.find_your_partner')}}
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="location.href='{{url('/profile')}}'">
+                            {{trans('sentence.cancel')}}
                         </button>
                     </div>
                 </form>
@@ -619,4 +619,35 @@
   
 @section('javascript')
 <script src="{{ asset('js/front_profile.js?'.time()) }}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#search_city").select2({
+            placeholder: "{{ trans('sentence.enter').' '.trans('sentence.city')}}",
+            tags: true
+        });
+        $("#search_state").select2({
+            placeholder: "{{ trans('sentence.enter').' '.trans('sentence.state')}}",
+            tags: true
+        });$("#search_country").select2({
+            placeholder: "{{ trans('sentence.country')}}",
+            tags: true
+        });
+        $("#search_education").select2({
+            placeholder: "{{ trans('sentence.education')}}",
+            tags: true
+        });
+        $("#search_employment_status").select2({
+            placeholder: "{{ trans('sentence.employee')}}",
+            tags: true
+        });                      
+        $("#ethnicity").select2({
+            placeholder: "{{ trans('sentence.ethnicity')}}",
+            tags: true
+        });
+        $("#search_living_arrangement").select2({
+            placeholder: "{{ trans('sentence.living_arrangement')}}",
+            tags: true
+        });
+    });
+</script>
 @endsection

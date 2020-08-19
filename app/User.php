@@ -46,4 +46,8 @@ class User extends Authenticatable
     public function countryData() {
         return $this->hasOne('App\Country','id','country');
     }
+    
+    public function userInfoData() {
+        return $this->hasOne('App\UserInfo','user_id','id');
+    }
 }

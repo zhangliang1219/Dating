@@ -42,7 +42,6 @@ class ProfileController  extends Controller
   
     public function viewSearchProfile(Request $request){
         if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
-//            echo "<pre>";print_R($request->all());exit;
             $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
             $page_limit = 2;
             $searchProfile = array();
@@ -52,25 +51,48 @@ class ProfileController  extends Controller
             }
             $dataQuery = User::with('countryData')->where('users.id','!=',Auth::user()->id)->where('users.is_admin',0)->where('users.status',2);
             if(isset($request->age) || $request->age != ''){
-                $dataQuery->where('users.age',$request->age);
-            }if(isset($request->height) || $request->height != ''){
-                $dataQuery->where('users.height',$request->height);
-            }if(isset($request->weight) || $request->weight != ''){
-                $dataQuery->where('users.weight',$request->weight);
-            }if(isset($request->city) || $request->city != ''){
-                $dataQuery->where('users.city','LIKE','%'.$request->city.'%');
-            }if(isset($request->state) || $request->state != ''){
-                $dataQuery->where('users.state','LIKE','%'.$request->state.'%');
-            }if(isset($request->country) || $request->country != ''){
-                $dataQuery->where('users.country',$request->country);
-            }if(isset($request->education) || $request->education != ''){
-                $dataQuery->where('users.education',$request->education);
-            }if(isset($request->employment_status) || $request->employment_status != ''){
-                $dataQuery->where('users.employment_status',$request->employment_status);
-            }if(isset($request->ethnicity) || $request->ethnicity != ''){
-                $dataQuery->where('users.ethnicity',$request->ethnicity);
-            }if(isset($request->living_arrangement) || $request->living_arrangement != ''){
-                $dataQuery->where('users.living_arrangement',$request->living_arrangement);
+                $age = explode(" - ",$request->age);
+                if(count($age)>0){
+                    $dataQuery->where('users.age','>=',trim($age[0]))->where('users.age','<=',trim($age[1]));
+                }
+            }
+            if(isset($request->height) || $request->height != ''){
+                $height = explode(" - ",$request->height);
+                if(count($height)>0){
+                    $dataQuery->where('users.height', '>=', trim($height[0]))->where('users.height','<=',trim($height[1]));
+                }
+            }
+            if(isset($request->weight) || $request->weight != ''){
+                $weight = explode(" - ",$request->weight);
+                if(count($weight)>0){
+                    $dataQuery->where('users.weight', '>=', trim($weight[0]))->where('users.weight','<=',trim($weight[1]));
+                }
+            }
+            if(isset($request->city)){
+                $city = $request->city;
+                $dataQuery->where(function($dataQuery)use($city){
+                    foreach($city as $val){
+                        $dataQuery->Orwhere('users.city','LIKE','%'.$val.'%');
+                    }
+                });
+            }if(isset($request->state)){
+                $state = $request->state;
+                $dataQuery->where(function($dataQuery)use($state){
+                    foreach($state as $val){
+                        $dataQuery->Orwhere('users.state','LIKE','%'.$val.'%');
+                    }
+                });
+            }if(isset($request->country)){
+                $country = $request->country;
+                $dataQuery->whereIn('users.country',$country);
+            }if(isset($request->education)){
+                $dataQuery->whereIn('users.education',$request->education);
+            }if(isset($request->employment_status) ){
+                $dataQuery->whereIn('users.employment_status',$request->employment_status);
+            }if(isset($request->ethnicity) ){
+                $dataQuery->whereIn('users.ethnicity',$request->ethnicity);
+            }if(isset($request->living_arrangement)){
+                $dataQuery->whereIn('users.living_arrangement',$request->living_arrangement);
             }
             
             if(isset($request->profile_search) && isset($request->profile_search_text) && $request->profile_search_text != ''){
@@ -78,7 +100,7 @@ class ProfileController  extends Controller
             }
             $userData = clone $dataQuery;
             $userData = $userData->get();
-
+            
             $getData = SearchHistory::where('user_id',Auth::user()->id)->get()->count();
             if(count($userData)>0){
                 if($getData == 10){
@@ -89,6 +111,7 @@ class ProfileController  extends Controller
                 $searchHistory->search_data = json_encode($userData);
                 $searchHistory->save();        
             }
+            
             if ($request->has('sort') && $request->input('sort') != '') {
                 $searchProfile = $dataQuery->sortable()->orderBy($request->input('sort'), $request->input('direction'))->paginate($page_limit);
             } else {
@@ -194,9 +217,6 @@ class ProfileController  extends Controller
                 'wish_to_meet' => 'required',
                 'preferred_age' => 'required',
                 'wish_to_meet'=>'required', 
-                'preferred_age[]'=> 'required', 
-                'preferred_height[]'=> 'required', 
-                'preferred_weight[]'=> 'required',
                 'height'=> 'required',
                 'weight'=> 'required',
                 'living_arrangement' => 'required',         
@@ -220,10 +240,6 @@ class ProfileController  extends Controller
                             ->withInput();
             }
             $user = User::find($id);
-            $user->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
-            $user->preferred_age = (isset($request->preferred_age)? implode(",", $request->preferred_age):NULL);
-            $user->preferred_height = (isset($request->preferred_height)? implode(",", $request->preferred_height):NULL);
-            $user->preferred_weight = (isset($request->preferred_weight)? implode(",", $request->preferred_weight):NULL);
             $user->ethnicity = (isset($request->ethnicity)?($request->ethnicity):NULL);
             $user->ethnicity_other = (isset($request->ethnicity_other)?($request->ethnicity_other):NULL);
             $user->height = (isset($request->height)?$request->height:NULL);
@@ -243,6 +259,28 @@ class ProfileController  extends Controller
             $user->children = (isset($request->children)?$request->children:NULL);
             $user->describe_perfect_date = (isset($request->describe_perfect_date)?$request->describe_perfect_date:NULL);
             $user->save();
+            
+            $userInfo = UserInfo::where('user_id',$id)->first();
+            if($userInfo === null){
+                $userInfo = new UserInfo();
+            }
+            $userInfo->wish_to_meet = (isset($request->wish_to_meet)?$request->wish_to_meet:NULL);
+            $preferred_age = explode(" - ",$request->preferred_age);
+            if(count($preferred_age)>0){
+                $userInfo->preferred_min_age = $preferred_age[0];
+                $userInfo->preferred_max_age = $preferred_age[1];
+            }
+            $preferred_height = explode(" - ",$request->preferred_height);
+            if(count($preferred_height)>0){
+                $userInfo->preferred_min_height = $preferred_height[0];
+                $userInfo->preferred_max_height = $preferred_height[1];
+            }
+            $preferred_weight = explode(" - ",$request->preferred_weight);
+            if(count($preferred_weight)>0){
+                $userInfo->preferred_min_weight = $preferred_weight[0];
+                $userInfo->preferred_max_weight = $preferred_weight[1];
+            }
+            $userInfo->save();
             
             if(isset($request->user_info_privacy) && count($request->user_info_privacy)>0){
                 foreach($request->user_info_privacy as $key => $val){

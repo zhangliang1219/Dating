@@ -51,7 +51,7 @@ $weight = config('constant.weight');
             <div class="user-header">
                 <h2>{{$userInfo->name}} {{($userInfo->age != '')?' , '.$userInfo->age:''}}</h2>
                 <h4>23 kilometers away</h4>
-                <h5>{{$userInfo->state}} , {{$userInfo->countryData->country_name}}</h5>
+                <h5>{{$userInfo->state}} , {{($userInfo->countryData)?$userInfo->countryData->country_name:''}}</h5>
             </div>
             <div class="desc">
                 I still fanboy over 5 seconds of Summer and Neighborhood. (Probably waiting for someone to sing 'Looks

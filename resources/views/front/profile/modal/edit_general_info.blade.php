@@ -24,92 +24,81 @@
                             @enderror
                         </div>
                         <div class="form-group col-6">
-                            <label for="preferred_age" >{{trans('sentence.preferred_age')}}</label>
-                            <select name="preferred_age[]" class="form-control select2" multiple="multiple">
-                                @foreach($preferred_age as $key => $val)
-                                <option value="{{$key}}"  {{(old('preferred_age') == $key || ($user->preferred_age != ''&& in_array($key, explode(",",$user->preferred_age))))?'selected':''}}>{{$val}}</option>
-                                @endforeach
-                            </select>
-                            <label id="preferred_age[]-error" class="error" for="preferred_age[]"></label>
+                            <div class=" ">
+                                <label for="preferred_age" >{{trans('sentence.preferred_age')}}</label>
+                                <input type="text" id="preferred_age_range" readonly class="search_range" name="preferred_age"  >
+                            </div>
+                            <div id="preferred-age-slider-range"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label for="preferred_height" >{{trans('sentence.preferred_height')}}</label>
-                            <select name="preferred_height[]" class="form-control select2" multiple="multiple">
-                                @foreach($height as $key => $val)
-                                <option value="{{$key}}" {{(old('preferred_height') == $key || ($user->preferred_height != ''&& in_array($key, explode(",",$user->preferred_height))))?'selected':''}}>{{$val}}</option>
-                                @endforeach
-                            </select>
-                            <label id="preferred_height[]-error" class="error" for="preferred_height[]"></label>
+                            <div class=" ">
+                                <label for="preferred_height" >{{trans('sentence.preferred_height')}}</label>
+                                <input type="text" id="preferred_height_range" readonly class="search_range" name="preferred_height"  style="display: none;">
+                                <input type="text" id="preferred_height_range_hidden" class="search_range" name="preferred_height_range_hidden"  >
+                            </div>
+                            <div id="preferred-height-slider-range"></div>
                         </div>
                         <div class="form-group col-6">
-                            <label for="preferred_weight" >{{trans('sentence.preferred_weight')}}</label>
-                            <select name="preferred_weight[]" class="form-control select2" multiple="multiple">
-                                @foreach($weight as $key => $val)
-                                <option value="{{$key}}" {{(old('preferred_weight') == $key ||($user->preferred_weight != ''&& in_array($key, explode(",",$user->preferred_weight))))?'selected':''}}>{{$val}}</option>
-                                @endforeach
-                            </select>
-                            <label id="preferred_weight[]-error" class="error" for="preferred_weight[]"></label>
+                            <div class=" ">
+                                <label for="preferred_weight" >{{trans('sentence.preferred_weight')}}</label>
+                                <input type="text" id="preferred_weight_range" readonly class="search_range" name="preferred_weight"  style="display: none;">
+                                <input type="text" id="preferred_weight_range_hidden" class="search_range" name="preferred_weight_range_hidden"  >
+                            </div>
+                            <div id="preferred-weight-slider-range"></div>
                         </div>
                     </div>
                     <div class="row">
-                        
-                    </div>
-                    <div class="row">
                         <div class="form-group col-6">
-                            <label for="height" >Height
+                            <label for="height" >{{trans('sentence.height')}}
                                 @if(in_array(3,$userPrivacySetting))
                                     <input type="checkbox" class="height_privacy user_info_privacy" name="user_info_privacy[3]" value="1"  {{in_array(3,$userInfoPrivacy)?'checked':''}}>
                                 @endif
                             </label>
                             <select name="height" class="form-control">
-                                <option value="">Select Height</option>
+                                <option value=""></option>
                                 @foreach($height as $key => $val)
                                     <option value="{{$key}}" {{old('height') == $key|| $user->height == $key?'selected':''}}>{{$val}}</option>
                                 @endforeach
                             </select>
                         </div> 
                         <div class="form-group col-6">
-                            <label for="weight" >Weight
+                            <label for="weight" >{{trans('sentence.weight')}}(kg)
                                 @if(in_array(4,$userPrivacySetting))
                                     <input type="checkbox" class="weight_privacy user_info_privacy" name="user_info_privacy[4]" value="1"  {{in_array(4,$userInfoPrivacy)?'checked':''}}>
                                 @endif
                             </label>
-                            <select name="weight" class="form-control">
-                                <option value="">Select Weight</option>
-                                @foreach($weight as $key => $val)
-                                    <option value="{{$key}}" {{old('weight') == $key|| $user->weight == $key?'selected':''}}>{{$val}}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" value="{{isset($user->weight)?$user->weight:old('weight')}}" name="weight" class="form-control" placeholder="{{ trans('sentence.enter').' '.trans('sentence.weight')}}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label for="living_arrangement" >Living Arrangement
+                            <label for="living_arrangement" >{{trans('sentence.living_arrangement')}}
                                 @if(in_array(5,$userPrivacySetting))
-                                    <input type="checkbox" class="living_arrangement_privacy user_info_privacy" name="user_info_privacy[5]" value="1"  {{in_array(5,$userInfoPrivacy)?'checked':''}}>
+                                    <input type="checkbox" class="living_arrangement_privacy user_info_privacy" name="user_info_privacy[5]" value="1"  
+                                           {{in_array(5,$userInfoPrivacy)?'checked':''}}>
                                 @endif
                             </label>
                             <select name="living_arrangement" class="form-control">
-                                <option value="">Select Living Arrangement</option>
+                                <option value=""></option>
                                 @foreach($living_arrangement as $key => $val)
                                     <option value="{{$key}}" {{old('living_arrangement') == $key ||  $user->living_arrangement == $key?'selected':''}}>{{$val}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-6">
-                            <label for="city" >City
+                            <label for="city" >{{trans('sentence.city')}}
                                 @if(in_array(6,$userPrivacySetting))
                                     <input type="checkbox" class="city_arrangement_privacy user_info_privacy" name="user_info_privacy[6]" value="1"  {{in_array(6,$userInfoPrivacy)?'checked':''}}>
                                 @endif
                             </label>
-                            <input type="text" value="{{isset($user->city)?$user->city:old('city')}}" id="city" name="city" class="form-control"  placeholder="Enter City">
+                            <input type="text" value="{{isset($user->city)?$user->city:old('city')}}" id="city" name="city" class="form-control" >
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label for="state" >State/Province
+                            <label for="state" >{{trans('sentence.state')}}
                             @if(in_array(7,$userPrivacySetting))
                                 <input type="checkbox" class="state_arrangement_privacy user_info_privacy" name="user_info_privacy[7]" value="1"  {{in_array(7,$userInfoPrivacy)?'checked':''}}>
                             @endif
@@ -117,13 +106,13 @@
                             <input type="text" value="{{isset($user->state)?$user->state:old('state')}}" id="state" name="state" class="form-control"   placeholder="Enter State">
                         </div>
                         <div class="form-group col-6">
-                            <label for="country" >Country
+                            <label for="country" >{{trans('sentence.country')}}
                                 @if(in_array(8,$userPrivacySetting))
                                     <input type="checkbox" class="country_arrangement_privacy user_info_privacy" name="user_info_privacy[8]" value="1"  {{in_array(8,$userInfoPrivacy)?'checked':''}}>
                                 @endif
                             </label>
                             <select name="country" class="form-control">
-                                <option value="">Select Country</option>
+                                <option value=""></option>
                                 @foreach($country as $key => $val)
                                     <option value="{{$val->id}}" {{old('country') == $val->id || $user->country == $val->id?'selected':''}}>{{$val->country_name}}</option>
                                 @endforeach
@@ -132,7 +121,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label for="favorite_sport" >Favorite Sport
+                            <label for="favorite_sport" >{{trans('sentence.favorite_sport')}}
                                 @if(in_array(9,$userPrivacySetting))
                                     <input type="checkbox" class="favorite_sport_privacy user_info_privacy" name="user_info_privacy[9]" value="1"  {{in_array(9,$userInfoPrivacy)?'checked':''}}>
                                 @endif
@@ -140,7 +129,7 @@
                             <input type="text" value="{{isset($user->favorite_sport)?$user->favorite_sport:old('favorite_sport')}}" name="favorite_sport" class="form-control"   placeholder="Enter Favorite Sport">
                         </div>
                         <div class="form-group col-6">
-                            <label for="high_school_attended" >High School Attended 
+                            <label for="high_school_attended" >{{trans('sentence.high_school_attended')}}
                                 @if(in_array(10,$userPrivacySetting))
                                     <input type="checkbox" class="high_school_privacy user_info_privacy" name="user_info_privacy[10]" value="1"  {{in_array(10,$userInfoPrivacy)?'checked':''}}>
                                @endif
@@ -151,7 +140,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label for="collage" >College/University Attended
+                            <label for="collage" >{{trans('sentence.college')}}
                             @if(in_array(11,$userPrivacySetting))
                                 <input type="checkbox" class="college_privacy user_info_privacy" name="user_info_privacy[11]" value="1"  {{in_array(11,$userInfoPrivacy)?'checked':''}}>
                             @endif
@@ -160,13 +149,13 @@
                                  placeholder="Enter College">
                         </div>
                         <div class="form-group col-6">
-                            <label for="employment_status" >Employment Status
+                            <label for="employment_status" >{{trans('sentence.employee')}}
                                 @if(in_array(12,$userPrivacySetting))
                                     <input type="checkbox" class="employment_status_privacy user_info_privacy" name="user_info_privacy[12]" value="1"  {{in_array(12,$userInfoPrivacy)?'checked':''}}>
                                 @endif
                             </label>
                             <select name="employment_status" class="form-control">
-                                <option value="">Enter Employee</option>
+                                <option value=""> </option>
                                 @foreach($employment_status as $key => $val)
                                     <option value="{{$key}}" {{old('employment_status') == $key || $user->employment_status == $key?'selected':''}}>{{$val}}</option>
                                 @endforeach
@@ -175,26 +164,26 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label for="education" >Education
+                            <label for="education" >{{trans('sentence.education')}}
                                 @if(in_array(13,$userPrivacySetting))
                                     <input type="checkbox" class="education_privacy user_info_privacy" name="user_info_privacy[13]" value="1"  {{in_array(13,$userInfoPrivacy)?'checked':''}}>
                                 @endif
                             </label>
                             <select name="education" class="form-control">
-                                <option value="">Select Education</option>
+                                <option value=""> </option>
                                 @foreach($education as $key => $val)
                                     <option value="{{$key}}" {{old('education') == $key ||$user->education == $key ?'selected':''}}>{{$val}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-6">
-                            <label for="children" >Do you have Children?
+                            <label for="children" >{{trans('sentence.children')}}
                                 @if(in_array(14,$userPrivacySetting))
                                     <input type="checkbox" class="children_privacy user_info_privacy" name="user_info_privacy[14]" value="1"  {{in_array(14,$userInfoPrivacy)?'checked':''}}>
                                 @endif
                             </label>
                             <select name="children" class="form-control">
-                                <option value="">Enter Children</option>
+                                <option value=""> </option>
                                 @foreach($children as $key => $val)
                                     <option value="{{$key}}" {{old('children') == $key ||$user->children == $key ?'selected':''}}>{{$val}}</option>
                                 @endforeach
@@ -213,12 +202,12 @@
 
                         </div>
                         <div class="form-group col-6">
-                            <label for="relationship" >Relationship
+                            <label for="relationship" >{{trans('sentence.relationship')}}
                                 @if(in_array(2,$userPrivacySetting))
                                     <input type="checkbox" class="relationship_privacy user_info_privacy" name="user_info_privacy[2]" value="1"  {{in_array(2,$userInfoPrivacy)?'checked':''}}>
                                 @endif</label>
                             <select name="relationship" class="form-control">
-                                <option value="">Select Relationship</option>
+                                <option value=""> </option>
                                 @foreach($relationship as $key => $val)
                                     <option value="{{$key}}" {{old('relationship') == $key || $user->relationship == $key?'selected':''}}>{{$val}}</option>
                                 @endforeach
@@ -230,7 +219,7 @@
                     </div>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="ethnicity" >Ethnicity
+                                <label for="ethnicity" >{{trans('sentence.ethnicity')}}
                                     @if(in_array(16,$userPrivacySetting))
                                         <input type="checkbox" class="ethnicity_privacy user_info_privacy" name="user_info_privacy[16]" value="1"  {{in_array(16,$userInfoPrivacy)?'checked':''}}>
                                     @endif
@@ -254,7 +243,7 @@
                                 <select name="build" class="build form-control" id="build">
                                     <option value=""></option>
                                     @foreach($build as $key => $val)
-                                        <option value="{{$key}}" {{old('build') == $key?'selected':''}}>{{$val}}</option>
+                                        <option value="{{$key}}" {{old('build') == $key|| $user->build == $key?'selected':''}}>{{$val}}</option>
                                     @endforeach
                                 </select>
                             </div>
