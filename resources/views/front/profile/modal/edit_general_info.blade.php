@@ -29,6 +29,8 @@
                                 <input type="text" id="preferred_age_range" readonly class="search_range" name="preferred_age"  >
                             </div>
                             <div id="preferred-age-slider-range"></div>
+                            <input type="hidden" id="preferred_age_val" class="preferred_age_val" name="preferred_age_val"  data-min="{{($userInfo)?($userInfo->preferred_min_age):0}}"
+                                                           data-max="{{($userInfo)?($userInfo->preferred_max_age):0}}">
                         </div>
                     </div>
                     <div class="row">
@@ -39,6 +41,9 @@
                                 <input type="text" id="preferred_height_range_hidden" class="search_range" name="preferred_height_range_hidden"  >
                             </div>
                             <div id="preferred-height-slider-range"></div>
+                            <input type="hidden" id="preferred_height_val" class="preferred_height_val" name="preferred_height_val"  
+                                                            data-min="{{($userInfo)?($userInfo->preferred_min_height):0}}"
+                                                            data-max="{{($userInfo)?($userInfo->preferred_max_height):0}}">
                         </div>
                         <div class="form-group col-6">
                             <div class=" ">
@@ -47,6 +52,9 @@
                                 <input type="text" id="preferred_weight_range_hidden" class="search_range" name="preferred_weight_range_hidden"  >
                             </div>
                             <div id="preferred-weight-slider-range"></div>
+                            <input type="hidden" id="preferred_weight_val" class="preferred_weight_val" name="preferred_weight_val"  
+                                                            data-min="{{($userInfo)?($userInfo->preferred_min_weight):0}}"
+                                                            data-max="{{($userInfo)?($userInfo->preferred_max_weight):0}}"> 
                         </div>
                     </div>
                     <div class="row">

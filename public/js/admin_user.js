@@ -81,22 +81,27 @@
              });
         }
     });	
+    
+    var preferred_min_age = $('#preferred_age_val').attr('data-min');
+    var preferred_max_age = $('#preferred_age_val').attr('data-max');
     $("#preferred-age-slider-range").slider({
         range: true,
         min: 18,
         max: 80,
-        values: [ 18, 80 ],
+        values: [(preferred_min_age == 0 ?18:preferred_min_age), (preferred_max_age == 0 ?80:preferred_max_age)],
         slide: function( event, ui ) {
             $("#preferred_age_range").val(ui.values[0] + " - " + ui.values[1]);
         }
     });
     $("#preferred_age_range").val($("#preferred-age-slider-range").slider("values", 0)+" - " + $("#preferred-age-slider-range").slider("values", 1 ));
     
+    var preferred_min_height = $('#preferred_height_val').attr('data-min');
+    var preferred_max_height = $('#preferred_height_val').attr('data-max');
     $("#preferred-height-slider-range").slider({
         range: true,
         min:4.2,
         max:7.5,
-        values: [4.2,7.5],
+        values: [(preferred_min_height == 0 ?4.2:preferred_min_height), (preferred_max_height == 0 ?7.5:preferred_max_height)],
         step:0.1,
         slide: function( event, ui ) {
             $("#preferred_height_range").val(ui.values[0] + " - " +ui.values[1]);
@@ -106,11 +111,13 @@
     $("#preferred_height_range").val($("#preferred-height-slider-range").slider("values", 0)+" - " + $("#preferred-height-slider-range").slider("values", 1 ));
     $("#preferred_height_range_hidden").val($("#preferred-height-slider-range").slider("values", 0)+" - " + $("#preferred-height-slider-range").slider("values", 1 )+" ft ");
     
+    var preferred_min_weight = $('#preferred_weight_val').attr('data-min');
+    var preferred_max_weight = $('#preferred_weight_val').attr('data-max');
     $("#preferred-weight-slider-range").slider({
         range: true,
         min: 20,
         max: 200,
-        values: [20,200],
+        values: [(preferred_min_weight == 0 ?20:preferred_min_weight), (preferred_max_weight == 0 ?200:preferred_max_weight)],
         step:1,
         slide: function( event, ui ) {
             $("#preferred_weight_range").val(ui.values[0] + " - " + ui.values[1]);

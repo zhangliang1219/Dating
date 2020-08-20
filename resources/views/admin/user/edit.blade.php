@@ -142,8 +142,8 @@
                                                     <label for="preferred_age" >Preferred Age</label>
                                                     <div id="preferred-age-slider-range"></div>
                                                     <input type="text" id="preferred_age_range" readonly class="search_range" name="preferred_age"  >
-                                                    <input type="hidden" id="preferred_min_age" class="preferred_min_age" name="preferred_min_age"  value="{{($userInfo)?($userInfo->preferred_min_age):0}}">
-                                                    <input type="hidden" id="preferred_max_age" class="preferred_max_age" name="preferred_min_age"   value="{{($userInfo)?($userInfo->preferred_max_age):0}}">
+                                                    <input type="hidden" id="preferred_age_val" class="preferred_age_val" name="preferred_age_val"  data-min="{{($userInfo)?($userInfo->preferred_min_age):0}}"
+                                                           data-max="{{($userInfo)?($userInfo->preferred_max_age):0}}"> 
                                                 </div>
                                             </div>
                                                 <div class="row">
@@ -152,6 +152,9 @@
                                                         <div id="preferred-height-slider-range"></div>
                                                         <input type="text" id="preferred_height_range" readonly class="search_range" name="preferred_height"  style="display: none;">
                                                         <input type="text" id="preferred_height_range_hidden" class="search_range" name="preferred_height_range_hidden"  >
+                                                        <input type="hidden" id="preferred_height_val" class="preferred_height_val" name="preferred_height_val"  
+                                                            data-min="{{($userInfo)?($userInfo->preferred_min_height):0}}"
+                                                            data-max="{{($userInfo)?($userInfo->preferred_max_height):0}}"> 
                                                     </div>
                                                     <div class="form-group col-2"></div>
                                                     <div class="form-group col-4 admin_rang_div">
@@ -159,6 +162,9 @@
                                                         <div id="preferred-weight-slider-range"></div>
                                                         <input type="text" id="preferred_weight_range" readonly class="search_range" name="preferred_weight"  style="display: none;">
                                                         <input type="text" id="preferred_weight_range_hidden" class="search_range" name="preferred_weight_range_hidden"  >
+                                                        <input type="hidden" id="preferred_weight_val" class="preferred_weight_val" name="preferred_weight_val"  
+                                                            data-min="{{($userInfo)?($userInfo->preferred_min_weight):0}}"
+                                                            data-max="{{($userInfo)?($userInfo->preferred_max_weight):0}}"> 
                                                     </div>
                                                 </div>
                                             </div>

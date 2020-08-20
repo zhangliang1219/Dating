@@ -45,8 +45,7 @@ class ProfileController  extends Controller
             $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
             $page_limit = 2;
             $searchProfile = array();
-            if($request->age == '' && $request->height == ''&& $request->weight == ''&& $request->city == ''&& $request->country == ''
-                    && $request->education == '' && $request->employment_status == '' && $request->ethnicity == ''&& $request->living_arrangement == ''){
+            if(isset($request->profile_search) && $request->profile_search == 1){
                 return view('front.search.index',compact('searchProfile','request')); 
             }
             $dataQuery = User::with('countryData')->where('users.id','!=',Auth::user()->id)->where('users.is_admin',0)->where('users.status',2);

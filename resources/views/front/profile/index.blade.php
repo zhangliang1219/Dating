@@ -131,7 +131,7 @@
                     </li>
                     @if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1)
                         <li class="nav-item">
-                          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                          <a class="nav-link" id="match-tab" data-toggle="tab" href="#match" role="tab" aria-controls="match" aria-selected="false">
                               {{ trans('sentence.matches')}}</a>
                         </li>
                         <li class="nav-item">
@@ -251,6 +251,7 @@
                                         {{trans('sentence.preferred_height')}}
                                     </div>
                                     <div class="col-6">
+                                        {{($userInfo)?$userInfo->preferred_min_height.'-'.$userInfo->preferred_max_height.' ft':'-'}}
                                     </div>
                                 </div>
                             </div>
@@ -316,15 +317,7 @@
                                         {{trans('sentence.preferred_age')}}
                                     </div>
                                     <div class="col-6">
-                                        @php
-                                            $ageVal = array();
-                                            if($user->preferred_age != ''){
-                                                foreach(explode(",",$user->preferred_age) as $val){
-                                                    $ageVal[] = $preferred_age[$val];
-                                                }
-                                            }
-                                        @endphp
-                                        {{($user && $user->preferred_height != '')?implode(",",$ageVal):'-'}}
+                                        {{($userInfo)?$userInfo->preferred_min_age.'-'.$userInfo->preferred_max_age:'-'}}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -332,22 +325,14 @@
                                         {{trans('sentence.preferred_weight')}}
                                     </div>
                                     <div class="col-6">
-                                        @php
-                                            $weightVal = array();
-                                            if($user->preferred_weight != ''){
-                                                foreach(explode(",",$user->preferred_weight) as $val){
-                                                    $weightVal[] = $weight[$val];
-                                                }
-                                            }
-                                        @endphp
-                                        {{($user && $user->preferred_height != '')?implode(",",$weightVal):'-'}}
+                                        {{($userInfo)?$userInfo->preferred_min_weight.'-'.$userInfo->preferred_max_weight.' kg':'-'}}
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" value="general_info_submit" class="btn btn-primary" style="display: none;" id='general_info_submit'>Submit</button>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade" id="match" role="tabpanel" aria-labelledby="match-tab">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="users-listing-card">
@@ -477,16 +462,16 @@
                             </div>
                         </form>
                     </div>
-                      <div class="tab-pane fade" id="document_verify" role="tabpanel" aria-labelledby="doc-tab">
-                          @if(count($userDoc)>0 && Auth::user()->id_verify != 1)
-                            <div class="alert alert-warning" role="alert">
-                                <h6>Your documents are under verification.</h6>
-                            </div>
-                          @elseif (Auth::user()->id_verify == 1)
-                            <div class="alert alert-success" role="alert">
-                                <h6>Your documents are verified.</h6>
-                            </div>
-                          @elseif (count($userDoc) == 0)
+                    <div class="tab-pane fade" id="document_verify" role="tabpanel" aria-labelledby="doc-tab">
+                        @if(count($userDoc)>0 && Auth::user()->id_verify != 1)
+                          <div class="alert alert-warning" role="alert">
+                              <h6>Your documents are under verification.</h6>
+                          </div>
+                        @elseif (Auth::user()->id_verify == 1)
+                          <div class="alert alert-success" role="alert">
+                              <h6>Your documents are verified.</h6>
+                          </div>
+                        @elseif (count($userDoc) == 0)
                             <form action="{{route('docVerification')}}" id="docVerification" method="post"  enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -519,8 +504,7 @@
                                  </div>
                              </div>
                             </form>
-                          @endif
-                       
+                        @endif
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
                     <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact1-tab">...</div>
@@ -600,7 +584,7 @@
                             </select>
                         </div>
                     <div class="form-group mb-0">
-                        <button type="submit" class="btn btn-primary" name="profile_search">
+                        <button type="submit" class="btn btn-primary" name="profile_search" value="1">
                             {{ trans('sentence.find_your_partner')}}
                         </button>
                         <button type="button" class="btn btn-secondary" onclick="location.href='{{url('/profile')}}'">
