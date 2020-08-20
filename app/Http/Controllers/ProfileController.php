@@ -24,7 +24,7 @@ use App\UserDoc;
 
 class ProfileController  extends Controller
 {
-    public function profileInfo() {
+    public function profileInfo(Request $request) {
         $country = Country::all();
         $userInfo = UserInfo::where('user_id',Auth::user()->id)->first();
         $user = User::find(Auth::user()->id);
@@ -32,7 +32,9 @@ class ProfileController  extends Controller
         $userInfoPrivacy = UserInfoPrivacy::where('privacy_option',1)->where('user_id',Auth::user()->id)->pluck('field_id')->toArray();
         $userPhoto = UserPhotos::where('user_id',Auth::user()->id)->get()->toArray();
         $userDoc = UserDoc::where('user_id',Auth::user()->id)->get()->toArray();
-        return view('front.profile.index',compact('country','userInfo','user','userPrivacySetting','userInfoPrivacy','userPhoto','userDoc')); 
+        $matchedProfile = $this->matchedProfile($request);
+        return view('front.profile.index',compact('country','userInfo','user','userPrivacySetting','userInfoPrivacy','userPhoto','userDoc',
+                'matchedProfile','request')); 
   }
   
     public function userProfile(Request $request,$id) {
@@ -122,39 +124,82 @@ class ProfileController  extends Controller
         }
     }
     
-    public function matchedProfile() {
+    public function matchedProfile(Request $request) {
         if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
-            $user = Auth::user();
-            $matchProfile =  User::leftJoin('users as u','u.id','users.id')
-                            ->where(function ($q)use($user) {
-                                $q->where('u.gender',$user->wish_to_meet)
-                                    ->where('u.wish_to_meet',$user->gender);
-                            })
-                            ->where(function ($q1)use($user) {
-                                $q1->where(function ($q2)use($user) {
-                                    foreach(explode(',',$user->preferred_age) as $val){
-                                        $q2->orWhereRaw('FIND_IN_SET("'.$val.'",u.age)');
-                                    }
-                                })
-                                ->whereRaw('FIND_IN_SET('.$user->age.',u.preferred_age)');
-                            })
-                            ->where(function ($q3)use($user) {
-                                $q3->where(function ($q4)use($user) {
-                                    foreach(explode(',',$user->preferred_height) as $val){
-                                        $q4->orWhereRaw('FIND_IN_SET("'.$val.'",u.height)');
-                                    }
-                                })
-                                ->whereRaw('FIND_IN_SET('.$user->height.',u.preferred_height)');
-                            })
-                            ->where(function ($q5)use($user) {
-                                $q5->where(function ($q6)use($user) {
-                                    foreach(explode(',',$user->preferred_weight) as $val){
-                                        $q6->orWhereRaw('FIND_IN_SET("'.$val.'",u.weight)');
-                                    }
-                                })
-                                ->whereRaw('FIND_IN_SET('.$user->weight.',u.preferred_weight)');
-                            })
-                        ->where('users.id','!=',Auth::user()->id)->where('is_admin',0)->where('status',2)->get();
+            $matchPercentatgeCount = 0;
+            $totalMatchFields = 4;
+            $matchPercentatge = 100/$totalMatchFields;
+            $matchProfileWithPerc = array();
+            $matchedUserId = array();
+            $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
+            
+            $user = User::with('userInfoData')->where('users.id',Auth::user()->id)->first();
+            $allUser = User::where('users.id','!=',Auth::user()->id)->where('is_admin',0)->where('status',2)->pluck('id')->toArray();
+            
+            $genderMatch =  User::leftJoin('user_info as ui','users.id','ui.user_id')
+                                ->Where(function ($q)use($user) {
+                                    $q->where('users.gender',$user->userInfoData->wish_to_meet)
+                                      ->where('ui.wish_to_meet',$user->gender);
+                                })->where('users.id','!=',Auth::user()->id)->where('is_admin',0)->where('status',2)
+                                ->pluck('users.id')->toArray();
+                                
+            $ageMatch =  User::leftJoin('user_info as ui','users.id','ui.user_id')
+                                ->where(function ($q)use($user) {
+                                    $q->where('users.age','>=',$user->userInfoData->preferred_min_age)
+                                    ->where('users.age','<=',$user->userInfoData->preferred_max_age)
+                                    ->where('ui.preferred_min_age','<=',$user->age)
+                                    ->where('ui.preferred_max_age','>=',$user->age);
+                                })->where('users.id','!=',Auth::user()->id)->where('is_admin',0)->where('status',2)
+                                ->pluck('users.id')->toArray();
+                          
+            $heightMatch =  User::leftJoin('user_info as ui','users.id','ui.user_id')
+                                ->where(function ($q)use($user) {
+                                    $q->where('users.height','>=',$user->userInfoData->preferred_min_height)
+                                      ->where('users.height','<=',$user->userInfoData->preferred_max_height)
+                                      ->where('ui.preferred_min_height','<=',$user->height)
+                                      ->where('ui.preferred_max_height','>=',$user->height);
+                                })->where('users.id','!=',Auth::user()->id)->where('is_admin',0)->where('status',2)
+                                ->pluck('users.id')->toArray();
+                                
+            $weightMatch =  User::leftJoin('user_info as ui','users.id','ui.user_id')
+                                ->where(function ($q)use($user) {
+                                    $q->where('users.weight','>=',$user->userInfoData->preferred_min_weight)
+                                      ->where('users.weight','<=',$user->userInfoData->preferred_max_weight)
+                                      ->where('ui.preferred_min_weight','<=',$user->weight)
+                                      ->where('ui.preferred_max_weight','>=',$user->weight);
+                                })->where('users.id','!=',Auth::user()->id)->where('is_admin',0)->where('status',2)
+                                ->pluck('users.id')->toArray();
+            if(count($allUser)>0){
+                foreach($allUser as $val){
+                    $matchPercentatgeCount = (in_array($val,$genderMatch)?$matchPercentatge:0) + (in_array($val,$ageMatch)?$matchPercentatge:0) +
+                                             (in_array($val,$heightMatch)?$matchPercentatge:0) + (in_array($val,$weightMatch)?$matchPercentatge:0);
+                    if($matchPercentatgeCount){
+                        $matchProfileWithPerc[$val] = $matchPercentatgeCount;
+                    }
+                }
+            }
+
+            $matchedProfile = $topMatchedProfile = '';
+            if(count($matchProfileWithPerc)>0){
+                arsort($matchProfileWithPerc);
+                foreach($matchProfileWithPerc as $x=>$x_value)
+                {
+                     $matchedUserId[$x] = $x_value;
+                }
+                $query = User::with('userInfoData')->whereIn('users.id',array_keys($matchedUserId))
+                                    ->orderByRaw(\DB::raw("FIELD(users.id, ".implode(",",array_keys($matchedUserId))." )"));
+                
+                $topMatchedQuery = clone $query;
+                $topMatchedProfile = $topMatchedQuery->take(5)->get();
+                
+                $matchedProfile = $query->paginate($page_limit);
+                
+            }
+            $result['matchProfile'] = $matchedProfile;
+            $result['matchProfileWithPerc'] = $matchProfileWithPerc;
+            $result['topMatchedProfile'] = $topMatchedProfile;
+            
+            return $result;
         }else{
             return redirect('/profile')->with('success',"You'll need to complete your profile and verify your phone number,identity.");
         }

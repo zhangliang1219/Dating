@@ -126,12 +126,12 @@
             <div class="profile-tabs">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                      <a class="nav-link {{(isset($request->page) && $request->page != '')?'':'active'}}" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
                           {{ trans('sentence.profile')}}</a>
                     </li>
                     @if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1)
                         <li class="nav-item">
-                          <a class="nav-link" id="match-tab" data-toggle="tab" href="#match" role="tab" aria-controls="match" aria-selected="false">
+                          <a class="nav-link  {{(isset($request->page) && $request->page != '')?'active':''}}" id="match-tab" data-toggle="tab" href="#match" role="tab" aria-controls="match" aria-selected="false">
                               {{ trans('sentence.matches')}}</a>
                         </li>
                         <li class="nav-item">
@@ -154,7 +154,7 @@
                     @endif
                   </ul>
                   <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade {{(isset($request->page) && $request->page != '')?'':' show active'}}" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class='about_me'>
                             <div class="profile-header-title">
                                 <h3>{{ trans('sentence.about_me')}}</h3>
@@ -332,104 +332,41 @@
                             <button type="submit" value="general_info_submit" class="btn btn-primary" style="display: none;" id='general_info_submit'>Submit</button>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="match" role="tabpanel" aria-labelledby="match-tab">
+                    <div class="tab-pane fade {{(isset($request->page) && $request->page != '')?' show active':''}}" id="match" role="tabpanel" aria-labelledby="match-tab">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="users-listing-card">
-                                    <a class="link-profile" href="#"></a>
-                                    <div class="image-section">
-                                        <div class="user-img">
-                                            <img src="{{ asset('images/profile-default.jpg')}}" alt="">
+                            @if(count($matchedProfile['matchProfile'])>0)
+                            @foreach($matchedProfile['matchProfile'] as $val)
+                                <div class="col-md-6">
+                                    <div class="users-listing-card">
+                                        <a class="link-profile" href="#"></a>
+                                        <div class="image-section">
+                                            <div class="user-img">
+                                                <img src="{{ asset('images/profile/'.$val->photo)}}" alt="">
+                                            </div>
+                                            <div class="age-group">
+                                                {{$val->age}} year old {{$gender[$val->gender]}}
+                                            </div>
+                                            @if($val->login_status == 1)
+                                                <div class="online"></div>
+                                            @endif
                                         </div>
-                                        <div class="age-group">
-                                            33 year old Woman
+                                        <div class="details-section">
+                                            <h3>{{$val->name}}</h3>
+                                            <h4>{{$val->state.($val->countryData?','.$val->countryData->country_name:'')}}</h4>
+                                            <h5>{{$matchedProfile['matchProfileWithPerc'][$val->id].'% Match'}}</h5>
                                         </div>
-                                        <div class="online"></div>
-                                    </div>
-                                    <div class="details-section">
-                                        <h3>Sarika Parmar</h3>
-                                        <h4>Bilaspur, India</h4>
-                                        <h5>85% Match</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="users-listing-card">
-                                    <a class="link-profile" href="#"></a>
-                                    <div class="image-section">
-                                        <div class="user-img">
-                                            <img src="{{ asset('images/profile-default.jpg')}}" alt="">
-                                        </div>
-                                        <div class="age-group">
-                                            33 year old Woman
-                                        </div>
-                                        <div class="online"></div>
-                                    </div>
-                                    <div class="details-section">
-                                        <h3>Sarika Parmar</h3>
-                                        <h4>Bilaspur, India</h4>
-                                        <h5>85% Match</h5>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="users-listing-card">
-                                    <a class="link-profile" href="#"></a>
-                                    <div class="image-section">
-                                        <div class="user-img">
-                                            <img src="{{ asset('images/profile-default.jpg')}}" alt="">
-                                        </div>
-                                        <div class="age-group">
-                                            33 year old Woman
-                                        </div>
-                                        <div class="online"></div>
-                                    </div>
-                                    <div class="details-section">
-                                        <h3>Sarika Parmar</h3>
-                                        <h4>Bilaspur, India</h4>
-                                        <h5>85% Match</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="users-listing-card">
-                                    <a class="link-profile" href="#"></a>
-                                    <div class="image-section">
-                                        <div class="user-img">
-                                            <img src="{{ asset('images/profile-default.jpg')}}" alt="">
-                                        </div>
-                                        <div class="age-group">
-                                            33 year old Woman
-                                        </div>
-                                        <div class="online"></div>
-                                    </div>
-                                    <div class="details-section">
-                                        <h3>Sarika Parmar</h3>
-                                        <h4>Bilaspur, India</h4>
-                                        <h5>85% Match</h5>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
+                            @else
+                            <h3>No Matches Found!</h3>
+                            @endif
                         </div>
+                        @if(count($matchedProfile['matchProfile'])>0)
                         <div class="pagination-container">
-                            <ul class="pagination">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                        <ion-icon name="arrow-back-outline"></ion-icon>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active" aria-current="page">
-                                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <ion-icon name="arrow-forward-outline"></ion-icon>
-                                    </a>
-                                </li>
-                            </ul>
+                            {!! $matchedProfile['matchProfile']->appends(\Request::except('page'))->render() !!}
                         </div>
+                        @endif
                     </div>
                     <div class="tab-pane fade" id="phone_verify" role="tabpanel" aria-labelledby="phone-verify-tab">
                         <form action="{{route('phoneVerification')}}" id="phoneVerification" method="post">
@@ -512,10 +449,9 @@
             </div>
         </div>
         @if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1)
-            <div class="col-md-4">
+        <div class="col-md-4">
             <div class="custom-card">
-                <form class="form-horizontal" method="post" action="{{route('viewSearchProfile')}}"
-                    name="search_profile" id="search_profile">
+                <form class="form-horizontal" method="post" action="{{route('viewSearchProfile')}}"  name="search_profile" id="search_profile">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
@@ -591,10 +527,37 @@
                             {{trans('sentence.cancel')}}
                         </button>
                     </div>
-                </form>
+                </div>
+            </form>
+            </div>
+            <div class="custom-card pt-5">
+                @if(count($matchedProfile['topMatchedProfile'])>0)
+                    @foreach($matchedProfile['topMatchedProfile'] as $val)
+                        <div class="col-md-6">
+                            <div class="users-listing-card">
+                                <a class="link-profile" href="#"></a>
+                                <div class="image-section">
+                                    <div class="user-img">
+                                        <img src="{{ asset('images/profile/'.$val->photo)}}" alt="">
+                                    </div>
+                                    <div class="age-group">
+                                        {{$val->age}} year old {{$gender[$val->gender]}}
+                                    </div>
+                                    @if($val->login_status == 1)
+                                        <div class="online"></div>
+                                    @endif
+                                </div>
+                                <div class="details-section">
+                                    <h3>{{$val->name}}</h3>
+                                    <h4>{{$val->state.($val->countryData?','.$val->countryData->country_name:'')}}</h4>
+                                    <h5>{{$matchedProfile['matchProfileWithPerc'][$val->id].'% Match'}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
-    </div>
         @endif
 </div>
 @include('front.profile.modal.edit_general_info')
