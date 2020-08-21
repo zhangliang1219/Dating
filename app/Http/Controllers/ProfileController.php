@@ -49,6 +49,14 @@ class ProfileController  extends Controller
         return view('front.profile.user_profile',compact('userInfo','userPhoto','searchIdArray','userLikeDislike'));
     }
     
+    public function slideUserProfile($id) {
+        $searchIdArray = session('searchProfileIdArray');
+        $userInfo = User::with(['countryData','userInfoData'])->where('users.id',$id)->first();
+        $userPhoto = UserPhotos::where('user_id',$id)->where('privacy_option',2)->get();
+        $userLikeDislike = UserLikeDislike::where('user_id',$id)->get();
+        return view('front.profile.single_user_profile_html',compact('userInfo','userPhoto','searchIdArray','userLikeDislike'));
+    }
+    
     public function likeDislikeStatus($userId,$profileId){
         $userLikeDislike = UserLikeDislike::where('user_id',$profileId)->where('profile_id',$userId)->first();
         if(!$userLikeDislike){
@@ -79,11 +87,7 @@ class ProfileController  extends Controller
             return 'like';
         }
     }
-    public function slideUserProfile(Request $request) {
-        $userInfo = User::with(['countryData','userInfoData'])->where('users.id',$request->id)->first();
-        $userPhoto = UserPhotos::where('user_id',$request->id)->where('privacy_option',2)->get();
-        return view('front.profile.single_user_profile_html',compact('userInfo','userPhoto'));
-    }
+    
   
     public function viewSearchProfile(Request $request){
         if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){

@@ -6,10 +6,11 @@
         var nextId = searchArrayId[($.inArray(currentProfileId, searchArrayId) + 1) % searchArrayId.length];
         var url = getsiteurl() + '/user/profile/'+nextId;
         $.ajax({
-            url : url,
+            url : getsiteurl() + '/slide/user/profile/'+nextId,
             type : 'GET',
             success : function(data) {
                 window.history.replaceState("", "",url);
+                console.log(data);
                 $('.profile_detail').html(data);
                 if(nextId == searchArrayId[searchArrayId.length-1]){
                     $('#profile_next').hide();
@@ -24,7 +25,7 @@
         var prevId = searchArrayId[($.inArray(currentProfileId, searchArrayId) - 1) % searchArrayId.length];
         var url = getsiteurl() + '/user/profile/'+prevId;
         $.ajax({
-            url : url,
+            url : getsiteurl() + '/slide/user/profile/'+prevId,
             type : 'GET',
             success : function(data) {
                 window.history.replaceState("", "", url);
