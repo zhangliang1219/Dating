@@ -338,7 +338,7 @@
                             @foreach($matchedProfile['matchProfile'] as $val)
                                 <div class="col-md-6">
                                     <div class="users-listing-card">
-                                        <a class="link-profile" href="#"></a>
+                                        <a class="link-profile" href="{{route('userProfile',[$val->id])}}"></a>
                                         <div class="image-section">
                                             <div class="user-img">
                                                 <img src="{{ asset('images/profile/'.$val->photo)}}" alt="">
@@ -535,7 +535,7 @@
                     @foreach($matchedProfile['topMatchedProfile'] as $val)
                         <div class="col-md-6">
                             <div class="users-listing-card">
-                                <a class="link-profile" href="#"></a>
+                                <a class="link-profile" href="{{route('userProfile',[$val->id])}}"></a>
                                 <div class="image-section">
                                     <div class="user-img">
                                         <img src="{{ asset('images/profile/'.$val->photo)}}" alt="">

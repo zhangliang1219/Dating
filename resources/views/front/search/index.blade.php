@@ -34,21 +34,27 @@ $preferred_age = config('constant.preferred_age');
                 Showing {{ $searchProfile->firstItem() }} to {{ $searchProfile->lastItem() }} of total {{$searchProfile->total()}} entries
             @endif
         </h5>
-        <form >
-            <select class="custom-select">
+<!--        @if(count($matchPercentageArray)>0)
+        <form>
+            <select class="custom-select" name="serachByPercenatge">
                 <option selected>Search By Match%</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                @foreach($matchPercentageArray as $val)
+                    <option value="{{$val}}">{{$val.'%'}}</option>
+                @endforeach
             </select>
         </form>
+        @endif-->
     </div>
     <div class="row">
         @if(count($searchProfile)>0)
             @foreach($searchProfile as $val)
-            <div class="col-md-4">
+            @php 
+                $percentage = 0;
+                $percentage = (new App\Http\Controllers\ProfileController)->matchedPercentage(Auth::user()->id,$val->id);
+            @endphp
+            <div class="col-md-4 search-list-card" data-id=''>
                 <div class="users-listing-card">
-                    <a class="link-profile" href="{{route('userProfile',$val->id)}}"></a>
+                    <a class="link-profile" href="{{route('userProfile',[$val->id])}}"></a>
                     <div class="image-section">
                         <div class="user-img">
                             <img src="{{($val->photo != '')?asset('images/profile/'.$val->photo):asset('images/profile-default.jpg')}}" alt="">
@@ -63,7 +69,7 @@ $preferred_age = config('constant.preferred_age');
                     <div class="details-section">
                         <h3>{{$val->name}}</h3>
                         <h4>{{$val->state.($val->countryData?','.$val->countryData->country_name:'')}}</h4>
-                        <h5>85% Match</h5>
+                        <h5>{{$percentage.'% Match'}}</h5>
                     </div>
                 </div>
             </div>

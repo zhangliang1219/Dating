@@ -20,3 +20,4 @@
 .search_range{border:0; color:#f6931f; font-weight:bold;}
 .doc_photo{width: 100px; height: 100px;}
 .admin_rang_div .search_range {text-align: right;width: 100%;color:#007bff}
+#profile_next,#profile_prev{float: right;cursor: pointer;}

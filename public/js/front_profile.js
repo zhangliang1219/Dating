@@ -328,5 +328,6 @@
     });
     $("#preferred_weight_range").val($("#preferred-weight-slider-range").slider("values", 0)+" - " + $("#preferred-weight-slider-range").slider("values", 1 ));
     $("#preferred_weight_range_hidden").val($("#preferred-weight-slider-range").slider("values", 0)+" - " + $("#preferred-weight-slider-range").slider("values", 1 )+" kg ");
+    
 });
 
