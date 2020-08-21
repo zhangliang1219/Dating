@@ -54,8 +54,9 @@
                     
             <button type="button" class="btn btn-theme profileDislike" data-user-id='{{Auth::user()->id}}' 
                 data-profile-id='{{$userInfo->id}}' data-type="dislike" 
-                style="display:{{((($likeDislikeStatus && $likeDislikeStatus->user_like == 1) 
-                                || !isset($likeDislikeStatus)) && ($likeDislikeStatus->user_like !=1 && $likeDislikeStatus->profile_user_like !=1))?'show':'none'}}">Dislike</button>
+                style="display:{{((($likeDislikeStatus && $likeDislikeStatus->user_like == 1) ||
+                            ($likeDislikeStatus && $likeDislikeStatus->user_like !=1 && $likeDislikeStatus->profile_user_like !=1)
+                                || !isset($likeDislikeStatus)) )?'show':'none'}}">Dislike</button>
 
             <button type="button" class="btn btn-theme message" data-user-id='{{Auth::user()->id}}' 
                     data-profile-id='{{$userInfo->id}}' data-type="message" 
