@@ -1,31 +1,21 @@
 @extends('layouts.final')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
-                                     document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
+    <div class="homepage-page">
+       <div class="hero-section">
+           <div class="container">
+               <div class="row">
+                   <div class="col-md-6">
+                       <div class="header-img">
+                           <img src="{{ asset('/images/homepage-header-hero.png')}}" alt="">
+                       </div>
+                   </div>
+                   <div class="col-md-6">
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        You are logged in!
-                    </div>
-            </div>
-        </div>
+                   </div>
+               </div>
+           </div>
+       </div>
     </div>
-</div>
+
 @endsection
