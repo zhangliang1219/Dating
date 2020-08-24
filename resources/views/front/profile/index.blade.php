@@ -334,6 +334,7 @@
                     </div>
                     <div class="tab-pane fade {{(isset($request->page) && $request->page != '')?' show active':''}}" id="match" role="tabpanel" aria-labelledby="match-tab">
                         <div class="row">
+                            @if(count($matchedProfile)> 0 )
                             @if(count($matchedProfile['matchProfile'])>0)
                             @foreach($matchedProfile['matchProfile'] as $val)
                                 <div class="col-md-6">
@@ -358,11 +359,12 @@
                                     </div>
                                 </div>
                             @endforeach
+                            @endif
                             @else
                             <h3>No Matches Found!</h3>
                             @endif
                         </div>
-                        @if(count($matchedProfile['matchProfile'])>0)
+                        @if((count($matchedProfile)> 0 ) && count($matchedProfile['matchProfile'])>0)
                         <div class="pagination-container">
                             {!! $matchedProfile['matchProfile']->appends(\Request::except('page'))->render() !!}
                         </div>
@@ -559,6 +561,7 @@
             </div>
         </div>
         @endif
+    </div>
 </div>
 @include('front.profile.modal.edit_general_info')
 @include('front.profile.modal.manage_profile_photo')

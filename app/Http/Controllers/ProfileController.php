@@ -34,7 +34,7 @@ class ProfileController  extends Controller
         $userPhoto = UserPhotos::where('user_id',Auth::user()->id)->get();
         $userDoc = UserDoc::where('user_id',Auth::user()->id)->get()->toArray();
         $matchedProfile = $this->matchedProfile($request);
-        if(count($matchedProfile['matchProfileWithPerc'])>0){
+        if(count($matchedProfile)> 0 && count($matchedProfile['matchProfileWithPerc'])>0){
             session(['searchProfileIdArray' => array_keys($matchedProfile['matchProfileWithPerc'])]);
         }
         return view('front.profile.index',compact('country','userInfo','user','userPrivacySetting','userInfoPrivacy','userPhoto','userDoc',
@@ -316,6 +316,7 @@ class ProfileController  extends Controller
     } 
     
     public function matchedProfile(Request $request) {
+        $result =array();
         if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
             $matchPercentatgeCount = 0;
             $totalMatchFields = 4;
@@ -365,7 +366,7 @@ class ProfileController  extends Controller
             
             return $result;
         }else{
-            return redirect('/profile')->with('success',"You'll need to complete your profile and verify your phone number,identity.");
+            return $result;
         }
          
     }
