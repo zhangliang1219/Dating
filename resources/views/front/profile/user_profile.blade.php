@@ -31,5 +31,5 @@ $weight = config('constant.weight');
 
 @endsection
 @section('javascript')
-<script src="{{ asset('js/front_my_search.js?'.time()) }}"></script>
+<script src="{{ asset('js/front_my_profile.js?'.time()) }}"></script>
 @endsection

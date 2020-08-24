@@ -106,5 +106,8 @@ return [
     'doc_verification'=>'Document Verification',
     'send'=>'Send',
     'doc_upload'=>'Document Upload',
-    
+    'home_gender'=>[
+        '1'=>'Woman Looking a Man',
+        '2'=>'Man Looking a Woman'
+    ]
 ];
