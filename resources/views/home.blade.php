@@ -1,7 +1,24 @@
 @extends('layouts.final')
-
+@php
+$gender = trans('sentence.gender');
+$home_gender = trans('sentence.home_gender');
+@endphp
 @section('content')
     <div class="homepage-page">
+        @if ($errors->any())
+            <div class="alert alert-danger ml-5 mr-5">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if (session()->has('success'))
+            <div class="alert alert-success ml-5 mr-5" role="alert">
+                <h5>{{ session('success') }}</h5>
+            </div>
+        @endif
         <div class="hero-section">
             <div class="container">
                 <div class="row align-items-center">
@@ -29,17 +46,19 @@
         </div>
         <div class="container">
             <div class="home-search">
-                <form class="form-inline justify-content-center">
+                <form class="form-inline justify-content-center" action="{{route('viewSearchProfile')}}" method="POST">
+                    @csrf
                     <label class="mr-3 my-2">I am a</label>
-                    <select class="custom-select my-2 mr-sm-2">
-                        <option selected>Man Looking a woman</option>
-                        <option value="1">Woman Looking a Man</option>
+                    <select class="custom-select my-2 mr-sm-2" name="serach_gender">
+                        @foreach($home_gender as $key => $val)
+                            <option value="{{$key}}">{{$val}}</option>
+                        @endforeach
                     </select>
                     <label class="mr-3 my-2">Between Ages</label>
                     <div class="mr-3 my-4">
-                        <input class="range-slider" type="hidden" value="20,30" />
+                        <input class="range-slider" type="hidden" value="20,30" name="search_age"/>
                     </div>
-                    <button type="submit" class="btn btn-theme-outline my-2">Take a Change</button>
+                    <button type="submit" class="btn btn-theme-outline my-2" name="home_serach_submit" value="1">Take a Change</button>
                 </form>
             </div>
         </div>
@@ -91,28 +110,28 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="feture-card">
                         <img src="{{ asset('/images/home-icon-1.png') }}" alt="">
-                        <h3>32,786</h3>
+                        <h3>{{($totalUser)?$totalUser:00}}</h3>
                         <h2>Members in total</h2>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="feture-card">
                         <img src="{{ asset('/images/home-icon-2.png') }}" alt="">
-                        <h3>2507</h3>
+                        <h3>{{($activeUser)?$activeUser:00}}</h3>
                         <h2>Active Members </h2>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="feture-card">
                         <img src="{{ asset('/images/home-icon-3.png') }}" alt="">
-                        <h3>2507</h3>
+                        <h3>{{($womenUser)?$womenUser:00}}</h3>
                         <h2>Women</h2>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="feture-card">
                         <img src="{{ asset('/images/home-icon-4.png') }}" alt="">
-                        <h3>2507</h3>
+                        <h3>{{($menUser)?$menUser:00}}</h3>
                         <h2>Men</h2>
                     </div>
                 </div>

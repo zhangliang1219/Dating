@@ -54,6 +54,7 @@ Route::get('/gallery/photos/privacy/update/{id}/{checked}', 'ProfileController@g
 //My profile route
 Route::get('user/profile/{id}', 'ProfileController@userProfile')->name('userProfile');
 Route::post('user/profile/like_dislike', 'ProfileController@userProfileLikeDislike')->name('userProfileLikeDislike');
+Route::post('profile/like/dislike/status', 'ProfileController@getProfileLikeDislikeStatus')->name('getProfileLikeDislikeStatus');
 
 //Backend Route
 Route::group(['before' => 'auth','prefix' => 'admin'], function(){

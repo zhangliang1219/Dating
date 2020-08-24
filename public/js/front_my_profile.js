@@ -1,16 +1,17 @@
  $( document ).ready(function() {
 
-    $( "body" ).on( "click", "#profile_next", function() {
+    $( "body" ).one( "click", "#profile_next", function() {
         var searchArrayId =  $.parseJSON($('#serachIdArray').val());
         var currentProfileId =  parseInt($(this).attr('data-id'));
         var nextId = searchArrayId[($.inArray(currentProfileId, searchArrayId) + 1) % searchArrayId.length];
+        getLikeDislikeStatus();
         var url = getsiteurl() + '/user/profile/'+nextId;
         $.ajax({
             url : url,
             type : 'GET',
             success : function(data) {
                 window.history.replaceState("", "",url);
-                $('.profile_detail').html(data);
+                $('body').html(data);
                 if(nextId == searchArrayId[searchArrayId.length-1]){
                     $('#profile_next').hide();
                 }
@@ -18,17 +19,18 @@
         });
     });
     
-    $( "body" ).on( "click", "#profile_prev", function() {
+    $( "body" ).one( "click", "#profile_prev", function() {
         var searchArrayId =  $.parseJSON($('#serachIdArray').val());
         var currentProfileId =  parseInt($(this).attr('data-id'));
         var prevId = searchArrayId[($.inArray(currentProfileId, searchArrayId) - 1) % searchArrayId.length];
+        getLikeDislikeStatus();
         var url = getsiteurl() + '/user/profile/'+prevId;
         $.ajax({
             url : url,
             type : 'GET',
             success : function(data) {
                 window.history.replaceState("", "", url);
-                $('.profile_detail').html(data);
+                $('body').html(data);
                 if(prevId == searchArrayId[0]){
                     $('#profile_prev').hide();
                 }
@@ -50,10 +52,6 @@
             type : 'POST',
             data : {userId:userId,profileId:profileId,type:type},
             success : function(data) {
-//                $((type == 'like'?'.profileLike':'.profileDislike')).prop('disabled', true);
-//                $((type == 'like'?'.profileDislike':'.profileLike')).prop('disabled', false);
-//                $((type == 'add'?'.profileAdd':'.profileDislike')).prop('disabled', true);
-//                $((type == 'add'?'.profileDislike':'.profileAdd')).prop('disabled', false);
                 if(data == 'match'){
                     $('.profileAdd').hide();
                     $('.profileDislike').hide();
@@ -65,5 +63,41 @@
             }
         });
     });
+    
+    window.setInterval(function(){ 
+        getLikeDislikeStatus();
+    },3000);
+    
 });
+var getLikeDislikeStatus = function() {
+    var currLoc = $(location).attr('href'); 
+    var parts = currLoc.split("/");
+    var profile_id = parts[parts.length-1];
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url : getsiteurl() + '/profile/like/dislike/status',
+        type : 'POST',
+        data : {profileId:profile_id},
+        success : function(data) {
+//            console.log(data);
+            $('.profileStatusBtn').hide();
+            if(data.add == 1){
+                $('.profileAdd').show();
+            }
+            if(data.like == 1){
+                $('.profileLike').show();
+            }
+            if(data.message == 1){
+                $('.profiilemessage').show();
+            }
+            if(data.dislike == 1){
+                $('.profileDislike').show();
+            }
+        }
+    });
+}
 

@@ -106,4 +106,8 @@ return [
     'doc_verification'=>'Vérification des documents',
     'send'=>'Envoyer',
     'doc_upload'=>'Téléchargement de documents',
+    'home_gender'=>[
+        '1'=>'Femme regarde, a, homme',
+        '2'=>'Homme, recherche, a, femme'
+    ],
 ];

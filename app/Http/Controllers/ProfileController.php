@@ -39,46 +39,139 @@ class ProfileController  extends Controller
         }
         return view('front.profile.index',compact('country','userInfo','user','userPrivacySetting','userInfoPrivacy','userPhoto','userDoc',
                 'matchedProfile','request')); 
-  }
-  
+    }
+    
+    public function userDislikedProfile(){
+        $dislikedId = UserLikeDislike::where('user_id',Auth::user()->id)->where('user_like',2)->pluck('profile_id')->toArray();
+        $dislikedId1 = UserLikeDislike::where('profile_id',Auth::user()->id)->where('user_like',2)->pluck('user_id')->toArray();
+        $dislikedId2 = UserLikeDislike::where('user_id',Auth::user()->id)->where('profile_user_like',2)->pluck('profile_id')->toArray();
+        $dislikedId3 = UserLikeDislike::where('profile_id',Auth::user()->id)->where('profile_user_like',2)->pluck('user_id')->toArray();
+        $result =  $dislikedId + $dislikedId1 + $dislikedId2 + $dislikedId3;
+        return $result;
+    }
+
     public function userProfile($id) {
-        $searchIdArray = session('searchProfileIdArray');
-        $userInfo = User::with(['countryData','userInfoData'])->where('users.id',$id)->first();
-        $userPhoto = UserPhotos::where('user_id',$id)->where('privacy_option',2)->get();
-        $userLikeDislike = UserLikeDislike::where('user_id',$id)->get();
-        return view('front.profile.user_profile',compact('userInfo','userPhoto','searchIdArray','userLikeDislike'));
+        if(!in_array($id,$this->userDislikedProfile())){
+            $searchIdArray = session('searchProfileIdArray');
+            $userInfo = User::with(['countryData','userInfoData'])->where('users.id',$id)->first();
+            $userPhoto = UserPhotos::where('user_id',$id)->where('privacy_option',2)->get();
+            $userLikeDislike = UserLikeDislike::where('user_id',$id)->get();
+            return view('front.profile.user_profile',compact('userInfo','userPhoto','searchIdArray','userLikeDislike'));
+        }else{
+            return redirect('/home')->with('success',"Something is wrong.Please try again!");
+        }
     }
     
     public function likeDislikeStatus($userId,$profileId){
-        $userLikeDislike = UserLikeDislike::where('user_id',$profileId)->where('profile_id',$userId)->first();
-        if(!$userLikeDislike){
-            $userLikeDislike = UserLikeDislike::where('user_id',$userId)->where('profile_id',$profileId)->first();
+        $userLikeDislike = UserLikeDislike::where('user_id',$userId)->where('profile_id',$profileId)->first();
+        $profileLikeDislike = UserLikeDislike::where('user_id',$profileId)->where('profile_id',$userId)->first();
+       
+        $result['userLike'] = 0;
+        $result['profileLike'] = 0;
+        $result['user_id'] = 0;
+        if($userLikeDislike){
+            if($userLikeDislike->user_like != '' && $userLikeDislike->user_id == Auth::user()->id){
+                $result['userLike'] = (($userLikeDislike->user_like == 1)?1:2);
+            }
+            if($userLikeDislike->profile_user_like != ''){
+                $result['profileLike'] = (($userLikeDislike->profile_user_like == 1)?1:2);
+            }
+            $result['user_id'] = $userLikeDislike->user_id;
         }
-        return $userLikeDislike;
+        if($profileLikeDislike){
+            if($profileLikeDislike->user_like != '' && $profileLikeDislike->profile_id == Auth::user()->id){
+                $result['userLike'] = (($profileLikeDislike->user_like == 1)?1:2);
+            }
+            if($profileLikeDislike->profile_user_like != ''){
+                $result['profileLike'] = (($profileLikeDislike->profile_user_like == 1)?1:2);
+            }
+        }
+        
+        return $result;
+    }
+    
+    public function getProfileLikeDislikeStatus(Request $request){
+        $userId = Auth::user()->id;
+        $profileId = $request->profileId;
+        $userLikeDislike = UserLikeDislike::where('user_id',$userId)->where('profile_id',$profileId)->first();
+        $profileLikeDislike = UserLikeDislike::where('user_id',$profileId)->where('profile_id',$userId)->first();
+        $likeDislikeStatus['userLike'] = $likeDislikeStatus['profileLike'] = $likeDislikeStatus['user_id']  = 0;
+        
+        if($userLikeDislike){
+            if($userLikeDislike->user_like != '' && $userLikeDislike->user_id == Auth::user()->id){
+                $likeDislikeStatus['userLike'] = (($userLikeDislike->user_like == 1)?1:2);
+            }
+            if($userLikeDislike->profile_user_like != ''){
+                $likeDislikeStatus['profileLike'] = (($userLikeDislike->profile_user_like == 1)?1:2);
+            }
+            $likeDislikeStatus['user_id'] = $userLikeDislike->user_id;
+        }
+        if($profileLikeDislike){
+            if($profileLikeDislike->user_like != '' && $profileLikeDislike->profile_id == Auth::user()->id){
+                $likeDislikeStatus['userLike'] = (($profileLikeDislike->user_like == 1)?1:2);
+            }
+            if($profileLikeDislike->profile_user_like != ''){
+                $likeDislikeStatus['profileLike'] = (($profileLikeDislike->profile_user_like == 1)?1:2);
+            }
+        }
+        
+        $result = array();
+        $result['add'] = $result['like'] = $result['dislike'] = $result['message'] = 0;
+        
+        if($likeDislikeStatus['userLike'] == 1 && $likeDislikeStatus['profileLike']  == 0 && $likeDislikeStatus['user_id'] != $userId){
+            $result['add'] = 1;
+        }
+        if($likeDislikeStatus['userLike'] == 0 && $likeDislikeStatus['profileLike'] == 0){
+            $result['like'] = 1;
+        }
+        if(($likeDislikeStatus['userLike'] == 1 && $likeDislikeStatus['profileLike']  == 1)){
+            $result['message'] = 1;
+        }
+        if(($likeDislikeStatus['userLike'] == 1 && $likeDislikeStatus['profileLike']  == 0)||
+            ($likeDislikeStatus['userLike'] == 0 && $likeDislikeStatus['profileLike']  == 1)||
+            ($likeDislikeStatus['userLike'] == 0 && $likeDislikeStatus['profileLike']  == 0)){
+            $result['dislike'] = 1;
+        }
+        return $result;
     }
 
     public function userProfileLikeDislike(Request $request) {
+         
+       if($request->type == 'like'){
+            $likeDislike = new UserLikeDislike();
+            $likeDislike->user_like = ($request->type == 'like'?1:2);
+            $likeDislike->profile_user_like = NULL;
+            $likeDislike->user_id = $request->userId;
+            $likeDislike->profile_id = $request->profileId;
+            $likeDislike->save();
+            return 'like';
+        }
         if($request->type == 'add'){
-           $likeDislike = UserLikeDislike::where('user_id',$request->profileId)->where('profile_id',$request->userId)->first(); 
-           $likeDislike->profile_user_like = ($request->type == 'add'?1:2);
-        }else{
+            $likeDislike = new UserLikeDislike();
+            $likeDislike->user_like = NULL;
+            $likeDislike->profile_user_like = ($request->type == 'add'?1:2);
+            $likeDislike->user_id = $request->userId;
+            $likeDislike->profile_id = $request->profileId;
+            $likeDislike->save();
+            return 'match';
+        }
+        if($request->type == 'dislike'){
             $likeDislike = UserLikeDislike::where('user_id',$request->userId)->where('profile_id',$request->profileId)->first();
             if($likeDislike === null){
                 $likeDislike = new UserLikeDislike();
+                $likeDislike->user_like = NULL;
+                $likeDislike->profile_user_like = ($request->type == 'dislike'?2:1);
+                $likeDislike->user_id = $request->userId;
+                $likeDislike->profile_id = $request->profileId;
+                $likeDislike->save();
+            }else{
+                $likeDislike->user_like = ($request->type == 'dislike'?2:1);
+                $likeDislike->save();
             }
-            $likeDislike->user_id = $request->userId;
-            $likeDislike->profile_id = $request->profileId;
-            $likeDislike->user_like = ($request->type == 'like'?1:2);
-        }
-        
-        $likeDislike->save();
-        
-        if($likeDislike->user_like == 1 && $likeDislike->profile_user_like == 1){
-            return 'match';
-        }elseif($likeDislike->user_like == 1 && $likeDislike->profile_user_like == ''){
-            return 'like';
+            return 'dislike';
         }
     }
+    
     public function slideUserProfile(Request $request) {
         $userInfo = User::with(['countryData','userInfoData'])->where('users.id',$request->id)->first();
         $userPhoto = UserPhotos::where('user_id',$request->id)->where('privacy_option',2)->get();
@@ -86,6 +179,7 @@ class ProfileController  extends Controller
     }
   
     public function viewSearchProfile(Request $request){
+//        echo "<pre>";print_R($request->all());exit;
         if(Auth::user() && Auth::user()->id_verify == 1 && Auth::user()->email_verify == 1 && Auth::user()->phone_verify == 1){
             $page_limit = ($request['page_range'])?$request['page_range']:config('constant.recordPerPage');
             $searchProfile = array();
@@ -93,6 +187,8 @@ class ProfileController  extends Controller
                 return view('front.search.index',compact('searchProfile','request')); 
             }
             $dataQuery = User::with('countryData')->where('users.id','!=',Auth::user()->id)->where('users.is_admin',0)->where('users.status',2);
+            $homeSearchQuery = clone $dataQuery;
+            
             if(isset($request->age) || $request->age != ''){
                 $age = explode(" - ",$request->age);
                 if(count($age)>0){
@@ -144,11 +240,28 @@ class ProfileController  extends Controller
             $userData = clone $dataQuery;
             $userData = $userData->orderBy('users.id', 'desc')->get();
             
-            if ($request->has('sort') && $request->input('sort') != '') {
-                $searchProfile = $dataQuery->sortable()->orderBy($request->input('sort'), $request->input('direction'))->paginate($page_limit);
-            } else {
-                $searchProfile = $dataQuery->sortable()->orderBy('users.id', 'desc')->paginate($page_limit);
-            } 
+            if(isset($request->home_serach_submit) && $request->home_serach_submit == 1){
+                if(isset($request->serach_gender) || $request->serach_gender != ''){
+                    $homeSearchQuery->where('users.gender',$request->serach_gender);
+                }
+                if(isset($request->search_age) || $request->search_age != ''){
+                    $age = explode(",",$request->search_age);
+                    if(count($age)>0){
+                        $homeSearchQuery->where('users.age','>=',trim($age[0]))->where('users.age','<=',trim($age[1]));
+                    }
+                }
+                $userData = clone $homeSearchQuery;
+                $userData = $userData->orderBy('users.id', 'desc')->get();
+                
+                $searchProfile = $homeSearchQuery->sortable()->orderBy('users.id', 'desc')->paginate($page_limit);
+            }else{
+                if ($request->has('sort') && $request->input('sort') != '') {
+                    $searchProfile = $dataQuery->sortable()->orderBy($request->input('sort'), $request->input('direction'))->paginate($page_limit);
+                } else {
+                    $searchProfile = $dataQuery->sortable()->orderBy('users.id', 'desc')->paginate($page_limit);
+                } 
+            }
+            
             
             $getData = SearchHistory::where('user_id',Auth::user()->id)->get()->count();
             $matchPercentageArray = $searchProfileIdArray = array();
@@ -175,6 +288,7 @@ class ProfileController  extends Controller
             }
 
             session(['searchProfileIdArray' => $searchProfileIdArray]);
+            
             return view('front.search.index',compact('searchProfile','request','matchPercentageArray','searchProfileIdArray')); 
         }else{
             return redirect('/profile')->with('success',"You'll need to complete your profile and verify your phone number,identity.");
@@ -260,7 +374,9 @@ class ProfileController  extends Controller
                             ->Where(function ($q)use($user) {
                                 $q->where('users.gender',$user->userInfoData->wish_to_meet)
                                   ->where('ui.wish_to_meet',$user->gender);
-                            })->where('users.id','!=',$userId)->where('is_admin',0)->where('status',2)
+                            })->where('users.id','!=',$userId)
+                            ->whereNotIn('users.id',$this->userDislikedProfile())
+                            ->where('is_admin',0)->where('status',2)
                             ->pluck('users.id')->toArray();
 
         $ageMatch =  User::leftJoin('user_info as ui','users.id','ui.user_id')
@@ -269,7 +385,9 @@ class ProfileController  extends Controller
                                 ->where('users.age','<=',$user->userInfoData->preferred_max_age)
                                 ->where('ui.preferred_min_age','<=',$user->age)
                                 ->where('ui.preferred_max_age','>=',$user->age);
-                            })->where('users.id','!=',$userId)->where('is_admin',0)->where('status',2)
+                            })->where('users.id','!=',$userId)
+                            ->whereNotIn('users.id',$this->userDislikedProfile())
+                            ->where('is_admin',0)->where('status',2)
                             ->pluck('users.id')->toArray();
 
         $heightMatch =  User::leftJoin('user_info as ui','users.id','ui.user_id')
@@ -278,7 +396,9 @@ class ProfileController  extends Controller
                                   ->where('users.height','<=',$user->userInfoData->preferred_max_height)
                                   ->where('ui.preferred_min_height','<=',$user->height)
                                   ->where('ui.preferred_max_height','>=',$user->height);
-                            })->where('users.id','!=',$userId)->where('is_admin',0)->where('status',2)
+                            })->where('users.id','!=',$userId)
+                            ->whereNotIn('users.id',$this->userDislikedProfile())
+                            ->where('is_admin',0)->where('status',2)
                             ->pluck('users.id')->toArray();
 
         $weightMatch =  User::leftJoin('user_info as ui','users.id','ui.user_id')
@@ -287,7 +407,9 @@ class ProfileController  extends Controller
                                   ->where('users.weight','<=',$user->userInfoData->preferred_max_weight)
                                   ->where('ui.preferred_min_weight','<=',$user->weight)
                                   ->where('ui.preferred_max_weight','>=',$user->weight);
-                            })->where('users.id','!=',$userId)->where('is_admin',0)->where('status',2)
+                            })->where('users.id','!=',$userId)
+                            ->whereNotIn('users.id',$this->userDislikedProfile())
+                            ->where('is_admin',0)->where('status',2)
                             ->pluck('users.id')->toArray();
         
         $result = array();

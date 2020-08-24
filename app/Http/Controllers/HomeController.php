@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $totalUser = User::where('is_admin',0)->where('deleted_at')->count();
+        $activeUser = User::where('is_admin',0)->where('status',2)->where('deleted_at')->count();
+        $womenUser = User::where('is_admin',0)->where('gender',2)->where('deleted_at')->count();
+        $menUser = User::where('is_admin',0)->where('gender',1)->where('deleted_at')->count();
+        return view('home',compact('totalUser','activeUser','womenUser','menUser'));
     }
 }

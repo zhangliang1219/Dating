@@ -1,4 +1,4 @@
-<div class="single-user-profile" id='profile_details_{{$userInfo->id}}'>
+<div class="single-user-profile" id='profile_details_{{$userInfo->id}}' data-id="{{$userInfo->id}}">
     <div class="slider">
         <div class="swiper-container">
             <div class="swiper-wrapper">
@@ -42,26 +42,25 @@
            @php
                 $likeDislikeStatus = (new App\Http\Controllers\ProfileController)->likeDislikeStatus(Auth::user()->id,$userInfo->id);
            @endphp
-           <button type="button" class="btn btn-theme profileAdd" data-user-id='{{Auth::user()->id}}' 
+          <button type="button" class="btn btn-theme profileAdd profileStatusBtn" data-user-id='{{Auth::user()->id}}' 
                     data-profile-id='{{$userInfo->id}}' data-type="add"  
-                style="display:{{(($likeDislikeStatus && $likeDislikeStatus->user_like == 1)
-                            && ($likeDislikeStatus->user_id != Auth::user()->id)&&
-                                ($likeDislikeStatus->user_like !=1 && $likeDislikeStatus->profile_user_like !=1))?'show':'none'}}">Add</button>
+                style="display:{{($likeDislikeStatus['userLike'] == 1 && $likeDislikeStatus['profileLike']  == 0 && $likeDislikeStatus['user_id'] != Auth::user()->id)?'show':'none'}}">Add</button>
                     
-            <button type="button" class="btn btn-theme profileLike" data-user-id='{{Auth::user()->id}}' 
+            <button type="button" class="btn btn-theme profileLike profileStatusBtn" data-user-id='{{Auth::user()->id}}' 
                     data-profile-id='{{$userInfo->id}}' data-type="like" 
-                    style="display:{{(!isset($likeDislikeStatus))?'show':'none'}}">Like</button>
-                    
-            <button type="button" class="btn btn-theme profileDislike" data-user-id='{{Auth::user()->id}}' 
-                data-profile-id='{{$userInfo->id}}' data-type="dislike" 
-                style="display:{{((($likeDislikeStatus && $likeDislikeStatus->user_like == 1) ||
-                            ($likeDislikeStatus && $likeDislikeStatus->user_like !=1 && $likeDislikeStatus->profile_user_like !=1)
-                                || !isset($likeDislikeStatus)) )?'show':'none'}}">Dislike</button>
-
-            <button type="button" class="btn btn-theme message" data-user-id='{{Auth::user()->id}}' 
+                    style="display:{{($likeDislikeStatus['userLike'] == 0 && $likeDislikeStatus['profileLike']  == 0)?'show':'none'}}">Like</button>
+           
+            <button type="button" class="btn btn-theme profiilemessage profileStatusBtn" data-user-id='{{Auth::user()->id}}' 
                     data-profile-id='{{$userInfo->id}}' data-type="message" 
-                    style="display:{{(isset($likeDislikeStatus) && $likeDislikeStatus->user_like == 1 && $likeDislikeStatus->profile_user_like == 1)
-                                ?'show':'none'}}">Message</button>
+                    style="display:{{($likeDislikeStatus['userLike'] == 1 && $likeDislikeStatus['profileLike']  == 1)?'show':'none'}}">Message</button>
+           
+            <button type="button" class="btn btn-theme profileDislike profileStatusBtn" data-user-id='{{Auth::user()->id}}' 
+                data-profile-id='{{$userInfo->id}}' data-type="dislike" 
+                style="display:{{($likeDislikeStatus['userLike'] == 1 && $likeDislikeStatus['profileLike']  == 0)||
+                            ($likeDislikeStatus['userLike'] == 0 && $likeDislikeStatus['profileLike']  == 1)||
+                            ($likeDislikeStatus['userLike'] == 0 && $likeDislikeStatus['profileLike']  == 0)
+                            ?'show':'none'}}">Dislike</button>
+            
         </div>
     </div>
 </div>
